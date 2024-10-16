@@ -1,0 +1,19 @@
+{
+    "name": "TaylorMadeCode.FreeSoundManager.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6d2a7dc50d70cda4fbff24fa543889e3",
+        "GUID:7718b8b7edd5d462fb7c33efb1fd1e0e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Taylor%20Made%20Code/Taylor%20Made%20Code%20Core/Scripts/UI/USS/TMC_Option_Body.uss?fileID=7433441132597879392&amp;guid=923832e4279454be4a934a3aaad5f8a4&amp;type=3#TMC_Option_Body" />
+    <Style src="project://database/Assets/Taylor%20Made%20Code/Taylor%20Made%20Code%20Core/Scripts/UI/USS/TMC_USS.uss?fileID=7433441132597879392&amp;guid=db2b390dea88b4e26bdc1c9951c6d6f1&amp;type=3#TMC_USS" />
+    <ui:VisualElement name="EntireElement" class="MinState DARK_EntireElement" style="-unity-background-scale-mode: stretch-to-fill;">
+        <ui:VisualElement name="OptionHeader" class="DARK_OptionHeader" style="transition-property: ignored; margin-bottom: 10px; min-height: 35px; min-width: auto;">
+            <ui:Button display-tooltip-when-elided="true" name="DropDownButton" enable-rich-text="false" class="DARK_OptionDropDownButton" style="width: 26px; margin-top: -1px;" />
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="HeaderLabel" class="HeaderText" style="flex-wrap: wrap;" />
+        </ui:VisualElement>
+        <ui:IMGUIContainer name="OptionBody" style="overflow: hidden; flex-grow: 10; padding-left: 25px; padding-right: 25px; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 10px; transition-property: ignored; display: flex; visibility: visible;" />
+    </ui:VisualElement>
+</ui:UXML>

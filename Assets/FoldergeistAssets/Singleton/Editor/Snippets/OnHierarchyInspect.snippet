@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>OnHierarchyInspect</Title>
+    <Author>Dodorian</Author>
+    <Shortcut>OnHierarchyInspect</Shortcut>
+    <Description>OnHierarchyInspect method implementation in Unity</Description>
+    <SnippetTypes>
+      <SnippetType>SurroundsWith</SnippetType>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>name</ID>
+        <Default>value</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="Csharp">
+      <![CDATA[
+      #if UNITY_EDITOR
+      /// <summary>
+      /// This method is called in the editor automaticaly if this method is in a class which derives from MonoBehaviour, when you inspect a gameobject in a hierarchy
+      /// </summary>
+      private void OnHierarchyInspect()
+      {
+      }
+      #endif
+      ]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
