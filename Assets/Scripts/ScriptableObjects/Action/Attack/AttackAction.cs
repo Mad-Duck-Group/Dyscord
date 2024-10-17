@@ -12,9 +12,13 @@ using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.ScriptableObjects.Action.Attack
 {
+	/// <summary>
+	/// Attack action that deals damage to the target based on the Attack stat of the owner.
+	/// </summary>
 	[CreateAssetMenu(menuName = "Action/Attack", fileName = "Attack")]
 	public class AttackAction : CharacterActionSO
 	{
+		[Header("Attack Configs")]
 		[SerializeField] protected float damageMultiplier = 1f;
 		[SerializeField][ShowIf(nameof(targetType), TargetTypes.Burst)] protected float adjacentPenalty = 0.5f;
 		[SerializeField][ShowIf(nameof(targetType), TargetTypes.Multi)] protected float spamPenalty = 0.1f;

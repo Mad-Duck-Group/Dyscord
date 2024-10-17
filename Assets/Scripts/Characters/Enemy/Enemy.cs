@@ -30,7 +30,10 @@ namespace Dyscord.Characters.Enemy
 			}
 		}
 
-
+		/// <summary>
+		/// Handles pointer click event.
+		/// </summary>
+		/// <param name="eventData"></param>
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			if (CurrentCharacter is not Player.Player) return;
@@ -45,6 +48,9 @@ namespace Dyscord.Characters.Enemy
 			}
 		}
 
+		/// <summary>
+		/// Updates the selection UI.
+		/// </summary>
 		private void UpdateSelectionUI()
 		{
 			while (selectionIcons.Count < selectionCount)

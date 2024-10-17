@@ -24,8 +24,15 @@ namespace Dyscord.ScriptableObjects.Action
 		Self,
 		Other
 	}
+	/// <summary>
+	/// Base class for character actions.
+	/// Target selection and usage are handled here.
+	/// Inherit and implement the UseAction method for specific actions.
+	/// NOTE: If the stats of the action can be modified during runtime, we have to change the design of the action system. Praying to god that it won't happen.🙏
+	/// </summary>
 	public abstract class CharacterActionSO : ScriptableObject
 	{
+		[Header("General Configs")]
 		[SerializeField] protected string actionName;
 		[SerializeField] protected TargetSides targetSide;
 		[SerializeField] protected TargetTypes targetType;
@@ -43,13 +50,23 @@ namespace Dyscord.ScriptableObjects.Action
 		
 		public List<Character> Targets => _targets.ToList();
 
+		/// <summary>
+		/// Initialize the action with the owner.
+		/// </summary>
+		/// <param name="owner">Owner of the action</param>
 		public virtual void Initialize(Character owner)
 		{
 			Owner = owner;
 		}
 
+		/// <summary>
+		/// Use the action with the selected targets.
+		/// </summary>
 		protected abstract void UseAction();
 
+		/// <summary>
+		/// Select the target for the action.
+		/// </summary>
 		public virtual void SelectTarget()
 		{
 			Debug.Log(actionName);
@@ -121,6 +138,11 @@ namespace Dyscord.ScriptableObjects.Action
 			}
 		}
 		
+		/// <summary>
+		/// Add a target to the action.
+		/// </summary>
+		/// <param name="target">Target to be added</param>
+		/// <param name="burst">Whether the action is a burst action</param>
 		public virtual void AddTarget(Character target, bool burst = false)
 		{
 			_targets.Push(target);
@@ -141,6 +163,9 @@ namespace Dyscord.ScriptableObjects.Action
 			CheckTargetRequirement();
 		}
 		
+		/// <summary>
+		/// Check if the target requirement is met.
+		/// </summary>
 		protected virtual void CheckTargetRequirement()
 		{
 			if (_targets.Count == 0)
@@ -181,7 +206,10 @@ namespace Dyscord.ScriptableObjects.Action
 				UseAction();
 			}
 		}
-
+		
+		/// <summary>
+		/// Cancel the action.
+		/// </summary>
 		public virtual void Cancel()
 		{
 			Debug.Log("Action canceled");
@@ -191,6 +219,9 @@ namespace Dyscord.ScriptableObjects.Action
 			TurnManager.Instance.UpdateButtonUI();
 		}
 		
+		/// <summary>
+		/// Undo the latest target selection.
+		/// </summary>
 		public virtual void UndoTarget()
 		{
 			Debug.Log("Undo target");

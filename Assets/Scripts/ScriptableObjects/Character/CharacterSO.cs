@@ -7,7 +7,11 @@ using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.ScriptableObjects
 {
-	//[CreateAssetMenu(menuName = "Configs/CharacterSO", fileName = "CharacterSO")]
+	/// <summary>
+	/// ScriptableObject for a character.
+	/// Contains base stats that shouldn't be modified during runtime.
+	/// NOTE: If you want to modify stats during runtime, use Character class instead.
+	/// </summary>
 	public abstract class CharacterSO : ScriptableObject
 	{
 		[SerializeField] private string characterName;

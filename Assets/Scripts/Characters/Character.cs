@@ -11,11 +11,13 @@ using NaughtyAttributes;
 using Redcode.Extensions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.Characters
 {
+	/// <summary>
+	/// Runtime character class that holds character stats and actions.
+	/// </summary>
 	public abstract class Character : MonoBehaviour
 	{
 		[Header("Character Configs")]	
@@ -63,6 +65,9 @@ namespace Dyscord.Characters
 			InitializeAction();
 		}
 
+		/// <summary>
+		/// Sets the character stats to the values defined in the CharacterSO.
+		/// </summary>
 		protected virtual void InitializeStats()
 		{
 			currentHealth = characterSO.Health;
@@ -74,6 +79,9 @@ namespace Dyscord.Characters
 			UpdateInfoText();
 		}
 		
+		/// <summary>
+		/// Clone the actions and initialize them.
+		/// </summary>
 		protected virtual void InitializeAction()
 		{
 			basicAttack = Instantiate(basicAttack);
@@ -82,6 +90,9 @@ namespace Dyscord.Characters
 			skills.ForEach(skill => skill.Initialize(this));
 		}
 
+		/// <summary>
+		/// AI plays a random action that the character has enough RAM for.
+		/// </summary>
 		public virtual void AIPlay()
 		{
 			List<CharacterActionSO> availableActions = AllActions
@@ -94,13 +105,11 @@ namespace Dyscord.Characters
 				TurnManager.Instance.NextTurn();
 			}
 		}
-		
-		// public virtual void Attack(Character target)
-		// {
-		// 	infoText.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
-		// 	target.TakeDamage(currentAttack);
-		// }
-		
+
+		/// <summary>
+		/// Attack the targets
+		/// </summary>
+		/// <param name="attackAction">The attack action to be used</param>
 		public virtual void Attack(AttackAction attackAction)
 		{
 			infoText.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
@@ -139,6 +148,10 @@ namespace Dyscord.Characters
 			}
 		}
 
+		/// <summary>
+		/// Take damage according to the damage value.
+		/// </summary>
+		/// <param name="damage">The damage value</param>
 		public virtual void TakeDamage(int damage)
 		{
 			currentHealth -= damage;
@@ -152,6 +165,9 @@ namespace Dyscord.Characters
 			UpdateInfoText();
 		}
 		
+		/// <summary>
+		/// Regenerate RAM at the start of the turn except for the first turn.
+		/// </summary>
 		public virtual void RegenRam()
 		{
 			if (_firstTurn)
@@ -162,6 +178,10 @@ namespace Dyscord.Characters
 			ChangeRam(currentRamRegen);
 		}
 		
+		/// <summary>
+		/// Change the RAM value by the amount.
+		/// </summary>
+		/// <param name="amount"></param>
 		public virtual void ChangeRam(int amount)
 		{
 			currentRam += amount;
@@ -172,11 +192,20 @@ namespace Dyscord.Characters
 			UpdateInfoText();
 		}
 		
+		/// <summary>
+		/// Check if the character has enough RAM for the amount.
+		/// </summary>
+		/// <param name="amount">amount of RAM</param>
+		/// <returns>True if the character has enough RAM, false otherwise</returns>
 		public virtual bool HasEnoughRam(int amount)
 		{
 			return currentRam >= amount;
 		}
 
+		/// <summary>
+		/// Get the raw turn order of the character.
+		/// </summary>
+		/// <returns>Raw turn order</returns>
 		public virtual TurnOrder GetRawTurnOrder()
 		{
 			int actionValue = Mathf.RoundToInt(characterSO.ActionValueNumerator / (float)currentSpeed);
@@ -187,6 +216,9 @@ namespace Dyscord.Characters
 			};
 		}
 		
+		/// <summary>
+		/// Update the info text of the current stats.
+		/// </summary>
 		protected void UpdateInfoText()
 		{
 			infoText.text = $"{characterSO.CharacterName}\n" +

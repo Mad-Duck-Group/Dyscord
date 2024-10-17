@@ -7,14 +7,10 @@ using Dyscord.Characters;
 using Dyscord.Characters.Player;
 using Dyscord.ScriptableObjects.Action;
 using Dyscord.UI;
-using Gamelogic.Extensions.Algorithms;
-using NaughtyAttributes;
-using Redcode.Extensions;
 using TMPro;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using UnityRandom = UnityEngine.Random;
 
@@ -26,13 +22,16 @@ namespace Dyscord.Managers
 		public int actionValue;
 		public Character character;
 	}
+	/// <summary>
+	/// Manages the turn order and general state of the game.
+	/// </summary>
 	public class TurnManager : MonoSingleton<TurnManager>
 	{
 		[Header("Prefabs")]
 		[SerializeField] private Character playerPrefab;
+		[SerializeField] private Transform playerParent;
 		[SerializeField] private List<Character> enemyPrefabs = new List<Character>();
 		[SerializeField] private Transform enemyParent;
-		[SerializeField] private Transform playerParent;
 
 		[Header("UI")]
 		[SerializeField] private TurnOrderUI turnOrderUIPrefab;
@@ -60,18 +59,29 @@ namespace Dyscord.Managers
 			ManageTurn();
 		}
 		
+		/// <summary>
+		/// Subscribes to character events.
+		/// </summary>
 		private void Subscribe()
 		{
 			playerInstance.OnCharacterDeath += OnCharacterDeath;
 			enemyInstances.ForEach(enemyInstance => enemyInstance.OnCharacterDeath += OnCharacterDeath);
 		}
 		
+		/// <summary>
+		/// Unsubscribes from character events.
+		/// </summary>
 		private void OnDisable()
 		{
 			playerInstance.OnCharacterDeath -= OnCharacterDeath;
 			enemyInstances.ForEach(enemyInstance => enemyInstance.OnCharacterDeath -= OnCharacterDeath);
 		}
 
+		
+		/// <summary>
+		/// Handles character death events.
+		/// </summary>
+		/// <param name="character">The character that died.</param>
 		private void OnCharacterDeath(Character character)
 		{
 			if (character is Player)
@@ -89,6 +99,9 @@ namespace Dyscord.Managers
 			}
 		}
 
+		/// <summary>
+		/// Initializes the characters by instantiating the player and enemies.
+		/// </summary>
 		private void InitializeCharacters()
 		{
 			playerInstance = Instantiate(playerPrefab, playerParent);
@@ -99,6 +112,9 @@ namespace Dyscord.Managers
 			});
 		}
 
+		/// <summary>
+		/// Initializes the player UI by instantiating the action buttons.
+		/// </summary>
 		private void InitializePlayerUI()
 		{
 			Button basicAttackButton = Instantiate(actionButtonPrefab, actionPanel).GetComponent<Button>();
@@ -120,6 +136,9 @@ namespace Dyscord.Managers
 			});
 		}
 
+		/// <summary>
+		/// Initializes the turn order by instantiating the turn order UIs.
+		/// </summary>
 		private void InitializeTurnOrder()
 		{
 			TurnOrder playerActionValue = playerInstance.GetRawTurnOrder();
@@ -134,6 +153,10 @@ namespace Dyscord.Managers
 			RecalculateTurnOrder();
 		}
 
+		
+		/// <summary>
+		/// Recalculates the turn order based on the action values and speed of the characters.
+		/// </summary>
 		private void RecalculateTurnOrder()
 		{
 			int minActionValue = turnOrderUIs.Min(actionValue => actionValue.TurnOrder.actionValue);
@@ -155,6 +178,10 @@ namespace Dyscord.Managers
 			turnOrderUIs = new LinkedList<TurnOrderUI>(sorted);
 		}
 		
+		/// <summary>
+		/// Removes the character from the turn order.
+		/// </summary>
+		/// <param name="character">The character to be removed.</param>
 		private void RemoveTurnOrder(Character character)
 		{
 			character.OnCharacterDeath -= OnCharacterDeath;
@@ -166,6 +193,10 @@ namespace Dyscord.Managers
 			RecalculateTurnOrder();
 		}
 		
+		/// <summary>
+		/// Adds the character to the turn order.
+		/// </summary>
+		/// <param name="character">The character to be added.</param>
 		private void AddTurnOrder(Character character)
 		{
 			TurnOrder newTurnOrder = character.GetRawTurnOrder();
@@ -175,6 +206,9 @@ namespace Dyscord.Managers
 			RecalculateTurnOrder();
 		}
 
+		/// <summary>
+		/// Updates the button UI based on the current turn order and RAM of the player.
+		/// </summary>
 		public void UpdateButtonUI()
 		{
 			if (CurrentTurnOrder.character is not Player || (CurrentTurnOrder.character.CurrentAction &&
@@ -192,6 +226,9 @@ namespace Dyscord.Managers
 			}
 		}
 
+		/// <summary>
+		/// Manages the turn by regenerating RAM and playing the AI.
+		/// </summary>
 		private void ManageTurn()
 		{
 			//UpdateButtonUI();
@@ -209,6 +246,9 @@ namespace Dyscord.Managers
 			}
 		}
 		
+		/// <summary>
+		/// Move the first character in the turn order to the end and then go to the next turn.
+		/// </summary>
 		public void NextTurn()
 		{
 			LinkedListNode<TurnOrderUI> currentTurn = turnOrderUIs.First;
@@ -228,6 +268,9 @@ namespace Dyscord.Managers
 			UndoHandler();
 		}
 
+		/// <summary>
+		/// Undo the target selection of the player.
+		/// </summary>
 		private void UndoHandler()
 		{
 			if (CurrentTurnOrder.character is not Player) return;
