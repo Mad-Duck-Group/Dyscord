@@ -99,8 +99,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -184,8 +184,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSO: {fileID: 11400000, guid: 5eb633a68bf877e4d8a6465219bd7cc3, type: 2}
+  basicAttack: {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
+  skills:
+  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  - {fileID: 11400000, guid: b700efcb7b351804e88817dd71616850, type: 2}
+  - {fileID: 11400000, guid: ae0cb267b9404144ea03f2b63b6a2bc3, type: 2}
   infoText: {fileID: 6046210934010289650}
   currentHealth: 0
   currentAttack: 0
   currentDefense: 0
   currentSpeed: 0
+  currentRam: 0
+  currentRamRegen: 0
+  currentAction: {fileID: 0}
