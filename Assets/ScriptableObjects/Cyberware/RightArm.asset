@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea0fa08c867b4f4f9dea29f4f2e3df4, type: 3}
+  m_Name: RightArm
+  m_EditorClassIdentifier: 
+  cyberwareType: 2
+  cyberwareName: Right Arm
+  description: Right Arm
+  hackAccessLevel: 2
+  hackDamageModifier: 1
+  attacks:
+  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  skills:
+  - {fileID: 11400000, guid: ae0cb267b9404144ea03f2b63b6a2bc3, type: 2}
+  overtimeTemplates: []
+  hackedOvertimeTemplates: []
+  references:
+    version: 2
+    RefIds: []

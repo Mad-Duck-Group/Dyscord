@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Dyscord.Characters;
 using Dyscord.Managers;
+using Dyscord.ScriptableObjects.Action.Hack;
+using Dyscord.ScriptableObjects.Overtime;
 using NaughtyAttributes;
 using Redcode.Extensions;
+using SerializeReferenceEditor;
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
 
@@ -34,10 +37,15 @@ namespace Dyscord.ScriptableObjects.Action
 	{
 		[Header("General Configs")]
 		[SerializeField] protected string actionName;
-		[SerializeField] protected TargetSides targetSide;
-		[SerializeField] protected TargetTypes targetType;
+		[SerializeField] protected TargetSides targetSide = TargetSides.Other;
+		[SerializeField][ValidateInput(nameof(ValidateTargetType), "Hack Action can only target single target")] 
+		protected TargetTypes targetType;
 		[SerializeField][ShowIf(nameof(targetType), TargetTypes.Multi)][MinValue(1)] protected int maxTargets;
-		[SerializeField] protected int ramCost;
+		[SerializeField][Min(0)] protected int ramCost;
+		[SerializeField] protected TargetSides overtimeTargetSide = TargetSides.Other;
+		[SerializeReference, SR] protected List<OvertimeTemplate> overtimeTemplates;
+
+		protected string validatorString;
 		
 		protected Stack<Character> _targets = new Stack<Character>();
 		public string ActionName => actionName;
@@ -47,8 +55,14 @@ namespace Dyscord.ScriptableObjects.Action
 		public int RamCost => ramCost;
 		public Character Owner { get; private set; }
 		public bool PlayerSelecting { get; protected set; }
-		
 		public List<Character> Targets => _targets.ToList();
+		
+		protected virtual bool ValidateTargetType()
+		{
+			if (GetType() == typeof(HackAction) && targetType is not TargetTypes.Single)
+				return false;
+			return true;
+		}
 
 		/// <summary>
 		/// Initialize the action with the owner.
@@ -93,7 +107,7 @@ namespace Dyscord.ScriptableObjects.Action
 			if (Owner is Characters.Player.Player)
 			{
 				PlayerSelecting = true;
-				TurnManager.Instance.UpdateButtonUI();
+				PanelManager.Instance.UpdateButtonUI();
 				return;
 			}
 			switch (TargetType)
@@ -215,8 +229,9 @@ namespace Dyscord.ScriptableObjects.Action
 			Debug.Log("Action canceled");
 			PlayerSelecting = false;
 			Owner.CurrentAction = null;
+			_targets.ForEach(x => x.SelectionCount = 0);
 			_targets.Clear();
-			TurnManager.Instance.UpdateButtonUI();
+			PanelManager.Instance.UpdateButtonUI();
 		}
 		
 		/// <summary>

@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 274329eed8b3f4b4fa31588362292e56, type: 3}
-  m_Name: MultiAttack
+  m_Script: {fileID: 11500000, guid: 6ea0fa08c867b4f4f9dea29f4f2e3df4, type: 3}
+  m_Name: Chip
   m_EditorClassIdentifier: 
-  actionName: Multi Attack
-  targetSide: 1
-  targetType: 3
-  maxTargets: 3
-  ramCost: 2
+  cyberwareType: 0
+  cyberwareName: Chip
+  description: Chip
+  hackAccessLevel: 1
+  hackDamageModifier: 1
+  attacks: []
+  skills: []
   overtimeTemplates: []
-  damageMultiplier: 1.5
-  adjacentPenalty: 0.5
-  spamPenalty: 0.1
+  hackedOvertimeTemplates: []
   references:
     version: 2
     RefIds: []

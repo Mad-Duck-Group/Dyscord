@@ -36,17 +36,11 @@ namespace Dyscord.Managers
 		[Header("UI")]
 		[SerializeField] private TurnOrderUI turnOrderUIPrefab;
 		[SerializeField] private ScrollRect turnOrderScrollView;
-		[SerializeField] private GameObject actionButtonPrefab;
-		[SerializeField] private Transform actionPanel;
-		
+
 		private Character playerInstance;
 		private List<Character> enemyInstances = new List<Character>();
-		private List<Button> actionButtons = new List<Button>();
-
 		private LinkedList<TurnOrderUI> turnOrderUIs = new LinkedList<TurnOrderUI>();
 		public TurnOrder CurrentTurnOrder => turnOrderUIs.First.Value.TurnOrder;
-		
-		public Transform ActionPanel => actionPanel;
 		public Character PlayerInstance => playerInstance;
 		public List<Character> EnemyInstances => enemyInstances;
 
@@ -54,7 +48,8 @@ namespace Dyscord.Managers
 		{
 			InitializeCharacters();
 			Subscribe();
-			InitializePlayerUI();
+			PanelManager.Instance.InitializePanel();
+			PanelManager.Instance.InitializeActionUI();
 			InitializeTurnOrder();
 			ManageTurn();
 		}
@@ -92,6 +87,7 @@ namespace Dyscord.Managers
 			else
 			{
 				RemoveTurnOrder(character);
+				PanelManager.Instance.SetStatsText(PlayerInstance);
 				if (enemyInstances.Count == 0)
 				{
 					Debug.Log("Player won");
@@ -109,30 +105,6 @@ namespace Dyscord.Managers
 			{
 				Character enemyInstance = Instantiate(enemyPrefab, enemyParent);
 				enemyInstances.Add(enemyInstance);
-			});
-		}
-
-		/// <summary>
-		/// Initializes the player UI by instantiating the action buttons.
-		/// </summary>
-		private void InitializePlayerUI()
-		{
-			Button basicAttackButton = Instantiate(actionButtonPrefab, actionPanel).GetComponent<Button>();
-			basicAttackButton.onClick.AddListener(() =>
-			{
-				playerInstance.BasicAttack.SelectTarget();
-			});
-			basicAttackButton.GetComponentInChildren<TMP_Text>().text = playerInstance.BasicAttack.ActionName;
-			actionButtons.Add(basicAttackButton);
-			playerInstance.Skills.ForEach(skill =>
-			{
-				Button skillButton = Instantiate(actionButtonPrefab, actionPanel).GetComponent<Button>();
-				skillButton.onClick.AddListener(() =>
-				{
-					skill.SelectTarget();
-				});
-				skillButton.GetComponentInChildren<TMP_Text>().text = skill.ActionName;
-				actionButtons.Add(skillButton);
 			});
 		}
 
@@ -207,31 +179,12 @@ namespace Dyscord.Managers
 		}
 
 		/// <summary>
-		/// Updates the button UI based on the current turn order and RAM of the player.
-		/// </summary>
-		public void UpdateButtonUI()
-		{
-			if (CurrentTurnOrder.character is not Player || (CurrentTurnOrder.character.CurrentAction &&
-			                                                 CurrentTurnOrder.character.CurrentAction.PlayerSelecting))
-			{
-				actionButtons.ForEach(button => button.interactable = false);
-			}
-			else
-			{
-				List<CharacterActionSO> allActions = CurrentTurnOrder.character.AllActions;
-				for (int i = 0; i < allActions.Count; i++)
-				{
-					actionButtons[i].interactable = CurrentTurnOrder.character.HasEnoughRam(allActions[i].RamCost);
-				}
-			}
-		}
-
-		/// <summary>
 		/// Manages the turn by regenerating RAM and playing the AI.
 		/// </summary>
 		private void ManageTurn()
 		{
 			//UpdateButtonUI();
+			CurrentTurnOrder.character.UpdateOvertime();
 			DOVirtual.DelayedCall(1f, () => CurrentTurnOrder.character.RegenRam());
 			if (CurrentTurnOrder.character is Player)
 			{
@@ -239,6 +192,7 @@ namespace Dyscord.Managers
 			}
 			else
 			{
+				PanelManager.Instance.UpdateButtonUI();
 				DOVirtual.DelayedCall(1.5f, () =>
 				{
 					CurrentTurnOrder.character.AIPlay();
@@ -253,33 +207,15 @@ namespace Dyscord.Managers
 		{
 			LinkedListNode<TurnOrderUI> currentTurn = turnOrderUIs.First;
 			turnOrderUIs.RemoveFirst();
-			RecalculateTurnOrder();
-			int difference = Mathf.Abs(turnOrderUIs.Last.Value.TurnOrder.character.GetRawTurnOrder().actionValue -
-			                           currentTurn.Value.TurnOrder.character.GetRawTurnOrder().actionValue);
-			currentTurn.Value.TurnOrder.actionValue = turnOrderUIs.Last.Value.TurnOrder.actionValue + difference;
+			// int difference = Mathf.Abs(turnOrderUIs.Last.Value.TurnOrder.character.GetRawTurnOrder().actionValue -
+			//                            currentTurn.Value.TurnOrder.character.GetRawTurnOrder().actionValue);
+			// currentTurn.Value.TurnOrder.actionValue = turnOrderUIs.Last.Value.TurnOrder.actionValue + difference;
+			currentTurn.Value.TurnOrder.actionValue = currentTurn.Value.TurnOrder.character.GetRawTurnOrder().actionValue;
 			turnOrderUIs.AddLast(currentTurn);
 			turnOrderUIs.Last.Value.TurnOrder.currentTurn = false;
 			turnOrderUIs.Last.Value.UpdateValue();
+			RecalculateTurnOrder();
 			ManageTurn();
-		}
-		
-		private void Update()
-		{
-			UndoHandler();
-		}
-
-		/// <summary>
-		/// Undo the target selection of the player.
-		/// </summary>
-		private void UndoHandler()
-		{
-			if (CurrentTurnOrder.character is not Player) return;
-			if (!CurrentTurnOrder.character.CurrentAction) return;
-			if (!CurrentTurnOrder.character.CurrentAction.PlayerSelecting) return;
-			if (Input.GetMouseButtonDown(1))
-			{
-				CurrentTurnOrder.character.CurrentAction.UndoTarget();
-			}
 		}
 
 	}

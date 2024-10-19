@@ -15,7 +15,12 @@ MonoBehaviour:
   characterName: Player
   health: 1000
   attack: 20
+  hitRate: 1
+  criticalRate: 0.05
+  criticalMultiplier: 2
   defense: 10
+  shield: 120
+  maxShieldReduction: 0.5
   speed: 120
   actionValueNumerator: 10000
   ram: 5

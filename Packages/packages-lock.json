@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.elmortem.serializereferenceeditor": {
+      "version": "https://github.com/elmortem/serializereferenceeditor.git?path=SerializeReferenceEditor/Assets/SREditor/Package",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d8f386a07bedd4a41236f2b3997100c1293cf456"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.4",
       "depth": 1,

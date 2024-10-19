@@ -17,6 +17,7 @@ MonoBehaviour:
   targetType: 1
   maxTargets: 0
   ramCost: 0
+  overtime: {fileID: 11400000, guid: 0e4bb1ad5adb4b946aace5c6d13dac4b, type: 2}
   damageMultiplier: 1
   adjacentPenalty: 0.5
   spamPenalty: 0.1

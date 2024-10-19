@@ -10,7 +10,7 @@ using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.Characters.Enemy
 {
-	public class Enemy : Character, IPointerClickHandler
+	public class Enemy : Character, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] private GameObject selectionIcon;
 		[SerializeField] private GameObject selectionIconParent;
@@ -29,6 +29,16 @@ namespace Dyscord.Characters.Enemy
 				UpdateSelectionUI();
 			}
 		}
+		
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			PanelManager.Instance.SetStatsText(this);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			PanelManager.Instance.SetStatsText(TurnManager.Instance.PlayerInstance);
+		}
 
 		/// <summary>
 		/// Handles pointer click event.
@@ -36,16 +46,12 @@ namespace Dyscord.Characters.Enemy
 		/// <param name="eventData"></param>
 		public void OnPointerClick(PointerEventData eventData)
 		{
+			if (eventData.button != PointerEventData.InputButton.Left) return;
 			if (CurrentCharacter is not Player.Player) return;
 			if (!CurrentCharacter.CurrentAction) return;
 			if (!CurrentCharacter.CurrentAction.PlayerSelecting) return;
-			switch (eventData.button)
-			{
-				case PointerEventData.InputButton.Left:
-					SelectionCount++;
-					CurrentCharacter.CurrentAction.AddTarget(this, CurrentCharacter.CurrentAction.TargetType == TargetTypes.Burst);
-					return;
-			}
+			SelectionCount++;
+			CurrentCharacter.CurrentAction.AddTarget(this, CurrentCharacter.CurrentAction.TargetType == TargetTypes.Burst);
 		}
 
 		/// <summary>

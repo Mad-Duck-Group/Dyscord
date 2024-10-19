@@ -16,7 +16,9 @@ MonoBehaviour:
   health: 100
   attack: 40
   defense: 5
-  speed: 90
+  shield: 100
+  maxShieldReduction: 0.3
+  speed: 122
   actionValueNumerator: 10000
   ram: 5
   ramRegen: 1

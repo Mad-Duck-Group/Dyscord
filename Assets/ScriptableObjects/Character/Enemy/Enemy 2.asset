@@ -15,7 +15,12 @@ MonoBehaviour:
   characterName: Enemy 2
   health: 100
   attack: 40
+  hitRate: 1
+  criticalRate: 0
+  criticalMultiplier: 2
   defense: 5
+  shield: 100
+  maxShieldReduction: 0.3
   speed: 100
   actionValueNumerator: 10000
   ram: 5
