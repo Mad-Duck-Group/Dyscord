@@ -19,9 +19,17 @@ MonoBehaviour:
   criticalRate: 0.05
   criticalMultiplier: 2
   defense: 10
-  shield: 120
+  shield: 1
   maxShieldReduction: 0.5
   speed: 120
   actionValueNumerator: 10000
   ram: 5
   ramRegen: 1
+  defaultAttacks:
+  - {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
+  defaultSkills:
+  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
+  hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
+  cyberwares:
+  - {fileID: 11400000, guid: c99d8d24a0ff9be48a1e8240348cfd56, type: 2}

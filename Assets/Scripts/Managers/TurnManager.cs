@@ -7,9 +7,11 @@ using Dyscord.Characters;
 using Dyscord.Characters.Player;
 using Dyscord.ScriptableObjects.Action;
 using Dyscord.UI;
+using NaughtyAttributes;
 using TMPro;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using UnityRandom = UnityEngine.Random;
@@ -101,9 +103,12 @@ namespace Dyscord.Managers
 		private void InitializeCharacters()
 		{
 			playerInstance = Instantiate(playerPrefab, playerParent);
+			playerInstance.InitializeCharacter();
+			playerInstance.ReequipCyberware(InventoryManager.Instance.EquippedCyberware);
 			enemyPrefabs.ForEach(enemyPrefab =>
 			{
 				Character enemyInstance = Instantiate(enemyPrefab, enemyParent);
+				enemyInstance.InitializeCharacter();
 				enemyInstances.Add(enemyInstance);
 			});
 		}

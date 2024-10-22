@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Dyscord.ScriptableObjects.Action;
+using Dyscord.ScriptableObjects.Cyberware;
 using Gamelogic.Extensions;
 using NaughtyAttributes;
 using UnityEngine;
@@ -17,6 +19,7 @@ namespace Dyscord.ScriptableObjects
 	/// </summary>
 	public abstract class CharacterSO : ScriptableObject
 	{
+		[Header("Base Stats")]
 		[SerializeField] private string characterName;
 		[SerializeField][Min(1)] private int health;
 		[SerializeField][Min(0)] private int attack;
@@ -31,6 +34,11 @@ namespace Dyscord.ScriptableObjects
 		[SerializeField][Min(0)] private int ram;
 		[SerializeField][Min(0)] private int ramRegen;
 		
+		[Header("Default Actions")]
+		[FormerlySerializedAs("attacks")][SerializeField] protected List<CharacterActionSO> defaultAttacks = new List<CharacterActionSO>();
+		[FormerlySerializedAs("skills")][SerializeField] protected List<CharacterActionSO> defaultSkills = new List<CharacterActionSO>();
+		[SerializeField] protected CharacterActionSO hackAction;
+
 		public string CharacterName => characterName;
 		public int Health => health;
 		public int Attack => attack;
@@ -44,5 +52,8 @@ namespace Dyscord.ScriptableObjects
 		public int ActionValueNumerator => actionValueNumerator;
 		public int Ram => ram;
 		public int RamRegen => ramRegen;
+		public List<CharacterActionSO> DefaultAttacks => defaultAttacks;
+		public List<CharacterActionSO> DefaultSkills => defaultSkills;
+		public CharacterActionSO HackAction => hackAction;
 	}
 }

@@ -29,16 +29,11 @@ namespace Dyscord.Characters
 		[Header("Character Configs")]	
 		[SerializeField][Expandable] protected CharacterSO characterSO;
 		[SerializeReference, SR] protected List<OvertimeTemplate> shieldBreakOvertimes;
-
-		[Header("Actions")]	
-		[FormerlySerializedAs("attacks")][SerializeField] protected List<CharacterActionSO> defaultAttacks = new List<CharacterActionSO>();
-		[FormerlySerializedAs("skills")][SerializeField] protected List<CharacterActionSO> defaultSkills = new List<CharacterActionSO>();
-		[SerializeField] protected CharacterActionSO hackAction;
 		
 		[Header("Cyberware")]	
 		[SerializeField] protected CyberwareSO hackAccessChip;
 		[SerializeField] protected List<CyberwareSO> cyberwares = new List<CyberwareSO>();
-		
+
 		[Header("UI")]	
 		[SerializeField] protected TMP_Text infoText;
 		
@@ -54,7 +49,11 @@ namespace Dyscord.Characters
 		[SerializeField][NaughtyAttributes.ReadOnly] protected int currentRam;
 		[SerializeField][NaughtyAttributes.ReadOnly] protected int currentRamRegen;
 		[SerializeField][NaughtyAttributes.ReadOnly] protected CharacterActionSO currentAction;
-		
+			
+		protected List<CharacterActionSO> defaultAttacks = new List<CharacterActionSO>();
+		protected List<CharacterActionSO> defaultSkills = new List<CharacterActionSO>();
+		protected CharacterActionSO hackAction;
+
 		protected List<CharacterActionSO> cyberwareAttacks = new List<CharacterActionSO>();
 		protected List<CharacterActionSO> cyberwareSkills = new List<CharacterActionSO>();
 		protected List<OvertimeTemplate> currentOvertimes = new List<OvertimeTemplate>();
@@ -62,6 +61,7 @@ namespace Dyscord.Characters
 		protected List<KeyValuePair<OvertimeTemplate, OvertimeEffect>> overtimeEffects = new List<KeyValuePair<OvertimeTemplate, OvertimeEffect>>();
 		
 		private bool _firstTurn = true;
+		private bool _fromInventory;
 		
 		public virtual int SelectionCount { get; set; }
 
@@ -83,6 +83,7 @@ namespace Dyscord.Characters
 		public int CurrentShield => currentShield;
 		public int CurrentSpeed => currentSpeed;
 		public int CurrentRam => currentRam;
+		public int CurrentRamRegen => currentRamRegen;
 		public CharacterSO CharacterSO => characterSO;
 		public CyberwareSO HackAccessChip => hackAccessChip;
 		public List<CyberwareSO> Cyberwares => cyberwares;
@@ -109,8 +110,10 @@ namespace Dyscord.Characters
 			.Concat(new []{HackAction})
 			.ToList();
 
-		private void Awake()
+
+		public void InitializeCharacter(bool fromInventory = false)
 		{
+			_fromInventory = fromInventory;
 			InitializeStats();
 			InitializeDefaultAction();
 			InitializeCyberware();
@@ -139,15 +142,18 @@ namespace Dyscord.Characters
 		/// </summary>
 		protected virtual void InitializeDefaultAction()
 		{
-			defaultAttacks = defaultAttacks.Select(attack => Instantiate(attack)).ToList();
+			defaultAttacks = characterSO.DefaultAttacks.Select(attack => Instantiate(attack)).ToList();
 			defaultAttacks.ForEach(attack => attack.Initialize(this));
-			defaultSkills = defaultSkills.Select(skill => Instantiate(skill)).ToList();
+			defaultSkills = characterSO.DefaultSkills.Select(skill => Instantiate(skill)).ToList();
 			defaultSkills.ForEach(skill => skill.Initialize(this));
 	
 		}
 		
 		protected virtual void InitializeCyberware()
 		{
+			cyberwares = cyberwares.Select(cyberware => Instantiate(cyberware)).ToList();
+			cyberwareAttacks.Clear();
+			cyberwareSkills.Clear();
 			cyberwares.ForEach(cyberware =>
 	        {
 	            cyberwareAttacks.AddRange(cyberware.Attacks.Select(attack => Instantiate(attack)));
@@ -155,9 +161,17 @@ namespace Dyscord.Characters
 	        });
 	        cyberwareAttacks.ForEach(attack => attack.Initialize(this));
 	        cyberwareSkills.ForEach(skill => skill.Initialize(this));
-	        hackAction = Instantiate(hackAction);
+	        hackAccessChip = Instantiate(hackAccessChip);
+	        hackAction = Instantiate(characterSO.HackAction);
 	        hackAction.Initialize(this);
 	        cyberwares.ForEach(x => AddOvertime(x.OvertimeTemplates));
+		}
+
+		public virtual void ReequipCyberware(List<CyberwareSO> equip)
+		{
+			cyberwares.ForEach(x => RemoveOvertime(x.OvertimeTemplates));
+			cyberwares = equip;
+			InitializeCyberware();
 		}
 
 		/// <summary>
@@ -527,7 +541,7 @@ namespace Dyscord.Characters
 			currentSpeed = (int)statMap[TemporalStatTypes.Speed].clampFunc(statMap[TemporalStatTypes.Speed].currentValue);
 			//currentRam = (int)statMap[StatTypes.Ram].clampFunc(statMap[StatTypes.Ram].currentValue);
 			currentRamRegen = (int)statMap[TemporalStatTypes.RamRegen].clampFunc(statMap[TemporalStatTypes.RamRegen].currentValue);
-			PanelManager.Instance.UpdateStatsText(this);
+			if (!_fromInventory) PanelManager.Instance.UpdateStatsText(this);
 			UpdateInfoText();
 		}
 
@@ -562,6 +576,8 @@ namespace Dyscord.Characters
 			currentHealth = (int)statMap[PermanentStatTypes.Health].clampFunc(statMap[PermanentStatTypes.Health].currentValue);
 			currentShield = (int)statMap[PermanentStatTypes.Shield].clampFunc(statMap[PermanentStatTypes.Shield].currentValue);
 			currentRam = (int)statMap[PermanentStatTypes.Ram].clampFunc(statMap[PermanentStatTypes.Ram].currentValue);
+			if (!_fromInventory) PanelManager.Instance.UpdateStatsText(this);
+			UpdateInfoText();
 		}
 
 		protected virtual float CalculateStatOperator(OvertimeEffect overtimeEffect, float value)

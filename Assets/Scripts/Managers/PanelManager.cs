@@ -61,8 +61,9 @@ namespace Dyscord.Managers
 		private Character currentCharacterStats;
 		private List<Button> ActionPanelButtons => new List<Button> {attackButton, skillButton, hackButton};
 		
-		private void Start()
+		protected override void Awake()
 		{
+			base.Awake();
 			statsPanel.SetActive(true);
 			attackPanel.SetActive(false);
 			skillPanel.SetActive(false);

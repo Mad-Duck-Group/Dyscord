@@ -13,15 +13,43 @@ MonoBehaviour:
   m_Name: Eye
   m_EditorClassIdentifier: 
   cyberwareType: 1
+  icon: {fileID: 0}
   cyberwareName: Eye
   description: Eye
+  powerCost: 0
   hackAccessLevel: 1
   hackDamageModifier: 1
   attacks:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   skills: []
-  overtimeTemplates: []
-  hackedOvertimeTemplates: []
+  overtimeTemplates:
+  - rid: 7850491545257771008
+  hackedOvertimeTemplates:
+  - rid: 7850491466383097879
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7850491466383097879
+      type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
+      data:
+        overtimeName: Reduce Hit Chance
+        infinite: 0
+        duration: 2
+        effects:
+        - permanent: 0
+          temporalStatType: 1
+          permanentStatType: 0
+          operatorType: 1
+          value: -0.3
+    - rid: 7850491545257771008
+      type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
+      data:
+        overtimeName: Increase ATK
+        infinite: 1
+        duration: 0
+        effects:
+        - permanent: 0
+          temporalStatType: 0
+          permanentStatType: 0
+          operatorType: 1
+          value: 10

@@ -21,8 +21,10 @@ namespace Dyscord.ScriptableObjects.Cyberware
 	public class CyberwareSO : ScriptableObject
 	{
 		[SerializeField] protected CyberwareTypes cyberwareType;
+		[SerializeField] protected Sprite icon;
 		[SerializeField] protected string cyberwareName;
 		[SerializeField] protected string description;
+		[SerializeField][HideIf(nameof(cyberwareType), CyberwareTypes.Chip)] protected int powerCost;
 		[SerializeField][Min(1)] protected int hackAccessLevel = 1;
 		[SerializeField][ShowIf(nameof(cyberwareType), CyberwareTypes.Chip)] 
 		protected float hackDamageModifier = 1f;
@@ -35,8 +37,10 @@ namespace Dyscord.ScriptableObjects.Cyberware
 		[SerializeReference, SR][HideIf(nameof(cyberwareType), CyberwareTypes.Chip)]  
 		protected List<OvertimeTemplate> hackedOvertimeTemplates;
 
+		public Sprite Icon => icon;
 		public string CyberwareName => cyberwareName;
 		public string Description => description;
+		public int PowerCost => powerCost;
 		public int HackAccessLevel => hackAccessLevel;
 		public CyberwareTypes CyberwareType => cyberwareType;
 		public float HackDamageModifier => hackDamageModifier;

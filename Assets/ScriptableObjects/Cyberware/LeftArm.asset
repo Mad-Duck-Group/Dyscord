@@ -22,7 +22,20 @@ MonoBehaviour:
   skills:
   - {fileID: 11400000, guid: ae0cb267b9404144ea03f2b63b6a2bc3, type: 2}
   overtimeTemplates: []
-  hackedOvertimeTemplates: []
+  hackedOvertimeTemplates:
+  - rid: 7850491466383097882
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7850491466383097882
+      type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
+      data:
+        overtimeName: Reduce Speed
+        infinite: 0
+        duration: 2
+        effects:
+        - permanent: 0
+          temporalStatType: 5
+          permanentStatType: 0
+          operatorType: 2
+          value: -0.1

@@ -15,6 +15,9 @@ MonoBehaviour:
   characterName: Enemy 1
   health: 100
   attack: 40
+  hitRate: 1
+  criticalRate: 0
+  criticalMultiplier: 2
   defense: 5
   shield: 100
   maxShieldReduction: 0.3
@@ -22,3 +25,11 @@ MonoBehaviour:
   actionValueNumerator: 10000
   ram: 5
   ramRegen: 1
+  defaultAttacks:
+  - {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
+  defaultSkills:
+  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
+  hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
+  cyberwares:
+  - {fileID: 11400000, guid: b884ac7ddf858984fab7b24669aca78e, type: 2}
