@@ -60,8 +60,8 @@ namespace Dyscord.Characters
 		protected List<OvertimeTemplate> overtimeToRemove = new List<OvertimeTemplate>();
 		protected List<KeyValuePair<OvertimeTemplate, OvertimeEffect>> overtimeEffects = new List<KeyValuePair<OvertimeTemplate, OvertimeEffect>>();
 		
-		private bool _firstTurn = true;
-		private bool _fromInventory;
+		protected bool _firstTurn = true;
+		protected bool _fromInventory;
 		
 		public virtual int SelectionCount { get; set; }
 
@@ -84,6 +84,7 @@ namespace Dyscord.Characters
 		public int CurrentSpeed => currentSpeed;
 		public int CurrentRam => currentRam;
 		public int CurrentRamRegen => currentRamRegen;
+		public List<OvertimeTemplate> CurrentOvertimes => currentOvertimes;
 		public CharacterSO CharacterSO => characterSO;
 		public CyberwareSO HackAccessChip => hackAccessChip;
 		public List<CyberwareSO> Cyberwares => cyberwares;

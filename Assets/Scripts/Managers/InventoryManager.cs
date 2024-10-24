@@ -16,7 +16,7 @@ using UnityRandom = UnityEngine.Random;
 namespace Dyscord.Managers
 {
 	[Serializable]
-	public struct ItemList
+	public class ItemList
 	{
 		public ItemSO item;
 		[Min(0)] public int amount;
@@ -51,6 +51,7 @@ namespace Dyscord.Managers
 				return;
 			}
 			itemList.Add(new ItemList { item = item, amount = amount });
+			OnInventoryUpdated?.Invoke(false);
 		}
 		
 		public void RemoveItem(ItemSO item, int amount)
@@ -71,6 +72,7 @@ namespace Dyscord.Managers
 			{
 				itemList.Remove(itemToRemove);
 			}
+			OnInventoryUpdated?.Invoke(false);
 		}
 		
 		public void AddCyberware(CyberwareSO cyberware)

@@ -28,6 +28,7 @@ namespace Dyscord.UI
 			icon.sprite = cyberware.Icon;
 			OriginalPosition = transform.localPosition;
 			Parent = parent;
+			transform.SetSiblingIndex(0);
 			this.equipped = equipped;
 			this.cyberwareSlot = cyberwareSlot;
 		}
@@ -35,6 +36,7 @@ namespace Dyscord.UI
 		private void ReturnToOriginalPosition()
 		{
 			transform.SetParent(Parent);
+			transform.SetSiblingIndex(0);
 			transform.localPosition = OriginalPosition;
 			icon.raycastTarget = true;
 		}
@@ -55,7 +57,11 @@ namespace Dyscord.UI
 		public void OnEndDrag(PointerEventData eventData)
 		{
 			if (eventData.hovered.Count == 0)
+			{
+				ReturnToOriginalPosition();
 				return;
+			}
+
 			if (!equipped && eventData.hovered[^1].TryGetComponent(out CyberwareSlotUI cyberwareSlot))
 			{
 				if (!cyberwareSlot.AssignCyberware(Cyberware))

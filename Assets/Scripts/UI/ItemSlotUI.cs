@@ -30,7 +30,6 @@ namespace Dyscord.UI
 			var itemUI = Instantiate(itemUIPrefab, transform);
 			itemUI.Setup(item.item);
 		}
-
 		public void Setup(CyberwareSO cyberware)
 		{
 			amountText.text = "";

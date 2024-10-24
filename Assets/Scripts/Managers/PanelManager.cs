@@ -7,6 +7,8 @@ using Dyscord.Characters.Player;
 using Dyscord.ScriptableObjects.Action;
 using Dyscord.ScriptableObjects.Action.Hack;
 using Dyscord.ScriptableObjects.Cyberware;
+using Dyscord.ScriptableObjects.Overtime;
+using Dyscord.UI;
 using TMPro;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
@@ -21,17 +23,22 @@ namespace Dyscord.Managers
 		Attack,
 		Skill,
 		HackSelection,
-		HackCyberware
-		
+		HackCyberware,
+		Item
 	}
 	public class PanelManager : MonoSingleton<PanelManager>
 	{
 		[Header("Panel")]
 		[SerializeField] private GameObject statsPanel;
+		[SerializeField] private GameObject overtimeTemplateUIParent;
+		[SerializeField] private OvertimeTemplateUI overtimeTemplateUIPrefab;
 		[SerializeField] private GameObject attackPanel;
 		[SerializeField] private GameObject skillPanel;
 		[SerializeField] private GameObject hackSelectionPanel;
 		[SerializeField] private GameObject hackCyberwarePanel;
+		[SerializeField] private GameObject itemPanel;
+		[SerializeField] private ScrollRect itemScrollRect;
+		[SerializeField] private ItemSlotUI itemSlotUIPrefab;
 		
 		[Header("Button")]
 		[SerializeField] private TMP_Text statsText;
@@ -40,6 +47,7 @@ namespace Dyscord.Managers
 		[SerializeField] private Button attackButton;
 		[SerializeField] private Button skillButton;
 		[SerializeField] private Button hackButton;
+		[SerializeField] private Button itemButton;
 		[SerializeField] private Button hackCyberSecurityButton;
 		[SerializeField] private Button hackCyberwareButton;
 		
@@ -59,7 +67,9 @@ namespace Dyscord.Managers
 
 		private PanelTypes currentPanel = PanelTypes.Stats;
 		private Character currentCharacterStats;
-		private List<Button> ActionPanelButtons => new List<Button> {attackButton, skillButton, hackButton};
+		private List<Button> ActionPanelButtons => new List<Button> {attackButton, skillButton, hackButton, itemButton};
+		private List<ItemSlotUI> itemSlotUIs = new List<ItemSlotUI>();
+		private List<OvertimeTemplateUI> overtimeTemplateUIs = new List<OvertimeTemplateUI>();
 		
 		protected override void Awake()
 		{
@@ -69,10 +79,25 @@ namespace Dyscord.Managers
 			skillPanel.SetActive(false);
 			hackSelectionPanel.SetActive(false);
 			hackCyberwarePanel.SetActive(false);
+			itemPanel.SetActive(false);
 			attackButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Attack, true));
 			skillButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Skill, true));
 			hackCyberSecurityButton.onClick.AddListener(() => OnHackActionButtonPressed?.Invoke(false));
 			hackCyberwareButton.onClick.AddListener(() => OnHackActionButtonPressed?.Invoke(true));
+			itemButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Item, true));
+		}
+		
+		private void OnInventoryUpdated(bool _) => PopulateItemPanel();
+
+		private void OnEnable()
+		{
+			
+			InventoryManager.OnInventoryUpdated += OnInventoryUpdated;
+		}
+		
+		private void OnDisable()
+		{
+			InventoryManager.OnInventoryUpdated -= OnInventoryUpdated;
 		}
 
 		public void InitializePanel()
@@ -127,6 +152,24 @@ namespace Dyscord.Managers
 			}
 		}
 
+		public void PopulateItemPanel()
+		{
+			foreach (var itemSlotUI in itemSlotUIs)
+			{
+				Destroy(itemSlotUI.gameObject);
+			}
+			itemSlotUIs.Clear();
+			for (int i = 0; i < InventoryManager.Instance.MaxItemSlots; i++)
+			{
+				ItemSlotUI itemSlotUI = Instantiate(itemSlotUIPrefab, itemScrollRect.content);
+				itemSlotUIs.Add(itemSlotUI);
+			}
+			for (int i = 0; i < InventoryManager.Instance.ItemList.Count; i++)
+			{
+				itemSlotUIs[i].Setup(InventoryManager.Instance.ItemList[i]);
+			}
+		}
+
 		public void UpdateHackSelectionButton(bool security, bool cyberware)
 		{
 			hackCyberSecurityButton.interactable = security;
@@ -159,6 +202,7 @@ namespace Dyscord.Managers
 					}
 					if (button == attackButton && currentPanel == PanelTypes.Attack) return;
 					if (button == skillButton && currentPanel == PanelTypes.Skill) return;
+					if (button == itemButton && currentPanel == PanelTypes.Item) return;
 					button.interactable = true;
 				});
 				List<CharacterActionSO> allActions = CurrentTurnOrder.character.AllActions;
@@ -179,6 +223,7 @@ namespace Dyscord.Managers
 			                 $"DEF: {character.CurrentDefense}\n" +
 			                 $"SPD: {character.CurrentSpeed}\n" +
 			                 $"RAM: {character.CurrentRam} / {character.CharacterSO.Ram}";
+			PopulateOvertimeTemplateUI(character);
 		}
 
 		public void SetStatsText(Character character)
@@ -186,6 +231,22 @@ namespace Dyscord.Managers
 			if (currentCharacterStats == character) return;
 			currentCharacterStats = character;
 			UpdateStatsText(character);
+		}
+
+		private void PopulateOvertimeTemplateUI(Character character)
+		{
+			foreach (var overtimeTemplateUI in overtimeTemplateUIs)
+			{
+				Destroy(overtimeTemplateUI.gameObject);
+			}
+			overtimeTemplateUIs.Clear();
+			List<OvertimeTemplate> availableOvertimes = character.CurrentOvertimes.Where(x => x.Infinite || x.TurnCount > 0).ToList();
+			foreach (var overtime in availableOvertimes)
+			{
+				OvertimeTemplateUI overtimeTemplateUI = Instantiate(overtimeTemplateUIPrefab, overtimeTemplateUIParent.transform);
+				overtimeTemplateUI.Setup(overtime);
+				overtimeTemplateUIs.Add(overtimeTemplateUI);
+			}
 		}
 
 		public void SetActivePanel(PanelTypes panelType, bool active)
@@ -198,6 +259,7 @@ namespace Dyscord.Managers
 			statsPanel.SetActive(false);
 			hackSelectionPanel.SetActive(false);
 			hackCyberwarePanel.SetActive(false);
+			itemPanel.SetActive(false);
 			ActionPanelButtons.ForEach(button => button.interactable = false);
 			switch (panelType)
 			{
@@ -208,6 +270,7 @@ namespace Dyscord.Managers
 						attackButton.interactable = !active;
 						skillButton.interactable = active;
 						hackButton.interactable = active;
+						itemButton.interactable = active;
 					}
 					if (!active) SetActivePanel(PanelTypes.Stats, true);
 					break;
@@ -218,6 +281,7 @@ namespace Dyscord.Managers
 						skillButton.interactable = !active;
 						attackButton.interactable = active;
 						hackButton.interactable = active;
+						itemButton.interactable = active;
 					}
 					if (!active) SetActivePanel(PanelTypes.Stats, true);
 					break;
@@ -227,6 +291,7 @@ namespace Dyscord.Managers
 					attackButton.interactable = active;
 					skillButton.interactable = active;
 					hackButton.interactable = active;
+					itemButton.interactable = active;
 					break;
 				case PanelTypes.HackSelection:
 					hackSelectionPanel.SetActive(active);
@@ -236,6 +301,18 @@ namespace Dyscord.Managers
 				case PanelTypes.HackCyberware:
 					hackCyberwarePanel.SetActive(active);
 					hackButton.interactable = !active;
+					if (!active) SetActivePanel(PanelTypes.Stats, true);
+					break;
+				case PanelTypes.Item:
+					itemPanel.SetActive(active);
+					itemButton.interactable = !active;
+					PopulateItemPanel();
+					if (!PlayerSelecting)
+					{
+						skillButton.interactable = active;
+						attackButton.interactable = active;
+						hackButton.interactable = active;
+					}
 					if (!active) SetActivePanel(PanelTypes.Stats, true);
 					break;
 			}

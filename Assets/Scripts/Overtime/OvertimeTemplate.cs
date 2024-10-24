@@ -49,7 +49,9 @@ namespace Dyscord.ScriptableObjects.Overtime
 		[AllowNesting][InfoBox("Instant Overtime will apply the temporal effect and permanent instantly.\n" +
 		                       "Delayed Overtime will apply the temporal effect instantly but the permanent effect will be applied once the duration is over.")]
 		[Header("Overtime Configs")]
+		[SerializeField] protected Sprite icon;
 		[SerializeField] protected string overtimeName;
+		[SerializeField] protected string description;
 		[SerializeField] protected bool infinite;
 		[SerializeField][AllowNesting][HideIf(nameof(infinite))][Min(1)] protected int duration;
 		[SerializeField] protected List<OvertimeEffect> effects;
@@ -57,7 +59,10 @@ namespace Dyscord.ScriptableObjects.Overtime
 		protected int turnCount;
 		protected Character owner;
 		
+		public int TurnCount => turnCount;
+		public Sprite Icon => icon;
 		public string OvertimeName => overtimeName;
+		public string Description => description;
 		public int Duration => duration;
 		public List<OvertimeEffect> Effects => effects;
 		public bool Infinite => infinite;
