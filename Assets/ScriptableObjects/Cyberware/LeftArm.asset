@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: LeftArm
   m_EditorClassIdentifier: 
   cyberwareType: 2
+  icon: {fileID: 0}
   cyberwareName: Left Arm
   description: Left Arm
+  powerCost: 2
   hackAccessLevel: 1
   hackDamageModifier: 1
   attacks:
@@ -30,7 +32,9 @@ MonoBehaviour:
     - rid: 7850491466383097882
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Reduce Speed
+        description: 
         infinite: 0
         duration: 2
         effects:

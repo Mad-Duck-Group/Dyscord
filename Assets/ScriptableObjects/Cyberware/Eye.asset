@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   cyberwareName: Eye
   description: Eye
-  powerCost: 0
+  powerCost: 1
   hackAccessLevel: 1
   hackDamageModifier: 1
   attacks:
@@ -32,7 +32,9 @@ MonoBehaviour:
     - rid: 7850491466383097879
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Reduce Hit Chance
+        description: 
         infinite: 0
         duration: 2
         effects:
@@ -44,7 +46,9 @@ MonoBehaviour:
     - rid: 7850491545257771008
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Increase ATK
+        description: 
         infinite: 1
         duration: 0
         effects:

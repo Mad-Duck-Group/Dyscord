@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Overtime;
+using Dyscord.UI.Tooltips;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityRandom = UnityEngine.Random;
 
@@ -16,13 +19,21 @@ namespace Dyscord.UI
 		
 		private Image icon;
 		private OvertimeTemplate overtime;
+		private Tooltip tooltip;
+
+		private void Awake()
+		{
+			tooltip = GetComponent<Tooltip>();
+		}
 
 		public void Setup(OvertimeTemplate overtime)
 		{
+			if (!tooltip) tooltip = GetComponent<Tooltip>();
 			icon = GetComponent<Image>();
 			this.overtime = overtime;
 			countdownText.text = overtime.Infinite ? "∞" : this.overtime.TurnCount.ToString();
 			icon.sprite = this.overtime.Icon;
+			tooltip.TooltipObject = this.overtime;
 		}
 	}
 }

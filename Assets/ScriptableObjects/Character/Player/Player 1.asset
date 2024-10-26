@@ -30,6 +30,4 @@ MonoBehaviour:
   defaultSkills:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
-  hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
-  cyberwares:
-  - {fileID: 11400000, guid: c99d8d24a0ff9be48a1e8240348cfd56, type: 2}
+  maxPowerCapacity: 5

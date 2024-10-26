@@ -25,7 +25,8 @@ namespace Dyscord.UI
 				return false;
 			if (cyberware.CyberwareType != cyberwareType)
 				return false;
-			InventoryManager.Instance.EquipCyberware(cyberware);
+			if (!InventoryManager.Instance.EquipCyberware(cyberware, id)) 
+				return false;
 			InventoryManager.Instance.RemoveCyberware(cyberware);
 			isOccupied = true;
 			return true;

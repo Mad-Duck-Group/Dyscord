@@ -42,7 +42,8 @@ namespace Dyscord.Managers
 		private Character playerInstance;
 		private List<Character> enemyInstances = new List<Character>();
 		private LinkedList<TurnOrderUI> turnOrderUIs = new LinkedList<TurnOrderUI>();
-		public TurnOrder CurrentTurnOrder => turnOrderUIs.First.Value.TurnOrder;
+
+		public TurnOrder CurrentTurnOrder => turnOrderUIs.First?.Value.TurnOrder;
 		public Character PlayerInstance => playerInstance;
 		public List<Character> EnemyInstances => enemyInstances;
 

@@ -46,6 +46,7 @@ namespace Dyscord.ScriptableObjects.Cyberware
 		public float HackDamageModifier => hackDamageModifier;
 		public List<CharacterActionSO> Attacks => attacks;
 		public List<CharacterActionSO> Skills => skills;
+		public List<CharacterActionSO> AllActions => attacks.Concat(skills).ToList();
 		public List<OvertimeTemplate> OvertimeTemplates => overtimeTemplates;
 		public List<OvertimeTemplate> HackedOvertimeTemplates => hackedOvertimeTemplates;
 	}

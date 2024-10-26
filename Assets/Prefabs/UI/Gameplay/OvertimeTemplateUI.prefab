@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1110938233650707173}
   - component: {fileID: 5242743763146231454}
   - component: {fileID: 4308013967966177071}
+  - component: {fileID: -6547601421798572238}
   m_Layer: 5
   m_Name: OvertimeTemplateUI
   m_TagString: Untagged
@@ -90,6 +91,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 6700223536033196173}
+--- !u!114 &-6547601421798572238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2190945923532795912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee2f34357cfe874794c791484b86a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipDelay: 0.5
 --- !u!1 &5742209465672894275
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using Dyscord.Characters.Player;
 using Dyscord.ScriptableObjects;
 using Dyscord.ScriptableObjects.Cyberware;
 using Dyscord.ScriptableObjects.Overtime;
+using Dyscord.ScriptableObjects.Player;
 using Dyscord.UI;
 using TMPro;
 using UnityCommunity.UnitySingleton;
@@ -35,10 +36,14 @@ namespace Dyscord.Managers
 
 		[Header("UI")] 
 		[SerializeField] private TMP_Text statsText;
-		[SerializeField] private GameObject skillUIPrefab;
+		[SerializeField] private CharacterActionUI characterActionUIPrefab;
 		[SerializeField] private ItemSlotUI itemSlotUIPrefab;
 		[SerializeField] private CyberwareUI cyberwareUIPrefab;
 		[SerializeField] private List<CyberwareSlotUI> cyberwareSlotUIs;
+		[SerializeField] private Image powerUnitPrefab;
+		[SerializeField] private Transform powerUnitParent;
+		[SerializeField] private Sprite powerUnitEmpty;
+		[SerializeField] private Sprite powerUnitFilled;
 
 		[Header("Button")] 
 		[SerializeField] private Button statsButton;
@@ -54,6 +59,9 @@ namespace Dyscord.Managers
 		
 		private InventoryPanelTypes currentPanel = InventoryPanelTypes.Stats;
 		private ItemPanelTypes currentItemPanel = ItemPanelTypes.Cyberware;
+		private List<Image> powerUnitImages = new List<Image>();
+
+		public int MaxPowerCapacity => ((PlayerSO)playerCharacter.CharacterSO).MaxPowerCapacity;
 
 		private void OnEnable()
 		{
@@ -88,6 +96,7 @@ namespace Dyscord.Managers
 		private void EquipCyberwareHandler()
 		{
 			playerCharacter.ReequipCyberware(InventoryManager.Instance.EquippedCyberware);
+			UpdatePowerCapacityUI();
 			UpdateStats();
 			UpdateSkills();
 		}
@@ -127,6 +136,32 @@ namespace Dyscord.Managers
 				cyberwareSlot.AssignCyberware(cyberware);
 			}
 			InventoryManager.Instance.EquippedCyberwareDictionary.Clear();
+			UpdatePowerCapacityUI();
+		}
+
+		private void UpdatePowerCapacityUI()
+		{
+			foreach (var image in powerUnitImages)
+			{
+				Destroy(image.gameObject);
+			}
+			powerUnitImages.Clear();
+			for (int i = 0; i < MaxPowerCapacity; i++)
+			{
+				Image powerUnit = Instantiate(powerUnitPrefab, powerUnitParent);
+				powerUnitImages.Add(powerUnit);
+			}
+			for (int i = 0; i < powerUnitImages.Count; i++)
+			{
+				if (i < InventoryManager.Instance.CurrentPowerUnits)
+				{
+					powerUnitImages[i].sprite = powerUnitFilled;
+				}
+				else
+				{
+					powerUnitImages[i].sprite = powerUnitEmpty;
+				}
+			}
 		}
 
 		private void ChangePanel(InventoryPanelTypes panelTypes)
@@ -181,8 +216,8 @@ namespace Dyscord.Managers
 
 			foreach (var skill in playerCharacter.AllActions)
 			{
-				GameObject skillUI = Instantiate(skillUIPrefab, skillPanel.content);
-				skillUI.GetComponentInChildren<TMP_Text>().text = skill.ActionName;
+				CharacterActionUI skillUI = Instantiate(characterActionUIPrefab, skillPanel.content);
+				skillUI.Setup(skill);
 			}
 		}
 		

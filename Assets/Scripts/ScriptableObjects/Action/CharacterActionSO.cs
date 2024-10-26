@@ -37,6 +37,7 @@ namespace Dyscord.ScriptableObjects.Action
 	{
 		[Header("General Configs")]
 		[SerializeField] protected string actionName;
+		[SerializeField] protected string description;
 		[SerializeField] protected TargetSides targetSide = TargetSides.Other;
 		[SerializeField][ValidateInput(nameof(ValidateTargetType), "Hack Action can only target single target")] 
 		protected TargetTypes targetType;
@@ -49,6 +50,7 @@ namespace Dyscord.ScriptableObjects.Action
 		
 		protected Stack<Character> _targets = new Stack<Character>();
 		public string ActionName => actionName;
+		public string Description => description;
 		public TargetSides TargetSide => targetSide;
 		public TargetTypes TargetType => targetType;
 		public int MaxTargets => maxTargets;

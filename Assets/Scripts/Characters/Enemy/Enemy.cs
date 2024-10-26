@@ -32,12 +32,12 @@ namespace Dyscord.Characters.Enemy
 		
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			PanelManager.Instance.SetStatsText(this);
+			//PanelManager.Instance.SetStatsText(this);
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			PanelManager.Instance.SetStatsText(TurnManager.Instance.PlayerInstance);
+			//PanelManager.Instance.SetStatsText(TurnManager.Instance.PlayerInstance);
 		}
 
 		/// <summary>
@@ -47,6 +47,7 @@ namespace Dyscord.Characters.Enemy
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			if (eventData.button != PointerEventData.InputButton.Left) return;
+			PanelManager.Instance.SetStatsText(this);
 			if (CurrentCharacter is not Player.Player) return;
 			if (!CurrentCharacter.CurrentAction) return;
 			if (!CurrentCharacter.CurrentAction.PlayerSelecting) return;

@@ -62,6 +62,7 @@ namespace Dyscord.Characters
 		
 		protected bool _firstTurn = true;
 		protected bool _fromInventory;
+		protected bool _finishedInitialization;
 		
 		public virtual int SelectionCount { get; set; }
 
@@ -118,6 +119,7 @@ namespace Dyscord.Characters
 			InitializeStats();
 			InitializeDefaultAction();
 			InitializeCyberware();
+			_finishedInitialization = true;
 		}
 
 		/// <summary>
@@ -318,7 +320,7 @@ namespace Dyscord.Characters
 			return reducedByDefense;
 		}
 		
-		public virtual void ChangeShield(int value)
+		public virtual void ChangeShield(int value, bool showNumber = true)
 		{
 			currentShield += value;
 			currentShield = Mathf.Clamp(currentShield, 0, characterSO.Shield);
@@ -326,7 +328,8 @@ namespace Dyscord.Characters
 			{
 				AddOvertime(shieldBreakOvertimes);
 			}
-			DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
+			if (_finishedInitialization && !_fromInventory && showNumber)
+				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
 			PanelManager.Instance.UpdateStatsText(this);
 			UpdateInfoText();
 		}
@@ -335,7 +338,7 @@ namespace Dyscord.Characters
 		/// Change the health value by the amount.
 		/// </summary>
 		/// <param name="value">amount of health</param>
-		public virtual void ChangeHealth(int value)
+		public virtual void ChangeHealth(int value, bool showNumber = true)
 		{
 			currentHealth += value;
 			currentHealth = Mathf.Clamp(currentHealth, 0, characterSO.Health);
@@ -347,7 +350,8 @@ namespace Dyscord.Characters
 			{
 				infoText.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
 			}
-			DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
+			if (_finishedInitialization && !_fromInventory && showNumber)
+				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
 			PanelManager.Instance.UpdateStatsText(this);
 			UpdateInfoText();
 		}
@@ -356,10 +360,10 @@ namespace Dyscord.Characters
 		/// Change the RAM value by the amount.
 		/// </summary>
 		/// <param name="amount"></param>
-		public virtual void ChangeRam(int amount)
+		public virtual void ChangeRam(int amount, bool showNumber = true)
 		{
 			currentRam += amount;
-			if (amount != 0)
+			if (amount != 0 && _finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, amount.ToString(), DynamicTextManager.ramData);
 			currentRam = Mathf.Clamp(currentRam, 0, characterSO.Ram);
 			PanelManager.Instance.UpdateButtonUI();
@@ -562,7 +566,7 @@ namespace Dyscord.Characters
 				{ PermanentStatTypes.Ram, (currentRam, val => Mathf.Clamp(Mathf.RoundToInt(val), 0, characterSO.Ram)) },
 				//{ StatTypes.RamRegen, (currentRamRegen, val => Mathf.Clamp(Mathf.RoundToInt(val), 0, int.MaxValue)) }
 			};
-
+			
 			// Apply effects to the corresponding stats
 			foreach (var effect in permanent)
 				if (statMap.TryGetValue(effect.permanentStatType, out var stat))
@@ -572,11 +576,17 @@ namespace Dyscord.Characters
 					// Update with clamped value
 					statMap[effect.permanentStatType] = (updatedValue, stat.clampFunc);
 				}
-
+			
 			// Assign clamped values back to character stats
-			currentHealth = (int)statMap[PermanentStatTypes.Health].clampFunc(statMap[PermanentStatTypes.Health].currentValue);
-			currentShield = (int)statMap[PermanentStatTypes.Shield].clampFunc(statMap[PermanentStatTypes.Shield].currentValue);
-			currentRam = (int)statMap[PermanentStatTypes.Ram].clampFunc(statMap[PermanentStatTypes.Ram].currentValue);
+			int healthDifference = (int)statMap[PermanentStatTypes.Health].currentValue - currentHealth;
+			ChangeHealth(healthDifference, healthDifference != 0);
+			//currentHealth = (int)statMap[PermanentStatTypes.Health].clampFunc(statMap[PermanentStatTypes.Health].currentValue);
+			int shieldDifference = (int)statMap[PermanentStatTypes.Shield].currentValue - currentShield;
+			ChangeShield(shieldDifference, shieldDifference != 0);
+			//currentShield = (int)statMap[PermanentStatTypes.Shield].clampFunc(statMap[PermanentStatTypes.Shield].currentValue);
+			int ramDifference = (int)statMap[PermanentStatTypes.Ram].currentValue - currentRam;
+			ChangeRam(ramDifference, ramDifference != 0);
+			//currentRam = (int)statMap[PermanentStatTypes.Ram].clampFunc(statMap[PermanentStatTypes.Ram].currentValue);
 			if (!_fromInventory) PanelManager.Instance.UpdateStatsText(this);
 			UpdateInfoText();
 		}

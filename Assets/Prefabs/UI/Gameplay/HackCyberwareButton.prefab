@@ -146,8 +146,10 @@ GameObject:
   - component: {fileID: 5676820383899768829}
   - component: {fileID: 5155558222580290082}
   - component: {fileID: 6163254416965093199}
+  - component: {fileID: 7686212267808502826}
+  - component: {fileID: 2147066068914765083}
   m_Layer: 5
-  m_Name: ActionButton
+  m_Name: HackCyberwareButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,3 +257,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7686212267808502826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8974024853525672067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8846012b5a7044f9826220cc17d5af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyberwareName: {fileID: 1659135492349047941}
+--- !u!114 &2147066068914765083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8974024853525672067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee2f34357cfe874794c791484b86a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipDelay: 0.5

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HackAction
   m_EditorClassIdentifier: 
   actionName: Hack
+  description: Hack some shitttt
   targetSide: 1
   targetType: 1
   maxTargets: 1

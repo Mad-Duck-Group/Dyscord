@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Cyberware;
+using Dyscord.UI.Tooltips;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,6 +21,12 @@ namespace Dyscord.UI
 		
 		private CyberwareSlotUI cyberwareSlot;
 		private bool equipped;
+		private Tooltip tooltip;
+
+		private void Awake()
+		{
+			tooltip = GetComponent<Tooltip>();
+		}
 		
 		public void Setup(CyberwareSO cyberware, Transform parent, bool equipped, CyberwareSlotUI cyberwareSlot = null)
 		{
@@ -31,6 +38,7 @@ namespace Dyscord.UI
 			transform.SetSiblingIndex(0);
 			this.equipped = equipped;
 			this.cyberwareSlot = cyberwareSlot;
+			tooltip.TooltipObject = cyberware;
 		}
 		
 		private void ReturnToOriginalPosition()
@@ -76,15 +84,13 @@ namespace Dyscord.UI
 				OriginalPosition = transform.localPosition;
 				icon.raycastTarget = true;
 				equipped = true;
-				InventoryManager.Instance.SaveEquippedCyberware(Cyberware, cyberwareSlot.Id);
 			}
 			else
 			{
 				ReturnToOriginalPosition();
 			}
 		}
-
-
+		
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			if (eventData.button != PointerEventData.InputButton.Right) return;

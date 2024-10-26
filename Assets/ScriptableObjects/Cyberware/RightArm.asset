@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: RightArm
   m_EditorClassIdentifier: 
   cyberwareType: 2
+  icon: {fileID: 0}
   cyberwareName: Right Arm
   description: Right Arm
+  powerCost: 3
   hackAccessLevel: 2
   hackDamageModifier: 1
   attacks:
@@ -30,7 +32,9 @@ MonoBehaviour:
     - rid: 7850491466383097883
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Reduce Attack
+        description: 
         infinite: 0
         duration: 2
         effects:

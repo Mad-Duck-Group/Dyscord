@@ -42,8 +42,8 @@ namespace Dyscord.Managers
 		
 		[Header("Button")]
 		[SerializeField] private TMP_Text statsText;
-		[SerializeField] private GameObject actionButtonPrefab;
-		[SerializeField] private GameObject cyberwareButtonPrefab;
+		[SerializeField] private ActionButtonUI actionButtonPrefab;
+		[SerializeField] private HackCyberwareButtonUI cyberwareButtonPrefab;
 		[SerializeField] private Button attackButton;
 		[SerializeField] private Button skillButton;
 		[SerializeField] private Button hackButton;
@@ -82,7 +82,11 @@ namespace Dyscord.Managers
 			itemPanel.SetActive(false);
 			attackButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Attack, true));
 			skillButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Skill, true));
-			hackCyberSecurityButton.onClick.AddListener(() => OnHackActionButtonPressed?.Invoke(false));
+			hackCyberSecurityButton.onClick.AddListener(() =>
+			{
+				OnHackActionButtonPressed?.Invoke(false);
+				TooltipManager.Instance.DestroyTooltip();
+			});
 			hackCyberwareButton.onClick.AddListener(() => OnHackActionButtonPressed?.Invoke(true));
 			itemButton.onClick.AddListener(() => SetActivePanel(PanelTypes.Item, true));
 		}
@@ -112,26 +116,36 @@ namespace Dyscord.Managers
 		{
 			PlayerInstance.AllAttacks.ForEach(attack =>
 			{
-				Button attackButtonInstance = Instantiate(actionButtonPrefab, attackPanel.transform).GetComponent<Button>();
-				attackButtonInstance.onClick.AddListener(attack.SelectTarget);
-				attackButtonInstance.GetComponentInChildren<TMP_Text>().text = attack.ActionName;
+				var attackButtonInstance = Instantiate(actionButtonPrefab, attackPanel.transform).Setup(attack);
+				attackButtonInstance.onClick.AddListener(() =>
+				{
+					attack.SelectTarget();
+					TooltipManager.Instance.DestroyTooltip();
+				});
 				actionButtons.Add(attackButtonInstance);
 			});
 			PlayerInstance.AllSkills.ForEach(skill =>
 			{
-				Button skillButtonInstance = Instantiate(actionButtonPrefab, skillPanel.transform).GetComponent<Button>();
-				skillButtonInstance.onClick.AddListener(skill.SelectTarget);
-				skillButtonInstance.GetComponentInChildren<TMP_Text>().text = skill.ActionName;
-				actionButtons.Add(skillButtonInstance);
+				var attackButtonInstance = Instantiate(actionButtonPrefab, skillPanel.transform).Setup(skill);
+				attackButtonInstance.onClick.AddListener(() =>
+				{
+					skill.SelectTarget();
+					TooltipManager.Instance.DestroyTooltip();
+				});
+				actionButtons.Add(attackButtonInstance);
 			});
 			hackButton.onClick.AddListener(() =>
 			{
 				PlayerInstance.HackAction.SelectTarget();
+				TooltipManager.Instance.DestroyTooltip();
 				hackButton.interactable = false;
 				attackButton.interactable = false;
 				skillButton.interactable = false;
+				itemButton.interactable = false;
 			});
 			actionButtons.Add(hackButton);
+			var hackCyberwareSecurityButtonUI = hackCyberSecurityButton.GetComponent<ActionButtonUI>();
+			hackCyberwareSecurityButtonUI.Setup(PlayerInstance.HackAction);
 		}
 
 		public void PopulateCyberwareUI(List<CyberwareSO> cyberwares, int hackAccessLevel)
@@ -143,8 +157,8 @@ namespace Dyscord.Managers
 			cyberwareButtons.Clear();
 			foreach (CyberwareSO cyberware in cyberwares)
 			{
-				Button cyberwareButtonInstance = Instantiate(cyberwareButtonPrefab, hackCyberwarePanel.transform)
-					.GetComponent<Button>();
+				Button cyberwareButtonInstance =
+					Instantiate(cyberwareButtonPrefab, hackCyberwarePanel.transform).Setup(cyberware);
 				cyberwareButtonInstance.onClick.AddListener(() => OnCyberwareButtonPressed?.Invoke(cyberware));
 				cyberwareButtonInstance.GetComponentInChildren<TMP_Text>().text = cyberware.CyberwareName;
 				cyberwareButtonInstance.interactable = cyberware.HackAccessLevel <= hackAccessLevel;
@@ -181,6 +195,7 @@ namespace Dyscord.Managers
 		/// </summary>
 		public void UpdateButtonUI()
 		{
+			if (CurrentTurnOrder == null) return;
 			if (CurrentTurnOrder.character is not Player)
 			{
 				actionButtons.ForEach(button => button.interactable = false);
@@ -329,6 +344,10 @@ namespace Dyscord.Managers
 		private void UndoHandler()
 		{
 			if (!Input.GetMouseButtonDown(1)) return;
+			if (currentCharacterStats != PlayerInstance)
+			{
+				SetStatsText(PlayerInstance);
+			}
 			if (CurrentTurnOrder.character is not Player) return;
 			//Undo target selection
 			if (PlayerSelecting)

@@ -36,6 +36,7 @@ namespace Dyscord.Managers
 		public List<CyberwareSO> CyberwareList => cyberwareList;
 		public List<CyberwareSO> EquippedCyberware => equippedCyberware;
 		public Dictionary<CyberwareSO, string> EquippedCyberwareDictionary => equippedCyberwareDictionary;
+		public int CurrentPowerUnits => equippedCyberware.Sum(c => c.PowerCost);
 		
 		public delegate void InventoryUpdated(bool isCyberware);
 		public static InventoryUpdated OnInventoryUpdated;
@@ -97,15 +98,22 @@ namespace Dyscord.Managers
 			OnInventoryUpdated?.Invoke(true);
 		}
 		
-		public void EquipCyberware(CyberwareSO cyberware)
+		public bool EquipCyberware(CyberwareSO cyberware, string id)
 		{
 			if (equippedCyberware.Contains(cyberware))
 			{
 				Debug.LogWarning("Cyberware already equipped");
-				return;
+				return false;
+			}
+			if (InventoryUIManager.Instance.MaxPowerCapacity < CurrentPowerUnits + cyberware.PowerCost)
+			{
+				Debug.LogWarning("Not enough power capacity");
+				return false;
 			}
 			equippedCyberware.Add(cyberware);
 			OnEquippedCyberwareUpdated?.Invoke();
+			equippedCyberwareDictionary.TryAdd(cyberware, id);
+			return true;
 		}
 		
 		public void UnequipCyberware(CyberwareSO cyberware)
@@ -117,15 +125,9 @@ namespace Dyscord.Managers
 			}
 			equippedCyberware.Remove(cyberware);
 			OnEquippedCyberwareUpdated?.Invoke();
-		}
-
-		public void SaveEquippedCyberware(CyberwareSO cyberware, string id)
-		{
-			equippedCyberwareDictionary.Add(cyberware, id);
+			equippedCyberwareDictionary.Remove(cyberware);
 		}
 		
-	
-
 		[Button("Gameplay")]
 		private void GoToGameplay()
 		{
