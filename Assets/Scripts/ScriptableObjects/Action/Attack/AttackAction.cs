@@ -34,6 +34,16 @@ namespace Dyscord.ScriptableObjects.Action.Attack
 			PlayerSelecting = false;
 			Owner.ChangeRam(-RamCost);
 			Owner.Attack(this);
+			if (playAnimation)
+			{
+				_targets.ForEach(x =>
+				{
+					var anim = Instantiate(TurnManager.Instance.VfxPrefab, x.transform.position, Quaternion.identity);
+					anim.runtimeAnimatorController = animatorController;
+					float animationDuration = anim.GetCurrentAnimatorClipInfo(0).First().clip.length;
+					Destroy(anim.gameObject, animationDuration);
+				});
+			}
 			switch (overtimeTargetSide)
 			{
 				case TargetSides.Other:

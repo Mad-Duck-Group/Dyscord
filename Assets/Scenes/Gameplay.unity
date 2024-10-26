@@ -1234,6 +1234,7 @@ MonoBehaviour:
   - {fileID: 8781562872315375639, guid: 022345328c6ff404ba58372d340cbdc2, type: 3}
   - {fileID: 505036587673343863, guid: 0bf39a38e3688334ca69ca5b1837f865, type: 3}
   enemyParent: {fileID: 1519341107}
+  vfxPrefab: {fileID: 6381696728290964919, guid: 0e0b2ad0ac9a2f04a98de98bac064ede, type: 3}
   turnOrderUIPrefab: {fileID: 4648752630296796779, guid: 3b6a5f1570c8dfa49a3f6f6b648beef1, type: 3}
   turnOrderScrollView: {fileID: 420141188}
 --- !u!4 &644554692

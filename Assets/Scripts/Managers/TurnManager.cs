@@ -34,6 +34,7 @@ namespace Dyscord.Managers
 		[SerializeField] private Transform playerParent;
 		[SerializeField] private List<Character> enemyPrefabs = new List<Character>();
 		[SerializeField] private Transform enemyParent;
+		[SerializeField] private Animator vfxPrefab;
 
 		[Header("UI")]
 		[SerializeField] private TurnOrderUI turnOrderUIPrefab;
@@ -42,6 +43,8 @@ namespace Dyscord.Managers
 		private Character playerInstance;
 		private List<Character> enemyInstances = new List<Character>();
 		private LinkedList<TurnOrderUI> turnOrderUIs = new LinkedList<TurnOrderUI>();
+		
+		public Animator VfxPrefab => vfxPrefab;
 
 		public TurnOrder CurrentTurnOrder => turnOrderUIs.First?.Value.TurnOrder;
 		public Character PlayerInstance => playerInstance;
