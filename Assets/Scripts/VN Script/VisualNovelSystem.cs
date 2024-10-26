@@ -31,10 +31,10 @@ public class VisualNovelSystem : MonoBehaviour
         // Initialize dialogue
         dialogues = new List<Dialogue>()
         {
-            new Dialogue("Player", "What are you doing here?"),
-            new Dialogue("NPC", "I'm just waiting for someone."),
-            new Dialogue("Player", "Really? Who?"),
-            new Dialogue("NPC", "Nope.")
+            new Dialogue(1,"Player", "What are you doing here?"),
+            new Dialogue(2,"NPC", "I'm just waiting for someone."),
+            new Dialogue(3,"Player", "Really? Who?"),
+            new Dialogue(4,"NPC", "Nope.")
         };
 
         // Display the first dialogue
@@ -146,17 +146,5 @@ public class VisualNovelSystem : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class Dialogue
-{
-    public string speaker;
-    public string text;
-
-    public Dialogue(string speaker, string text)
-    {
-        this.speaker = speaker;
-        this.text = text;
-    }
-}
 
 
