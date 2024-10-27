@@ -53,10 +53,6 @@ MonoBehaviour:
   characterSO: {fileID: 11400000, guid: c65263ed54f604a42b271a3b92748a97, type: 2}
   shieldBreakOvertimes:
   - rid: 7850491466383097878
-  defaultAttacks:
-  - {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
-  defaultSkills: []
-  hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
   hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
   cyberwares:
   - {fileID: 11400000, guid: c99d8d24a0ff9be48a1e8240348cfd56, type: 2}
@@ -82,7 +78,9 @@ MonoBehaviour:
     - rid: 7850491466383097878
       type: {class: DelayedOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Shield Regen
+        description: 
         infinite: 0
         duration: 2
         effects:

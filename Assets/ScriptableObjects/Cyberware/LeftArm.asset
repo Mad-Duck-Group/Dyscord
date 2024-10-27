@@ -22,7 +22,7 @@ MonoBehaviour:
   attacks:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   skills:
-  - {fileID: 11400000, guid: ae0cb267b9404144ea03f2b63b6a2bc3, type: 2}
+  - {fileID: 11400000, guid: b700efcb7b351804e88817dd71616850, type: 2}
   overtimeTemplates: []
   hackedOvertimeTemplates:
   - rid: 7850491466383097882
