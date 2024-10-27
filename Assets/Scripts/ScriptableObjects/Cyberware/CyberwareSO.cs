@@ -21,7 +21,7 @@ namespace Dyscord.ScriptableObjects.Cyberware
 	public class CyberwareSO : ScriptableObject
 	{
 		[SerializeField] protected CyberwareTypes cyberwareType;
-		[SerializeField] protected Sprite icon;
+		[SerializeField][ShowAssetPreview(128, 128)] protected Sprite icon;
 		[SerializeField] protected string cyberwareName;
 		[SerializeField] protected string description;
 		[SerializeField][HideIf(nameof(cyberwareType), CyberwareTypes.Chip)] protected int powerCost;

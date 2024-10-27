@@ -20,6 +20,7 @@ namespace Dyscord.ScriptableObjects
 	public abstract class CharacterSO : ScriptableObject
 	{
 		[Header("Base Stats")]
+		[SerializeField][ShowAssetPreview(128, 128)] private Sprite characterSprite;
 		[SerializeField] private string characterName;
 		[SerializeField][Min(1)] private int health;
 		[SerializeField][Min(0)] private int attack;
@@ -39,6 +40,7 @@ namespace Dyscord.ScriptableObjects
 		[FormerlySerializedAs("skills")][SerializeField] protected List<CharacterActionSO> defaultSkills = new List<CharacterActionSO>();
 		[SerializeField] protected CharacterActionSO hackAction;
 
+		public Sprite CharacterSprite => characterSprite;
 		public string CharacterName => characterName;
 		public int Health => health;
 		public int Attack => attack;

@@ -217,6 +217,7 @@ namespace Dyscord.Characters
 				int finalDamage = attackAction.Targets[i].ApplyDamageReduction(damageFromType[i]);
 				attackAction.Targets[i].ChangeHealth(-finalDamage);
 			}
+			PanelManager.Instance.UpdateStatsText(this);
 		}
 		
 		/// <summary>
@@ -366,6 +367,8 @@ namespace Dyscord.Characters
 			if (amount != 0 && _finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, amount.ToString(), DynamicTextManager.ramData);
 			currentRam = Mathf.Clamp(currentRam, 0, characterSO.Ram);
+			PanelManager.Instance.UpdateRamSlotUI(this);
+			PanelManager.Instance.UpdateStatsText(this);
 			PanelManager.Instance.UpdateButtonUI();
 			UpdateInfoText();
 		}

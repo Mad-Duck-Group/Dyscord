@@ -39,8 +39,12 @@ namespace Dyscord.Managers
 		[SerializeField] private GameObject itemPanel;
 		[SerializeField] private ScrollRect itemScrollRect;
 		[SerializeField] private ItemSlotUI itemSlotUIPrefab;
-		
-		[Header("Button")]
+		[SerializeField] private Transform ramSlotRack;
+		[SerializeField] private Image ramSlotPrefab;
+		[SerializeField] private Sprite ramSlotEmptyPrefab;
+		[SerializeField] private Sprite ramSlotFilledPrefab;
+
+			[Header("Button")]
 		[SerializeField] private TMP_Text statsText;
 		[SerializeField] private ActionButtonUI actionButtonPrefab;
 		[SerializeField] private HackCyberwareButtonUI cyberwareButtonPrefab;
@@ -107,6 +111,7 @@ namespace Dyscord.Managers
 		public void InitializePanel()
 		{
 			SetStatsText(PlayerInstance);
+			UpdateRamSlotUI(PlayerInstance);
 		}
 		
 		/// <summary>
@@ -261,6 +266,20 @@ namespace Dyscord.Managers
 				OvertimeTemplateUI overtimeTemplateUI = Instantiate(overtimeTemplateUIPrefab, overtimeTemplateUIParent.transform);
 				overtimeTemplateUI.Setup(overtime);
 				overtimeTemplateUIs.Add(overtimeTemplateUI);
+			}
+		}
+		
+		public void UpdateRamSlotUI(Character character)
+		{
+			if (character is not Player) return;
+			foreach (Transform child in ramSlotRack)
+			{
+				Destroy(child.gameObject);
+			}
+			for (int i = 0; i < character.CharacterSO.Ram; i++)
+			{
+				Image ramSlot = Instantiate(ramSlotPrefab, ramSlotRack);
+				ramSlot.sprite = i < character.CurrentRam ? ramSlotFilledPrefab : ramSlotEmptyPrefab;
 			}
 		}
 

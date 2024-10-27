@@ -27,6 +27,8 @@ namespace Dyscord.Characters.Player
 			if (_fromInventory) return;
 			AddOvertime(item.OvertimeTemplates);
 			InventoryManager.Instance.RemoveItem(item, 1);
+			PanelManager.Instance.UpdateRamSlotUI(this);
+			PanelManager.Instance.UpdateStatsText(this);
 		}
 	}
 }

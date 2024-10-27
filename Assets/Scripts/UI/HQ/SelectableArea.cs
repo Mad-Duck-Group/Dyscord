@@ -49,7 +49,7 @@ namespace Dyscord.UI
 					HQManager.Instance.ChangeSubPanel(subPanelType, true);
 					break;
 				default:
-					HQManager.Instance.ChangePanel(panelType, true);
+					HQManager.Instance.ChangePanel(panelType);
 					break;
 			}
 		}
