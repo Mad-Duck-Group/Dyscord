@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RightArm
   m_EditorClassIdentifier: 
   cyberwareType: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d9de54c24ea3acf4f975a67a81ec3c10, type: 3}
   cyberwareName: Right Arm
   description: Right Arm
   powerCost: 3

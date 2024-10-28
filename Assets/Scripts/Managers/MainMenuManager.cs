@@ -38,12 +38,14 @@ namespace Dyscord.Managers
 		{
 			logoTween = logo.transform.DOShakePosition(5f, 1, 30, fadeOut: false).SetLoops(-1, LoopType.Restart);
 			pressAnyKeyTween = pressAnyKey.DOFade(0, 0.5f).SetLoops(-1, LoopType.Yoyo);
+			GlobalSoundManager.Instance.PlayBGM(BGMTypes.MainMenu);
 		}
 		
 		private void Update()
 		{
 			if (Input.anyKeyDown)
 			{
+				GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.PressAnyKey);
 				SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.HQ, LoadSceneMode.Additive, false);
 			}
 		}

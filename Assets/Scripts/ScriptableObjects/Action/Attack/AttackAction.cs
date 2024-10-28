@@ -26,6 +26,7 @@ namespace Dyscord.ScriptableObjects.Action.Attack
 		[SerializeField][Min(0)] protected float damageMultiplier = 1f;
 		[SerializeField][Range(0f, 1f)][ShowIf(nameof(targetType), TargetTypes.Burst)] protected float adjacentPenalty = 0.5f;
 		[SerializeField][Range(0f, 1f)][ShowIf(nameof(targetType), TargetTypes.Multi)] protected float spamPenalty = 0.1f;
+		[SerializeField][ShowIf(nameof(playSound))] protected AudioClip attackSound;
 		public float DamageMultiplier => damageMultiplier;
 		public float AdjacentPenalty => adjacentPenalty;
 		public float SpamPenalty => spamPenalty;
@@ -44,6 +45,8 @@ namespace Dyscord.ScriptableObjects.Action.Attack
 					Destroy(anim.gameObject, animationDuration);
 				});
 			}
+			if (playSound)
+				GlobalSoundManager.Instance.PlayEffectClip(attackSound);
 			switch (overtimeTargetSide)
 			{
 				case TargetSides.Other:

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Cyberware;
 using Dyscord.UI.Tooltips;
@@ -12,7 +13,7 @@ using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.UI
 {
-	public class CyberwareUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+	public class CyberwareUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 	{
 		private Image icon;
 		public CyberwareSO Cyberware { get; set; }
@@ -22,6 +23,8 @@ namespace Dyscord.UI
 		private CyberwareSlotUI cyberwareSlot;
 		private bool equipped;
 		private Tooltip tooltip;
+		private Tween scaleTween;
+		private Tween locationTween;
 
 		private void Awake()
 		{
@@ -33,20 +36,27 @@ namespace Dyscord.UI
 			icon = GetComponent<Image>();
 			Cyberware = cyberware;
 			icon.sprite = cyberware.Icon;
+			icon.SetNativeSize();
 			OriginalPosition = transform.localPosition;
 			Parent = parent;
 			transform.SetSiblingIndex(0);
 			this.equipped = equipped;
 			this.cyberwareSlot = cyberwareSlot;
+			if (!tooltip) tooltip = GetComponent<Tooltip>();
 			tooltip.TooltipObject = cyberware;
 		}
 		
 		private void ReturnToOriginalPosition()
 		{
-			transform.SetParent(Parent);
-			transform.SetSiblingIndex(0);
-			transform.localPosition = OriginalPosition;
+			if (locationTween.IsActive()) locationTween.Kill();
+			Vector3 originalPositionInWorld = Parent.TransformPoint(OriginalPosition);
+			locationTween = transform.DOMove(originalPositionInWorld, 0.2f).OnComplete(() =>
+			{
+				transform.SetParent(Parent);
+				transform.SetSiblingIndex(0);
+			});
 			icon.raycastTarget = true;
+			GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Unavailable);
 		}
 		
 		public void OnBeginDrag(PointerEventData eventData)
@@ -80,7 +90,8 @@ namespace Dyscord.UI
 				this.cyberwareSlot = cyberwareSlot;
 				Parent = cyberwareSlot.transform;
 				transform.SetParent(Parent);
-				transform.localPosition = Vector3.zero;
+				if (locationTween.IsActive()) locationTween.Kill();
+				locationTween = transform.DOLocalMove(Vector3.zero, 0.2f);
 				OriginalPosition = transform.localPosition;
 				icon.raycastTarget = true;
 				equipped = true;
@@ -93,12 +104,25 @@ namespace Dyscord.UI
 		
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			if (eventData.button != PointerEventData.InputButton.Right) return;
+			if (eventData.button != PointerEventData.InputButton.Left) return;
 			if (!equipped) return;
 			cyberwareSlot.RemoveCyberware();
 			InventoryManager.Instance.AddCyberware(Cyberware);
 			InventoryManager.Instance.UnequipCyberware(Cyberware);
+			TooltipManager.Instance.DestroyTooltip();
 			Destroy(gameObject);
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			if (scaleTween.IsActive()) scaleTween.Kill();
+			scaleTween = transform.DOScale(1.1f, 0.2f);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			if (scaleTween.IsActive()) scaleTween.Kill();
+			scaleTween = transform.DOScale(1f, 0.2f);
 		}
 	}
 }

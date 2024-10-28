@@ -21,6 +21,8 @@ namespace Dyscord.ScriptableObjects
 	{
 		[Header("Base Stats")]
 		[SerializeField][ShowAssetPreview(128, 128)] private Sprite characterSprite;
+		[SerializeField] private AudioClip hurtSound;
+		[SerializeField] private AudioClip deathSound;
 		[SerializeField] private string characterName;
 		[SerializeField][Min(1)] private int health;
 		[SerializeField][Min(0)] private int attack;
@@ -41,6 +43,8 @@ namespace Dyscord.ScriptableObjects
 		[SerializeField] protected CharacterActionSO hackAction;
 
 		public Sprite CharacterSprite => characterSprite;
+		public AudioClip HurtSound => hurtSound;
+		public AudioClip DeathSound => deathSound;
 		public string CharacterName => characterName;
 		public int Health => health;
 		public int Attack => attack;

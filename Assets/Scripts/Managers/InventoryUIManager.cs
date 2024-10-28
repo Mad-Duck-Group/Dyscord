@@ -176,18 +176,27 @@ namespace Dyscord.Managers
 					statsPanel.gameObject.SetActive(true);
 					cyberwareButton.gameObject.SetActive(false);
 					itemButton.gameObject.SetActive(false);
+					statsButton.image.sprite = statsButton.spriteState.pressedSprite;
+					skillButton.image.sprite = skillButton.spriteState.disabledSprite;
+					inventoryButton.image.sprite = inventoryButton.spriteState.disabledSprite;
 					UpdateStats();
 					break;
 				case InventoryPanelTypes.Skill:
 					skillPanel.gameObject.SetActive(true);
 					cyberwareButton.gameObject.SetActive(false);
 					itemButton.gameObject.SetActive(false);
+					statsButton.image.sprite = statsButton.spriteState.disabledSprite;
+					skillButton.image.sprite = skillButton.spriteState.pressedSprite;
+					inventoryButton.image.sprite = inventoryButton.spriteState.disabledSprite;
 					UpdateSkills();
 					break;
 				case InventoryPanelTypes.Inventory:
 					inventoryPanel.gameObject.SetActive(true);
 					cyberwareButton.gameObject.SetActive(true);
 					itemButton.gameObject.SetActive(true);
+					statsButton.image.sprite = statsButton.spriteState.disabledSprite;
+					skillButton.image.sprite = skillButton.spriteState.disabledSprite;
+					inventoryButton.image.sprite = inventoryButton.spriteState.pressedSprite;
 					ChangeItemPanel(currentItemPanel);
 					break;
 			}
@@ -227,9 +236,13 @@ namespace Dyscord.Managers
 			switch (itemPanelTypes)
 			{
 				case ItemPanelTypes.Cyberware:
+					cyberwareButton.image.sprite = cyberwareButton.spriteState.pressedSprite;
+					itemButton.image.sprite = itemButton.spriteState.disabledSprite;
 					UpdateCyberware();
 					break;
 				case ItemPanelTypes.Item:
+					cyberwareButton.image.sprite = cyberwareButton.spriteState.disabledSprite;
+					itemButton.image.sprite = itemButton.spriteState.pressedSprite;
 					UpdateItems();
 					break;
 			}

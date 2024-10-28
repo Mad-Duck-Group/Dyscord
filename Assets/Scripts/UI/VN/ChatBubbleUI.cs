@@ -24,6 +24,8 @@ namespace Dyscord.UI
 		{
 			speakerName.text = dialogue.speaker;
 			layoutGroup.childAlignment = dialogue.characterPosition == CharacterPosition.Left ? TextAnchor.UpperLeft : TextAnchor.UpperRight;
+			speakerName.alignment = dialogue.characterPosition == CharacterPosition.Left ? TextAlignmentOptions.MidlineLeft : TextAlignmentOptions.MidlineRight;
+			speakerName.horizontalAlignment = dialogue.characterPosition == CharacterPosition.Left ? HorizontalAlignmentOptions.Left : HorizontalAlignmentOptions.Right;
 			text.text = dialogue.msg;
 		}
 		

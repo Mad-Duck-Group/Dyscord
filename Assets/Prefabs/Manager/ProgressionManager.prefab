@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hqVN: {fileID: 11400000, guid: ea69f94bdd3614144b3b1a0ccfc86de9, type: 2}
-  shopVN: {fileID: 0}
-  southStreetVN: {fileID: 0}
+  shopVN: {fileID: 11400000, guid: 85cee607895175243836ee389ae39590, type: 2}
+  southStreetVN: {fileID: 11400000, guid: 67ff7f928380b6f4baa7c113901d0a22, type: 2}
   hqVNPlayed: 0
   shopVNPlayed: 0
   southStreetVNPlayed: 0

@@ -3,12 +3,14 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using DG.Tweening;
 using Dyscord.ScriptableObjects.VN;
 using Dyscord.UI;
 using NaughtyAttributes;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityRandom = UnityEngine.Random;
 
@@ -36,6 +38,7 @@ namespace Dyscord.Managers
 
 	public class VNManager : PersistentMonoSingleton<VNManager>
 	{
+		[SerializeField] private GraphicRaycaster VNraphicRaycaster;
 		[SerializeField] private CanvasGroup vnPanel;
 		[SerializeField] private Image characterLeft;
 		[SerializeField] private Image characterRight;
@@ -46,6 +49,10 @@ namespace Dyscord.Managers
 		[SerializeField] private Button skipButton;
 		[SerializeField] private VNClickableArea clickableArea;
 
+		public delegate void VNFinished(VNPathSO vnPathSO);
+		public static event VNFinished OnVNFinished;
+		
+		private VNPathSO currentVNPath;
 		private List<Dialogue> dialogues = new List<Dialogue>();
 		private List<ChatBubbleUI> chatBubbles = new List<ChatBubbleUI>();
 		private int currentDialogueIndex;
@@ -53,9 +60,21 @@ namespace Dyscord.Managers
 		private Tween panelFadeTween;
 		private Tween fadeTween;
 		private Tween chatBubbleTween;
+		private Tween delayTween;
 		private float originalAlpha;
 		private bool showingHistory;
+		private bool sceneLoaded;
+		private bool playing;
+		private bool firstChatAdded;
+		public bool Playing => playing;
+		
+		private List<GraphicRaycaster> graphicRaycasters = new List<GraphicRaycaster>();
 
+		protected override void Awake()
+		{
+			base.Awake();
+			SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded();
+		}
 		private void Start()
 		{
 			historyButton.onClick.AddListener(() => ToggleHistory(!showingHistory));
@@ -67,11 +86,22 @@ namespace Dyscord.Managers
 			vnPanel.gameObject.SetActive(false);
 		}
 
+		private void OnSceneLoaded()
+		{
+			sceneLoaded = true;
+			if (playing && !firstChatAdded)
+			{
+				delayTween = DOVirtual.DelayedCall(1f, () => StartCoroutine(AddChatBubble(dialogues[currentDialogueIndex])));
+				firstChatAdded = true;
+			}
+		}
+
 		public void NextChatBubble()
 		{
 			if (panelFadeTween.IsActive()) return;
 			if (showingHistory) return;
 			if (chatBubbleTween.IsActive()) return;
+			if (!firstChatAdded) return;
 			if (currentDialogueIndex >= dialogues.Count)
 			{
 				CloseVN();
@@ -91,6 +121,7 @@ namespace Dyscord.Managers
 			chatBubble.transform.localScale = Vector3.zero;
 			LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);
 			yield return new WaitForEndOfFrame();
+			LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);
 			chatBubbleTween = chatBubble.transform.DOScale(Vector3.one, 0.2f);
 			Color gray = new Color(0.5f, 0.5f, 0.5f);
 			Color white = Color.white;
@@ -100,6 +131,7 @@ namespace Dyscord.Managers
 			characterLeft.DOColor(leftColor, 0.2f);
 			characterRight.DOColor(rightColor, 0.2f);
 			currentDialogueIndex++;
+			GlobalSoundManager.Instance.PlayBubbleSFX();
 			FadeBubble();
 		}
 
@@ -149,34 +181,88 @@ namespace Dyscord.Managers
 		public void ShowVN(VNPathSO vnPathSO)
 		{
 			if (panelFadeTween.IsActive()) return;
-			if (string.IsNullOrEmpty(vnPathSO.FilePath)) return;
-			string[] lines = File.ReadAllLines(vnPathSO.FilePath);
+			OnFailToLoadDialogueFile += () => Debug.LogError("Failed to load dialogue file");
+			OnSuccessToLoadDialogueFile += OnSuccess;
+			StartCoroutine(LoadDialogueFile(vnPathSO));
+		}
+
+		private void OnSuccess()
+		{
+			vnPanel.gameObject.SetActive(true);
+			vnPanel.alpha = 0;
+			panelFadeTween = vnPanel.DOFade(1f, 0.2f);
+			characterLeft.sprite = currentVNPath.CharacterLeft;
+			characterRight.sprite = currentVNPath.CharacterRight;
+			playing = true;
+			if (sceneLoaded && !firstChatAdded)
+			{
+				delayTween = DOVirtual.DelayedCall(1f, () => StartCoroutine(AddChatBubble(dialogues[currentDialogueIndex])));
+				firstChatAdded = true;
+			}
+			//Find all graphics raycaster and disable them except the VN graphic raycaster
+			graphicRaycasters = FindObjectsOfType<GraphicRaycaster>().ToList();
+			foreach (var graphicRaycaster in graphicRaycasters)
+			{
+				graphicRaycaster.enabled = graphicRaycaster == VNraphicRaycaster;
+			}
+		}
+
+		private delegate void FailToLoadDialogueFile();
+		private static event FailToLoadDialogueFile OnFailToLoadDialogueFile;
+		
+		private delegate void SuccessToLoadDialogueFile();
+		private static event SuccessToLoadDialogueFile OnSuccessToLoadDialogueFile;
+		private IEnumerator LoadDialogueFile(VNPathSO vnPathSO)
+		{
+			if (vnPathSO.TextAsset == null)
+			{
+				OnFailToLoadDialogueFile?.Invoke();
+				yield break;
+			}
+			string[] lines = vnPathSO.TextAsset.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 			dialogues.Clear();
+			if (lines.Length == 0)
+			{
+				OnFailToLoadDialogueFile?.Invoke();
+				yield break;
+			}
 			foreach (var line in lines)
 			{
-				string[] values = line.Split(',');
+				string pattern = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+				string[] values = Regex.Split(line, pattern);
+				values = values.Select(x => x.Trim('"')).ToArray();
 				CharacterPosition position = values[2] == "Left" ? CharacterPosition.Left : CharacterPosition.Right;
 				Dialogue dialogue = new Dialogue(values[0], values[1], position);
 				dialogues.Add(dialogue);
 			}
-			vnPanel.gameObject.SetActive(true);
-			vnPanel.alpha = 0;
-			panelFadeTween = vnPanel.DOFade(1f, 0.2f);
-			characterLeft.sprite = vnPathSO.CharacterLeft;
-			characterRight.sprite = vnPathSO.CharacterRight;
-			DOVirtual.DelayedCall(1f, () => StartCoroutine(AddChatBubble(dialogues[currentDialogueIndex])));
+			currentVNPath = vnPathSO;
+			OnSuccessToLoadDialogueFile?.Invoke();
 		}
-		
+
 		public void CloseVN()
 		{
 			if (panelFadeTween.IsActive()) return;
+			if (delayTween.IsActive())
+				delayTween.Kill();
 			foreach (var bubble in chatBubbles)
 			{
 				Destroy(bubble.gameObject);
 			}
+			Color gray = new Color(0.5f, 0.5f, 0.5f);
+			characterLeft.DOColor(gray, 0.2f);
+			characterRight.DOColor(gray, 0.2f);
 			chatBubbles.Clear();
 			currentDialogueIndex = 0;
+			firstChatAdded = false;
+			playing = false;
 			panelFadeTween = vnPanel.DOFade(0f, 0.2f).OnComplete(() => vnPanel.gameObject.SetActive(false));
+			foreach (var graphicRaycaster in graphicRaycasters)
+			{
+				if (graphicRaycaster)
+					graphicRaycaster.enabled = true;
+			}
+			graphicRaycasters.Clear();
+			OnVNFinished?.Invoke(currentVNPath);
 		}
 	}
 }

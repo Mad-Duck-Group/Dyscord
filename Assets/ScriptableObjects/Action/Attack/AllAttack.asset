@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Deal damage to Hope 500% lol
   playAnimation: 0
   animatorController: {fileID: 0}
+  playSound: 1
   targetSide: 1
   targetType: 4
   maxTargets: 1
@@ -25,6 +26,7 @@ MonoBehaviour:
   damageMultiplier: 1.5
   adjacentPenalty: 0.5
   spamPenalty: 0.1
+  attackSound: {fileID: 8300000, guid: 4becbb9fcb7cbb04d8532f148ef1551d, type: 3}
   references:
     version: 2
     RefIds: []

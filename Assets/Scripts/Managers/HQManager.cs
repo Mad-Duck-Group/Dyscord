@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Microlight.MicroAudio;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -16,13 +18,14 @@ namespace Dyscord.Managers
 	{
 		Null,
 		HQ,
-		Shop,
+		Clinic
 	}
 	public enum SubPanelTypes
 	{
 		Null,
 		Equipment,
 		Mission,
+		Store,
 		Pause
 	}
 	public enum MissionLocations
@@ -35,12 +38,14 @@ namespace Dyscord.Managers
 	public class HQManager : MonoSingleton<HQManager>
 	{
 		[Header("Panels")]
+		[SerializeField] private GraphicRaycaster hqGraphicRaycaster;
 		[SerializeField] private GameObject hqPanel;
-		[SerializeField] private GameObject shopPanel;
+		[SerializeField] private GameObject clinicPanel;
 		[SerializeField] private CanvasGroup equipmentPanel;
 		[SerializeField] private CanvasGroup missionPanel;
+		[SerializeField] private CanvasGroup storePanel;
 		[SerializeField] private CanvasGroup pausePanel;
-		
+
 		[Header("Locations")]
 		[SerializeField] private GameObject southStreet;
 		[SerializeField] private GameObject hectCorp67;
@@ -50,10 +55,13 @@ namespace Dyscord.Managers
 		[SerializeField] private Button closeEquipmentButton;
 		[SerializeField] private Button closeMapButton;
 		[SerializeField] private Button closeMissionButton;
+		[SerializeField] private Button closeStoreButton;
 		[SerializeField] private Button gameplayButton;
 		[SerializeField] private Button[] settingsButtons;
 		[SerializeField] private Button resumeButton;
 		[SerializeField] private Button quitButton;
+		[SerializeField] private Slider masterVolumeSlider;
+		[SerializeField] private Button muteButton;
 		
 		private HQPanelTypes currentPanel = HQPanelTypes.HQ;
 		private SubPanelTypes currentSubPanel;
@@ -61,12 +69,13 @@ namespace Dyscord.Managers
 		private Sequence mainPanelSequence;
 		private Sequence subPanelSequence;
 		private Tween locationTween;
-		private Camera mainCamera;
-		
+		private bool mute;
+		private float beforeMute;
+
 		private void Start()
 		{
 			hqPanel.SetActive(true);
-			shopPanel.SetActive(true);
+			clinicPanel.SetActive(true);
 			equipmentPanel.gameObject.SetActive(false);
 			missionPanel.gameObject.SetActive(false);
 			pausePanel.gameObject.SetActive(false);
@@ -75,6 +84,7 @@ namespace Dyscord.Managers
 			hectCorpRnD.SetActive(false);
 			closeEquipmentButton.onClick.AddListener(() => ChangeSubPanel(SubPanelTypes.Equipment, false));
 			closeMapButton.onClick.AddListener(() => ChangeSubPanel(SubPanelTypes.Mission, false));
+			closeStoreButton.onClick.AddListener(() => ChangeSubPanel(SubPanelTypes.Store, false));
 			closeMissionButton.onClick.AddListener(() => ChangeMissionLocation(currentMissionLocation, false));
 			gameplayButton.onClick.AddListener(() =>
 				SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Additive, false));
@@ -82,8 +92,11 @@ namespace Dyscord.Managers
 			resumeButton.onClick.AddListener(() => ChangeSubPanel(SubPanelTypes.Pause, false));
 			quitButton.onClick.AddListener(() => SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.MainMenu, LoadSceneMode.Additive, false));
 			closeMissionButton.gameObject.SetActive(false);
+			masterVolumeSlider.value = MicroAudio.MasterVolume;
+			masterVolumeSlider.onValueChanged.AddListener(_ => OnMasterVolumeChange());
+			muteButton.onClick.AddListener(ToggleMute);
+			GlobalSoundManager.Instance.PlayBGM(BGMTypes.HQ);
 			ProgressionManager.Instance.PlayVN(VNTypes.HQ);
-			mainCamera = Camera.main;
 		}
 
 		private void Update()
@@ -113,6 +126,7 @@ namespace Dyscord.Managers
 		public void ChangePanel(HQPanelTypes type)
 		{
 			if (mainPanelSequence.IsActive()) return;
+			if (type == HQPanelTypes.Clinic) ProgressionManager.Instance.PlayVN(VNTypes.Shop);
 			int move = type == HQPanelTypes.HQ ? -1 : 1;
 			currentPanel = type;
 			Sequence sequence = DOTween.Sequence();
@@ -120,8 +134,11 @@ namespace Dyscord.Managers
 			//convert ui width to world space
 			float hqPanelsize = hqPanelRect.rect.width * hqPanelRect.lossyScale.x;
 			//move camera according to the panel width
-			sequence.Append(mainCamera.transform.DOMoveX(hqPanelsize * move, 0.25f).SetRelative(true));
+			sequence.Append(Camera.main.transform.DOMoveX(hqPanelsize * move, 0.25f).SetRelative(true));
+			sequence.AppendCallback(() => hqGraphicRaycaster.enabled = true);
 			mainPanelSequence = sequence;
+			hqGraphicRaycaster.enabled = false;
+			GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Swoosh);
 		}
 
 		public void ChangeSubPanel(SubPanelTypes type, bool active)
@@ -133,16 +150,35 @@ namespace Dyscord.Managers
 			switch (type)
 			{
 				case SubPanelTypes.Equipment:
+					if (active) GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Popup);
 					equipmentPanel.gameObject.SetActive(true);
 					equipmentPanel.alpha = active ? 0 : 1;
 					sequence.Append(equipmentPanel.DOFade(alpha, 0.2f));
-					sequence.AppendCallback(() => equipmentPanel.gameObject.SetActive(active));
+					sequence.AppendCallback(() =>
+					{
+						if (!active) TooltipManager.Instance.DestroyTooltip();
+						equipmentPanel.gameObject.SetActive(active);
+					});
+					if (!active) TooltipManager.Instance.DestroyTooltip();
 					break;
 				case SubPanelTypes.Mission:
+					if (!ProgressionManager.Instance.ShopVNPlayed)
+					{
+						GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Unavailable);
+						return;
+					}
+					if (active) GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Popup);
 					missionPanel.gameObject.SetActive(true);
 					missionPanel.alpha = active ? 0 : 1;
 					sequence.Append(missionPanel.DOFade(alpha, 0.2f));
 					sequence.AppendCallback(() => missionPanel.gameObject.SetActive(active));
+					break;
+				case SubPanelTypes.Store:
+					if (active) GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Popup);
+					storePanel.gameObject.SetActive(true);
+					storePanel.alpha = active ? 0 : 1;
+					sequence.Append(storePanel.DOFade(alpha, 0.2f));
+					sequence.AppendCallback(() => storePanel.gameObject.SetActive(active));
 					break;
 				case SubPanelTypes.Pause:
 					pausePanel.gameObject.SetActive(true);
@@ -158,6 +194,7 @@ namespace Dyscord.Managers
 			if (locationTween.IsActive()) return;
 			currentMissionLocation = active ? location : MissionLocations.Null;
 			closeMissionButton.gameObject.SetActive(active);
+			if (active) GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.Popup);
 			switch (location)
 			{
 				case MissionLocations.SouthStreet:
@@ -184,6 +221,32 @@ namespace Dyscord.Managers
 						hectCorpRnD.SetActive(active);
 					});
 					break;
+			}
+		}
+		
+		public void OnMasterVolumeChange()
+		{
+			MicroAudio.MasterVolume = masterVolumeSlider.value;
+			MicroAudio.SaveSettings();
+		}
+
+		public void ToggleMute()
+		{
+			if (mute)
+			{
+				mute = false;
+				MicroAudio.MasterVolume = beforeMute;
+				masterVolumeSlider.gameObject.SetActive(true);
+				masterVolumeSlider.value = beforeMute;
+				muteButton.image.sprite = muteButton.spriteState.pressedSprite;
+			}
+			else
+			{
+				mute = true;
+				beforeMute = MicroAudio.MasterVolume;
+				MicroAudio.MasterVolume = 0;
+				masterVolumeSlider.gameObject.SetActive(false);
+				muteButton.image.sprite = muteButton.spriteState.disabledSprite;
 			}
 		}
 		

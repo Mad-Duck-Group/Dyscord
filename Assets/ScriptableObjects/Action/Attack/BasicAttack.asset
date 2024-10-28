@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: BasicAttack
   m_EditorClassIdentifier: 
   actionName: Basic Attack
+  description: 
+  playAnimation: 0
+  animatorController: {fileID: 0}
+  playSound: 1
   targetSide: 1
   targetType: 1
   maxTargets: 0
   ramCost: 0
-  overtime: {fileID: 11400000, guid: 0e4bb1ad5adb4b946aace5c6d13dac4b, type: 2}
+  overtimeTargetSide: 1
+  overtimeTemplates: []
   damageMultiplier: 1
   adjacentPenalty: 0.5
   spamPenalty: 0.1
+  attackSound: {fileID: 8300000, guid: eae7c3e103e4c9b4c87216d149add9e8, type: 3}
+  references:
+    version: 2
+    RefIds: []

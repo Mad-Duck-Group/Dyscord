@@ -18,9 +18,20 @@ namespace Dyscord.UI.Tooltips
 		private bool pointerOver;
 		private bool tooltipActive;
 		private float tooltipTimer;
-		
+
 		public Object TooltipObject { get; set; }
+
+		private void OnEnable()
+		{
+			TooltipManager.OnTooltipDestroyed += OnTooltipDestroyed;
+		}
 		
+		private void OnDisable()
+		{
+			TooltipManager.OnTooltipDestroyed -= OnTooltipDestroyed;
+			OnTooltipDestroyed();
+		}
+
 		private void Update()
 		{
 			UpdateTooltip();
@@ -56,6 +67,13 @@ namespace Dyscord.UI.Tooltips
 		{
 			if (!tooltipActive) return;
 			TooltipManager.Instance.DestroyTooltip();
+		}
+		
+		private void OnTooltipDestroyed()
+		{
+			pointerOver = false;
+			tooltipActive = false;
+			tooltipTimer = 0;
 		}
 	}
 }

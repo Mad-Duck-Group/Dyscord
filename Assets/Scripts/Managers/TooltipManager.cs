@@ -23,8 +23,10 @@ namespace Dyscord.Managers
 		[SerializeField] private CyberwareSkillTooltipUI cyberwareSkillTooltipUIPrefab;
 		[SerializeField] private Vector3 defaultOffset;
 		
-		private RectTransform currentTooltip;
+		public delegate void TooltipDestroyed();
+		public static event TooltipDestroyed OnTooltipDestroyed;
 		
+		private RectTransform currentTooltip;
 		private Vector3 CurrentMousePosition => Input.mousePosition;
 
 		public void ShowTooltip(Object tooltipObject)
@@ -158,6 +160,7 @@ namespace Dyscord.Managers
 		{
 			if (!currentTooltip) return;
 			Destroy(currentTooltip.gameObject);
+			OnTooltipDestroyed?.Invoke();
 		}
 	}
 }

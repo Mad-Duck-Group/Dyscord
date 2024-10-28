@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd513b2d5fe091842a5e7c373b31da2e, type: 3}
   m_Name: Enemy 2
   m_EditorClassIdentifier: 
+  characterSprite: {fileID: 21300000, guid: ca50be8d2695d2b4aaf5ca5ce835649c, type: 3}
+  hurtSound: {fileID: 8300000, guid: 25f79a66bb9f539408cace4320871c60, type: 3}
+  deathSound: {fileID: 8300000, guid: 25c73fe4258d764479f12157ed45abff, type: 3}
   characterName: Enemy 2
   health: 100
   attack: 40
@@ -30,6 +33,3 @@ MonoBehaviour:
   defaultSkills:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
-  hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
-  cyberwares:
-  - {fileID: 11400000, guid: b884ac7ddf858984fab7b24669aca78e, type: 2}

@@ -44,10 +44,10 @@ namespace UnityCommunity.UnitySingleton
                     instance = FindObjectOfType<T>();
                     if (instance == null)
                     {
-                        GameObject obj = new GameObject();
-                        obj.name = typeof(T).Name;
-                        instance = obj.AddComponent<T>();
-                        instance.OnMonoSingletonCreated();
+                        // GameObject obj = new GameObject();
+                        // obj.name = typeof(T).Name;
+                        // instance = obj.AddComponent<T>();
+                        // instance.OnMonoSingletonCreated();
                     }
                 }
                 return instance;

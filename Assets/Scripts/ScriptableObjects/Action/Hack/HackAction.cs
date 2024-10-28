@@ -6,6 +6,7 @@ using DG.Tweening;
 using Dyscord.Characters;
 using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Cyberware;
+using NaughtyAttributes;
 using Redcode.Extensions;
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
@@ -17,6 +18,9 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 	{
 		[Header("Hack Configs")] 
 		[SerializeField][Min(0)] protected int hackDamage;
+		[SerializeField] protected CyberwareSO[] cyberwares;
+		[SerializeField][ShowIf(nameof(playSound))] protected AudioClip hackCyberSecuritySound;
+		[SerializeField][ShowIf(nameof(playSound))] protected AudioClip hackCyberwareSound;
 		protected override void UseAction()
 		{
 			Character target = _targets.Peek();
@@ -61,12 +65,16 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		{
 			Character target = _targets.Peek();
 			target.ChangeShield(-Mathf.RoundToInt(hackDamage * Owner.HackAccessChip.HackDamageModifier));
+			if (playSound) GlobalSoundManager.Instance.PlayEffectClip(hackCyberSecuritySound);
+			TooltipManager.Instance.DestroyTooltip();
 			EndHack();
 		}
 		protected virtual void HackCyberware(CyberwareSO cyberware)
 		{
 			Character target = _targets.Peek();
 			target.AddOvertime(cyberware.HackedOvertimeTemplates);
+			if (playSound) GlobalSoundManager.Instance.PlayEffectClip(hackCyberwareSound);
+			TooltipManager.Instance.DestroyTooltip();
 			EndHack();
 		}
 

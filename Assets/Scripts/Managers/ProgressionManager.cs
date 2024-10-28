@@ -24,23 +24,39 @@ namespace Dyscord.Managers
 		[SerializeField] private bool shopVNPlayed;
 		[SerializeField] private bool southStreetVNPlayed;
 		
-		public void PlayVN(VNTypes vnType)
+		public bool HQVNPlayed => hqVNPlayed;
+		public bool ShopVNPlayed => shopVNPlayed;
+		public bool SouthStreetVNPlayed => southStreetVNPlayed;
+		
+		public bool PlayVN(VNTypes vnType)
 		{
+			bool played = false;
 			switch (vnType)
 			{
 				case VNTypes.HQ when !hqVNPlayed:
 					VNManager.Instance.ShowVN(hqVN);
 					hqVNPlayed = true;
+					played = true;
 					break;
 				case VNTypes.Shop when !shopVNPlayed:
 					VNManager.Instance.ShowVN(shopVN);
 					shopVNPlayed = true;
+					played = true;
 					break;
 				case VNTypes.SouthStreet when !southStreetVNPlayed:
 					VNManager.Instance.ShowVN(southStreetVN);
 					southStreetVNPlayed = true;
+					played = true;
 					break;
 			}
+			return played;
+		}
+		
+		public void ResetProgression()
+		{
+			hqVNPlayed = false;
+			shopVNPlayed = false;
+			southStreetVNPlayed = false;
 		}
 	}
 }

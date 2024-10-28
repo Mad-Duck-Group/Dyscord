@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LeftArm
   m_EditorClassIdentifier: 
   cyberwareType: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 695f9821f46606a46845a39195d242d1, type: 3}
   cyberwareName: Left Arm
   description: Left Arm
   powerCost: 2

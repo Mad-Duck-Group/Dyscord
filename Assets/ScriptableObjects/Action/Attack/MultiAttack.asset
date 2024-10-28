@@ -13,14 +13,20 @@ MonoBehaviour:
   m_Name: MultiAttack
   m_EditorClassIdentifier: 
   actionName: Multi Attack
+  description: 
+  playAnimation: 0
+  animatorController: {fileID: 0}
+  playSound: 1
   targetSide: 1
   targetType: 3
   maxTargets: 3
   ramCost: 2
+  overtimeTargetSide: 1
   overtimeTemplates: []
   damageMultiplier: 1.5
   adjacentPenalty: 0.5
   spamPenalty: 0.1
+  attackSound: {fileID: 8300000, guid: 14bcf72d7296c7e4193db819fc89780d, type: 3}
   references:
     version: 2
     RefIds: []

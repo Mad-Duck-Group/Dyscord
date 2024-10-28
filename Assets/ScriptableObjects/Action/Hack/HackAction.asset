@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Hack some shitttt
   playAnimation: 0
   animatorController: {fileID: 0}
+  playSound: 1
   targetSide: 1
   targetType: 1
   maxTargets: 1
@@ -23,6 +24,9 @@ MonoBehaviour:
   overtimeTargetSide: 1
   overtimeTemplates: []
   hackDamage: 50
+  cyberwares: []
+  hackCyberSecuritySound: {fileID: 8300000, guid: 1ac404b19ffedd24894da7c05eed4d3d, type: 3}
+  hackCyberwareSound: {fileID: 8300000, guid: 948abfc5a5fec8a448e0d9dbe49d8c21, type: 3}
   references:
     version: 2
     RefIds: []

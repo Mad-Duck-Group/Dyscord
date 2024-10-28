@@ -40,6 +40,7 @@ namespace Dyscord.Managers
 		[SerializeField] private TurnOrderUI turnOrderUIPrefab;
 		[SerializeField] private ScrollRect turnOrderScrollView;
 
+		private bool gameEnded;
 		private Character playerInstance;
 		private List<Character> enemyInstances = new List<Character>();
 		private LinkedList<TurnOrderUI> turnOrderUIs = new LinkedList<TurnOrderUI>();
@@ -52,14 +53,34 @@ namespace Dyscord.Managers
 
 		private void Start()
 		{
+			if (!ProgressionManager.Instance.PlayVN(VNTypes.SouthStreet))
+			{
+				Initialize();
+				return;
+			}
+			VNManager.OnVNFinished += VNManagerOnOnVNFinished();
+		}
+
+		private VNManager.VNFinished VNManagerOnOnVNFinished()
+		{
+			return _ =>
+			{
+				Initialize();
+			};
+		}
+
+		private void Initialize()
+		{
 			InitializeCharacters();
 			Subscribe();
 			PanelManager.Instance.InitializePanel();
 			PanelManager.Instance.InitializeActionUI();
 			InitializeTurnOrder();
-			ManageTurn();
+			GlobalSoundManager.Instance.PlayBGM(BGMTypes.Gameplay);
+			PanelManager.Instance.UpdateButtonUI();
+			DOVirtual.DelayedCall(1.5f, ManageTurn, false);
 		}
-		
+
 		/// <summary>
 		/// Subscribes to character events.
 		/// </summary>
@@ -85,10 +106,12 @@ namespace Dyscord.Managers
 		/// <param name="character">The character that died.</param>
 		private void OnCharacterDeath(Character character)
 		{
+			GlobalSoundManager.Instance.PlayEffectClip(character.CharacterSO.DeathSound);
 			if (character is Player)
 			{
 				RemoveTurnOrder(character);
-				Debug.Log("Player died");
+				gameEnded = true;
+				PanelManager.Instance.ShowLosePanel();
 			}
 			else
 			{
@@ -96,9 +119,11 @@ namespace Dyscord.Managers
 				PanelManager.Instance.SetStatsText(PlayerInstance);
 				if (enemyInstances.Count == 0)
 				{
-					Debug.Log("Player won");
+					gameEnded = true;
+					PanelManager.Instance.ShowWinPanel();
 				}
 			}
+			
 		}
 
 		/// <summary>
@@ -166,7 +191,8 @@ namespace Dyscord.Managers
 		private void RemoveTurnOrder(Character character)
 		{
 			character.OnCharacterDeath -= OnCharacterDeath;
-			character.gameObject.SetActive(false);
+			if (character != playerInstance)
+				character.gameObject.SetActive(false);
 			TurnOrderUI toRemove = turnOrderUIs.First(node => node.TurnOrder.character == character);
 			enemyInstances.Remove(character);
 			turnOrderUIs.Remove(toRemove);
@@ -192,20 +218,17 @@ namespace Dyscord.Managers
 		/// </summary>
 		private void ManageTurn()
 		{
-			//UpdateButtonUI();
+			if (gameEnded) return;
+			//UpdateButtonUI(); 
 			CurrentTurnOrder.character.UpdateOvertime();
-			DOVirtual.DelayedCall(1f, () => CurrentTurnOrder.character.RegenRam());
-			if (CurrentTurnOrder.character is Player)
-			{
-				
-			}
-			else
+			DOVirtual.DelayedCall(1f, () => CurrentTurnOrder.character.RegenRam(), false);
+			if (CurrentTurnOrder.character is not Player)
 			{
 				PanelManager.Instance.UpdateButtonUI();
 				DOVirtual.DelayedCall(1.5f, () =>
 				{
 					CurrentTurnOrder.character.AIPlay();
-				});
+				}, false);
 			}
 		}
 		
@@ -227,5 +250,10 @@ namespace Dyscord.Managers
 			ManageTurn();
 		}
 
+		private void OnDestroy()
+		{
+			VNManager.OnVNFinished -= VNManagerOnOnVNFinished();
+			DOTween.Kill(this);
+		}
 	}
 }

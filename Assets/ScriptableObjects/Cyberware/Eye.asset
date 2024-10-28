@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Eye
   m_EditorClassIdentifier: 
   cyberwareType: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5e8798d3117e1e94ca5a010c1bf76020, type: 3}
   cyberwareName: Eye
   description: Eye
   powerCost: 1

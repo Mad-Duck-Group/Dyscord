@@ -297,6 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 575442273508186281}
   - component: {fileID: 575442273508186280}
+  - component: {fileID: 1642958820974035774}
   m_Layer: 0
   m_Name: MicroAudio
   m_TagString: Untagged
@@ -342,7 +343,7 @@ MonoBehaviour:
   _uiMixerGroup: {fileID: -1400336324306365208, guid: add55b5b493741842be8b1d64a9c0930, type: 2}
   musicAudioSource1: {fileID: 575442272619672953}
   musicAudioSource2: {fileID: 2941240202850099569}
-  crossfadeTime: 0
+  crossfadeTime: 1
   maxSoundsSources: 40
   maxInstancesOfSameClip: 8
   soundsContainer: {fileID: 575442272022558046}
@@ -354,3 +355,26 @@ MonoBehaviour:
   _infinityDebug: 0
   _delayDebug: 0
   _fadeDebug: 0
+--- !u!114 &1642958820974035774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575442273508186282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453abc212b7ca1e489ee5fc94671d89b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmGroup: {fileID: 11400000, guid: 5dca474304d06454a9c6efbb332eaa38, type: 2}
+  bubbleSFX: {fileID: 8300000, guid: 37f785a687f5b0c46b53b5f26ad5c13d, type: 3}
+  cancelSFX: {fileID: 8300000, guid: 9850a65b276ed4d498470ac6aa00ce36, type: 3}
+  hardMouseClickSFX: {fileID: 8300000, guid: 369ef31b9b7e7ca449ae12276175c3ca, type: 3}
+  hardMouseHoverSFX: {fileID: 8300000, guid: 706205f375a40534387b911f1ea58187, type: 3}
+  softMouseClickSFX: {fileID: 8300000, guid: eaebcf9cbf5b0cf428821433b5a09db5, type: 3}
+  softMouseHoverSFX: {fileID: 8300000, guid: bacbd88c104a1bf4cae778f8320c146d, type: 3}
+  popupSFX: {fileID: 8300000, guid: ec0c82b9c11659c4cb2eb6832d187994, type: 3}
+  swooshSFX: {fileID: 8300000, guid: f48fbc7b19d8ec84a80e506888432c08, type: 3}
+  pressAnyKeySFX: {fileID: 8300000, guid: f1b3f9a433c961347a2d85e710b89e87, type: 3}
+  unavailableSFX: {fileID: 8300000, guid: 0c31e7ba9cdf4744aa20355828e3599b, type: 3}

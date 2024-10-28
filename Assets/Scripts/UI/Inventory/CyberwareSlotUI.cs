@@ -12,15 +12,28 @@ namespace Dyscord.UI
 {
 	public class CyberwareSlotUI : MonoBehaviour
 	{
+		[SerializeField] private bool disabled;
 		[SerializeField] private string id;
 		[SerializeField] private CyberwareTypes cyberwareType;
+		[SerializeField] private Sprite emptySprite;
+		[SerializeField] private Sprite occupiedSprite;
+		[SerializeField] private Sprite disabledSprite;
+		
+		private Image image;
 		
 		private bool isOccupied;
 		
 		public string Id => id;
+		private void Awake()
+		{
+			image = GetComponent<Image>();
+			image.sprite = disabled ? disabledSprite : emptySprite;
+		}
 		
 		public bool AssignCyberware(CyberwareSO cyberware)
 		{
+			if (disabled)
+				return false;
 			if (isOccupied)
 				return false;
 			if (cyberware.CyberwareType != cyberwareType)
@@ -29,12 +42,14 @@ namespace Dyscord.UI
 				return false;
 			InventoryManager.Instance.RemoveCyberware(cyberware);
 			isOccupied = true;
+			image.sprite = occupiedSprite;
 			return true;
 		}
 		
 		public void RemoveCyberware()
 		{
 			isOccupied = false;
+			image.sprite = emptySprite;
 		}
 	}
 }

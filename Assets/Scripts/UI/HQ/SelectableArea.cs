@@ -40,6 +40,7 @@ namespace Dyscord.UI
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			if (eventData.button != PointerEventData.InputButton.Left) return;
+			GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.SoftMouseClick);
 			switch (selectableType)
 			{
 				case SelectableTypes.MissionLocation:
@@ -59,6 +60,7 @@ namespace Dyscord.UI
 			if (scaleTween.IsActive())
 				scaleTween.Kill();
 			scaleTween = decorationImage.transform.DOScale(scaleMultiplier, scaleDuration);
+			GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.SoftMouseHover);
 		}
 
 		public void OnPointerExit(PointerEventData eventData)

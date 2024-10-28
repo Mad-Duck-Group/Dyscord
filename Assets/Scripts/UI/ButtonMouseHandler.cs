@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Dyscord.Managers;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -34,8 +35,8 @@ public class ButtonMouseHandler : MonoBehaviour, IPointerEnterHandler, IPointerC
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!_button.interactable) return;
-        // if (playPointSound)
-        //     SoundManager.Instance.PlaySoundFX(SoundFXTypes.MousePointButton, out _);
+        if (playPointSound)
+            GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.HardMouseHover);
         if (bumpButton)
         {
             if (_mouseHoverTween.IsActive()) _mouseHoverTween.Kill();
@@ -45,7 +46,7 @@ public class ButtonMouseHandler : MonoBehaviour, IPointerEnterHandler, IPointerC
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!_button.interactable) return;
+        //if (!_button.interactable) return;
         if (bumpButton)
         {
             if (_mouseHoverTween.IsActive()) _mouseHoverTween.Kill();
@@ -56,9 +57,14 @@ public class ButtonMouseHandler : MonoBehaviour, IPointerEnterHandler, IPointerC
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button is not PointerEventData.InputButton.Left) return;
-        if (!_button.interactable) return;
-        // if (playClickSound)
-        //     SoundManager.Instance.PlaySoundFX(SoundFXTypes.MouseClickButton, out _);
+        //if (!_button.interactable) return;
+        if (playClickSound)
+        {
+            GlobalSoundManager.Instance.PlayUISFX(_button.interactable
+                ? UISFXTypes.HardMouseClick
+                : UISFXTypes.Unavailable);
+        }
+       
     }
 }
 

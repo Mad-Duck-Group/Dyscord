@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -168,8 +168,8 @@ MonoBehaviour:
     y: 0
     width: 856
     height: 482
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 5}
   m_Panes:
   - {fileID: 5}
@@ -605,14 +605,14 @@ MonoBehaviour:
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 0
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 16.786133, y: 4.569937, z: 50.988647}
+    m_Target: {x: 8.762622, y: 4.849076, z: 521.5796}
     speed: 2
-    m_Value: {x: 16.786133, y: 4.569937, z: 50.988647}
+    m_Value: {x: 8.762622, y: 4.849076, z: 521.5796}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -658,17 +658,17 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.1307877, y: 0.19552973, z: -0.026320627, w: -0.9715726}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.13078879, y: 0.19553135, z: -0.026320847, w: -0.9715807}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 11.685863
+    m_Target: 0.8708704
     speed: 2
-    m_Value: 11.685863
+    m_Value: 0.8708704
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_CameraSettings:
     m_Speed: 1
     m_SpeedNormalized: 0.5
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 124350
+  controlID: 195509
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -873,9 +873,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ec7c0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 2033faffde53faff0254faff345afaffda89faff8ad1faff1605fbff02b0fbffe4b9fbffaac7fbffaad6fbff6ad7fbffac11fcff80a3fcff12b3fcff60b5fcff2ebafcff48bbfcffe8bbfcff5ec4fcff3af1fcff4cf1fcff2ef2fcff3c24feff4624feff7847feff8247fefface5feff54f6feff5af6feff20fefeff26fefeff7424fffffc28ffff1629ffff2a29ffff462cffff2e89ffffcaa6ffffe0b6ffff62b9ffff36bcffff4cd9ffff5aecffffc0fafffff4ffffff167b0000187c0000e07c000038390100fc5e0100626001001af801001ef80100c8f8010028f90100a80e0200ac0e0200580f0200802a03000e4f0300
+      m_ExpandedIDs: 9c8df5ffc8daf5ffbc01f6ff200ef6ffa68af6ff20a5f6ff96aff6ffe4d0f6ff02d7f6ff22d7f6ff44dbf6ff74dcf6ff9addf7ff3e26f8ff1a80faffca82faffdcc0fafff6c3faffc4e3faffdef2faff3ef4faff8213fbff564cfbff06c2fbff0acefcffb0cefcff06d3fcff5ed4fcff7ed4fcffc8d4fcff046bfdff0e6bfdff186bfdff266bfdff326bfdff666bfdffe077fdff0891fdff4a92fdffceb6fdff96b8fdff38d2fdff5cedfdffecf8fdff2054feff2a54feff3454feff4254feff4e54feffa454fefff60cffff2e44ffffd846ffff705affff565bffffaa61ffff2a76ffff667bffff0cc4ffff7cc6ffffe4f5ffff08f6ffff1afbfffff4ffffff02290100ec2901001e2a0100f09d0100829e0100229f0100389f01004a9f0100b09f01005c6a0200926a0200a26a0200ac6a0200c86a02001a6b02006a6b0200826b02009a6b0200c06b0200de6b0200e46b0200106c0200c86c0200d86c0200e66c0200086d0200126d0200166d02003a6d0200566d02007c6d02008c6d0200f66d0200526e0200686e02008e6e0200dcc70300e8c70300f2c703001ec803006cc80300b8c80300c2c80300ccc80300fec803001ec9030022c903004cc903005ac903007ac90300dc0f04000e120400601504006e300400
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -891,7 +891,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 9}
+        m_ClientGUIView: {fileID: 4}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -971,7 +971,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Characters/Player
+    - Assets/ScriptableObjects/Character/Player
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -979,16 +979,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Characters/Player
+  - Assets/ScriptableObjects/Character/Player
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\thesi\OneDrive\Desktop\Dyscord
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 261}
-    m_SelectedIDs: 30800000
-    m_LastClickedID: 32816
-    m_ExpandedIDs: 00000000bc7f0000be7f0000c07f0000c27f0000c47f0000c67f0000c87f0000ca7f0000cc7f0000ce7f0000d07f0000d27f0000d47f0000d67f0000d87f0000da7f0000dc7f0000de7f0000e07f0000e27f0000e47f00001e800000c8f40100cef40100a27c0200a47c020000ca9a3b
+    scrollPos: {x: 0, y: 533}
+    m_SelectedIDs: b8800000
+    m_LastClickedID: 32952
+    m_ExpandedIDs: 000000004480000046800000488000004a8000004c8000004e80000050800000528000005480000056800000588000005a8000005c8000005e80000060800000628000006480000066800000688000006a8000006c8000006e800000748000007680000094800000e480000032870200368702003a8702003e8702003ccb030000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1016,7 +1016,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000bc7f0000be7f0000c07f0000c27f0000c47f0000c67f0000c87f0000ca7f0000cc7f0000ce7f0000d07f0000d27f0000d47f0000d67f0000d87f0000da7f0000dc7f0000de7f0000e07f0000e27f0000e47f00001e800000a27c0200a47c020000ca9a3b
+    m_ExpandedIDs: 000000004480000046800000488000004a8000004e80000050800000528000005480000056800000588000005a8000005c8000005e80000060800000628000006480000066800000688000006a8000006c8000006e800000748000007680000094800000e480000032870200368702003a8702003e87020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1041,10 +1041,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: ec7c0000
-    m_LastClickedInstanceID: 31980
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: b0420100d0d60000f0ec01004a690200f86a0100acdbfeff40d1feff62590100e0710000da820000b2820000e87400002a7200004ac6000000000000
+    m_ExpandedInstanceIDs: b0420100d0d60000f0ec01004a690200f86a0100acdbfeff40d1feff62590100e0710000da820000b2820000e87400002a7200004ac6000000000000f4870200cc87020050860000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: -325
+    m_CachedPref: 196
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1

@@ -9,7 +9,6 @@ using Dyscord.ScriptableObjects.Overtime;
 using NaughtyAttributes;
 using Redcode.Extensions;
 using SerializeReferenceEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
 
@@ -40,7 +39,8 @@ namespace Dyscord.ScriptableObjects.Action
 		[SerializeField] protected string actionName;
 		[SerializeField] protected string description;
 		[SerializeField] protected bool playAnimation;
-		[SerializeField][ShowIf(nameof(playAnimation))] protected AnimatorController animatorController;
+		[SerializeField][ShowIf(nameof(playAnimation))] protected AnimatorOverrideController animatorController;
+		[SerializeField] protected bool playSound;
 		[SerializeField] protected TargetSides targetSide = TargetSides.Other;
 		[SerializeField][ValidateInput(nameof(ValidateTargetType), "Hack Action can only target single target")] 
 		protected TargetTypes targetType;
@@ -52,7 +52,7 @@ namespace Dyscord.ScriptableObjects.Action
 		protected Stack<Character> _targets = new Stack<Character>();
 		public string ActionName => actionName;
 		public string Description => description;
-		public AnimatorController AnimatorController => animatorController;
+		public AnimatorOverrideController AnimatorController => animatorController;
 		public TargetSides TargetSide => targetSide;
 		public TargetTypes TargetType => targetType;
 		public int MaxTargets => maxTargets;

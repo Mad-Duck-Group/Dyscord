@@ -17,6 +17,7 @@ using SerializeReferenceEditor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.Characters
@@ -50,6 +51,7 @@ namespace Dyscord.Characters
 		[SerializeField][NaughtyAttributes.ReadOnly] protected int currentRamRegen;
 		[SerializeField][NaughtyAttributes.ReadOnly] protected CharacterActionSO currentAction;
 			
+		protected Image characterImage;
 		protected List<CharacterActionSO> defaultAttacks = new List<CharacterActionSO>();
 		protected List<CharacterActionSO> defaultSkills = new List<CharacterActionSO>();
 		protected CharacterActionSO hackAction;
@@ -113,6 +115,12 @@ namespace Dyscord.Characters
 			.ToList();
 
 
+		private void Awake()
+		{
+			characterImage = GetComponentInChildren<Image>();
+			infoText.text = "";
+		}
+
 		public void InitializeCharacter(bool fromInventory = false)
 		{
 			_fromInventory = fromInventory;
@@ -137,7 +145,8 @@ namespace Dyscord.Characters
 			currentSpeed = characterSO.Speed;
 			currentRam = characterSO.Ram;
 			currentRamRegen = characterSO.RamRegen;
-			UpdateInfoText();
+			characterImage.sprite = characterSO.CharacterSprite;
+			//UpdateInfoText();
 		}
 		
 		/// <summary>
@@ -205,8 +214,9 @@ namespace Dyscord.Characters
 		/// <param name="attackAction">The attack action to be used</param>
 		public virtual void Attack(AttackAction attackAction)
 		{
-			infoText.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
-    
+			//infoText.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+			characterImage.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo);
+
 			// Call the combined damage calculation method
 			List<int> rawDamage = CalculateRawDamage(attackAction);
 			List<int> damageFromType = CalculateDamageType(attackAction, rawDamage);
@@ -331,8 +341,8 @@ namespace Dyscord.Characters
 			}
 			if (_finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
-			PanelManager.Instance.UpdateStatsText(this);
-			UpdateInfoText();
+			if (!_fromInventory && PanelManager.Instance) PanelManager.Instance.UpdateStatsText(this);
+			//UpdateInfoText();
 		}
 
 		/// <summary>
@@ -349,12 +359,14 @@ namespace Dyscord.Characters
 			}
 			if (value < 0)
 			{
-				infoText.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
+				//infoText.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
+				characterImage.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
 			}
 			if (_finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
-			PanelManager.Instance.UpdateStatsText(this);
-			UpdateInfoText();
+			if (!_fromInventory && PanelManager.Instance) PanelManager.Instance.UpdateStatsText(this);
+			if (value < 0) GlobalSoundManager.Instance.PlayEffectClip(characterSO.HurtSound);
+			//UpdateInfoText();
 		}
 		
 		/// <summary>
@@ -367,10 +379,13 @@ namespace Dyscord.Characters
 			if (amount != 0 && _finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, amount.ToString(), DynamicTextManager.ramData);
 			currentRam = Mathf.Clamp(currentRam, 0, characterSO.Ram);
-			PanelManager.Instance.UpdateRamSlotUI(this);
-			PanelManager.Instance.UpdateStatsText(this);
-			PanelManager.Instance.UpdateButtonUI();
-			UpdateInfoText();
+			if (!_fromInventory && PanelManager.Instance)
+			{
+				PanelManager.Instance.UpdateRamSlotUI(this);
+				PanelManager.Instance.UpdateStatsText(this);
+				PanelManager.Instance.UpdateButtonUI();
+			}
+			//UpdateInfoText();
 		}
 		
 		/// <summary>
@@ -549,8 +564,8 @@ namespace Dyscord.Characters
 			currentSpeed = (int)statMap[TemporalStatTypes.Speed].clampFunc(statMap[TemporalStatTypes.Speed].currentValue);
 			//currentRam = (int)statMap[StatTypes.Ram].clampFunc(statMap[StatTypes.Ram].currentValue);
 			currentRamRegen = (int)statMap[TemporalStatTypes.RamRegen].clampFunc(statMap[TemporalStatTypes.RamRegen].currentValue);
-			if (!_fromInventory) PanelManager.Instance.UpdateStatsText(this);
-			UpdateInfoText();
+			if (!_fromInventory && PanelManager.Instance) PanelManager.Instance.UpdateStatsText(this);
+			//UpdateInfoText();
 		}
 
 		protected virtual void PermanentStatHandler(List<OvertimeEffect> permanent)
@@ -590,8 +605,8 @@ namespace Dyscord.Characters
 			int ramDifference = (int)statMap[PermanentStatTypes.Ram].currentValue - currentRam;
 			ChangeRam(ramDifference, ramDifference != 0);
 			//currentRam = (int)statMap[PermanentStatTypes.Ram].clampFunc(statMap[PermanentStatTypes.Ram].currentValue);
-			if (!_fromInventory) PanelManager.Instance.UpdateStatsText(this);
-			UpdateInfoText();
+			if (!_fromInventory && PanelManager.Instance) PanelManager.Instance.UpdateStatsText(this);
+			//UpdateInfoText();
 		}
 
 		protected virtual float CalculateStatOperator(OvertimeEffect overtimeEffect, float value)
@@ -608,17 +623,17 @@ namespace Dyscord.Characters
 			return value;
 		}
 
-		/// <summary>
-		/// Update the info text of the current stats.
-		/// </summary>
-		protected void UpdateInfoText()
-		{
-			infoText.text = $"{characterSO.CharacterName}\n" +
-			                $"HP: {currentHealth}\n" +
-			                $"ATK: {currentAttack}\n" +
-			                $"DEF: {currentDefense}\n" +
-			                $"SPD: {currentSpeed}\n" +
-			                $"RAM: {currentRam}";
-		}
+		// /// <summary>
+		// /// Update the info text of the current stats.
+		// /// </summary>
+		// protected void UpdateInfoText()
+		// {
+		// 	infoText.text = $"{characterSO.CharacterName}\n" +
+		// 	                $"HP: {currentHealth}\n" +
+		// 	                $"ATK: {currentAttack}\n" +
+		// 	                $"DEF: {currentDefense}\n" +
+		// 	                $"SPD: {currentSpeed}\n" +
+		// 	                $"RAM: {currentRam}";
+		// }
 	}
 }

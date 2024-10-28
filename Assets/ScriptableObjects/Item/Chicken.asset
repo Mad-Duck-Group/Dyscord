@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa08e15a8a1aec489a5ff4f0f3ebd76, type: 3}
   m_Name: Chicken
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 91d79ecd06200294db807d7d24966984, type: 3}
   itemName: Chicken
   description: Chicken
   overtimeTemplates:
@@ -23,7 +23,9 @@ MonoBehaviour:
     - rid: 7850491581119594496
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
+        icon: {fileID: 0}
         overtimeName: Increase Ram
+        description: 
         infinite: 0
         duration: 0
         effects:
