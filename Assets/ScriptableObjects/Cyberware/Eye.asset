@@ -22,8 +22,7 @@ MonoBehaviour:
   attacks:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   skills: []
-  overtimeTemplates:
-  - rid: 7850491545257771008
+  overtimeTemplates: []
   hackedOvertimeTemplates:
   - rid: 7850491466383097879
   references:
@@ -32,8 +31,8 @@ MonoBehaviour:
     - rid: 7850491466383097879
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
-        icon: {fileID: 0}
-        overtimeName: Reduce Hit Chance
+        icon: {fileID: 21300000, guid: 077d2ffff1c5a5a4cb407990dc72885d, type: 3}
+        overtimeName: Reduce Hit Rate
         description: 
         infinite: 0
         duration: 2
@@ -43,17 +42,3 @@ MonoBehaviour:
           permanentStatType: 0
           operatorType: 1
           value: -0.3
-    - rid: 7850491545257771008
-      type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
-      data:
-        icon: {fileID: 0}
-        overtimeName: Increase ATK
-        description: 
-        infinite: 1
-        duration: 0
-        effects:
-        - permanent: 0
-          temporalStatType: 0
-          permanentStatType: 0
-          operatorType: 1
-          value: 10

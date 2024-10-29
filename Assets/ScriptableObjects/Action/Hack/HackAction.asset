@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Hack
   description: Hack some shitttt
-  playAnimation: 0
-  animatorController: {fileID: 0}
+  playAnimation: 1
+  playerAnimationSize: 0.33
+  animatorController: {fileID: 22100000, guid: 5a8727e6ab960c048b331ead80b703e3, type: 2}
   playSound: 1
   targetSide: 1
   targetType: 1
@@ -27,6 +28,7 @@ MonoBehaviour:
   cyberwares: []
   hackCyberSecuritySound: {fileID: 8300000, guid: 1ac404b19ffedd24894da7c05eed4d3d, type: 3}
   hackCyberwareSound: {fileID: 8300000, guid: 948abfc5a5fec8a448e0d9dbe49d8c21, type: 3}
+  hackCyberwareAnimatorController: {fileID: 22100000, guid: f75e753d8fb35e6419ef189c3b30658e, type: 2}
   references:
     version: 2
     RefIds: []

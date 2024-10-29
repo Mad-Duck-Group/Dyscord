@@ -15,6 +15,7 @@ namespace Dyscord.Managers
 	{
 		[SerializeField] private Image logo;
 		[SerializeField] private Image pressAnyKey;
+		private bool started;
 		private Tween logoTween;
 		private Tween pressAnyKeyTween;
 
@@ -43,8 +44,10 @@ namespace Dyscord.Managers
 		
 		private void Update()
 		{
+			if (started) return;
 			if (Input.anyKeyDown)
 			{
+				started = true;
 				GlobalSoundManager.Instance.PlayUISFX(UISFXTypes.PressAnyKey);
 				SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.HQ, LoadSceneMode.Additive, false);
 			}

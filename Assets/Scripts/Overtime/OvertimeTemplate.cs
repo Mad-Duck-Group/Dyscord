@@ -73,6 +73,8 @@ namespace Dyscord.ScriptableObjects.Overtime
 			character.AddOvertimeEffect(this, effects);
 			owner = character;
 			owner.CalculatePermanentEffect();
+			if (duration == 0)
+				RemoveOvertime();
 		}
 		
 		public virtual void IncreaseTurnCount()

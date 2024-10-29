@@ -362,6 +362,7 @@ namespace Dyscord.Managers
 				overtimeTemplateUI.Setup(overtime);
 				overtimeTemplateUIs.Add(overtimeTemplateUI);
 			}
+			TooltipManager.Instance.DestroyTooltip();
 		}
 		
 		public void UpdateRamSlotUI(Character character)
@@ -464,7 +465,7 @@ namespace Dyscord.Managers
 		private void SetButtonInteractable(Button button, bool interactable)
 		{
 			DOVirtual.DelayedCall(0.1f, () => button.interactable = interactable);
-			button.image.sprite = interactable ? button.spriteState.pressedSprite : button.spriteState.disabledSprite;
+			//button.image.sprite = interactable ? button.spriteState.pressedSprite : button.spriteState.disabledSprite;
 		}
 		
 		private void Update()

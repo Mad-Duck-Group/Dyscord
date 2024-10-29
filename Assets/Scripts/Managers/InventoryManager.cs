@@ -8,6 +8,7 @@ using Dyscord.ScriptableObjects.Item;
 using Dyscord.ScriptableObjects.Overtime;
 using Dyscord.UI;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,11 @@ namespace Dyscord.Managers
 	{
 		public ItemSO item;
 		[Min(0)] public int amount;
+
+		public ItemList Clone()
+		{
+			return (ItemList)MemberwiseClone(); // Shallow copy
+		}
 	}
 	public class InventoryManager : PersistentMonoSingleton<InventoryManager>
 	{
@@ -30,6 +36,10 @@ namespace Dyscord.Managers
 		[SerializeField][ReadOnly] private List<CyberwareSO> equippedCyberware = new List<CyberwareSO>();
 		
 		private Dictionary<CyberwareSO, string> equippedCyberwareDictionary = new Dictionary<CyberwareSO, string>();
+		
+		private List<ItemList> originalItemList = new List<ItemList>();
+		private List<CyberwareSO> originalCyberwareList = new List<CyberwareSO>();
+		private List<CyberwareSO> originalEquippedCyberware = new List<CyberwareSO>();
 		public int MaxCyberwareSlots => maxCyberwareSlots;
 		public int MaxItemSlots => maxItemSlots;
 		public List<ItemList> ItemList => itemList;
@@ -43,7 +53,16 @@ namespace Dyscord.Managers
 		
 		public delegate void EquippedCyberwareUpdated();
 		public static EquippedCyberwareUpdated OnEquippedCyberwareUpdated;
-		
+
+		private void Start()
+		{
+			foreach (var item in itemList)
+			{
+				originalItemList.Add(item.Clone());
+			}
+			originalCyberwareList = new List<CyberwareSO>(cyberwareList);
+			originalEquippedCyberware = new List<CyberwareSO>(equippedCyberware);
+		}
 		public void AddItem(ItemSO item, int amount)
 		{
 			if (itemList.Any(i => i.item == item))
@@ -127,17 +146,17 @@ namespace Dyscord.Managers
 			OnEquippedCyberwareUpdated?.Invoke();
 			equippedCyberwareDictionary.Remove(cyberware);
 		}
-		
-		[Button("Gameplay")]
-		private void GoToGameplay()
+
+		public void ResetInventory()
 		{
-			SceneManager.LoadScene("Gameplay");
-		}
-		
-		[Button("Go to HQ")]
-		private void GoToHQ()
-		{
-			SceneManager.LoadScene("HQ");
+			itemList.Clear();
+			foreach (var item in originalItemList)
+			{
+				itemList.Add(item.Clone());
+			}
+			cyberwareList = new List<CyberwareSO>(originalCyberwareList);
+			equippedCyberware = new List<CyberwareSO>(originalEquippedCyberware);
+			equippedCyberwareDictionary.Clear();
 		}
 	} 
 }

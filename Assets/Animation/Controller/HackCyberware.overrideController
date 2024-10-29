@@ -6,6 +6,8 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX2
+  m_Name: HackCyberware
   m_Controller: {fileID: 9100000, guid: 47a2303be1b9bde47bd43b47249bc56e, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: b6c446524bf115949a6c803f635c8355, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: decc4ad13a969f24c9267836f2cc2eb0, type: 2}

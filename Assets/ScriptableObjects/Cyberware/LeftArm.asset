@@ -32,7 +32,7 @@ MonoBehaviour:
     - rid: 7850491466383097882
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
-        icon: {fileID: 0}
+        icon: {fileID: 21300000, guid: 1399726b6e0c02947b17c2d39b44e26f, type: 3}
         overtimeName: Reduce Speed
         description: 
         infinite: 0

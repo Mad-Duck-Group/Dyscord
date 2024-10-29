@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trax's Child 1
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 21300000, guid: ca50be8d2695d2b4aaf5ca5ce835649c, type: 3}
-  characterThumbnail: {fileID: 21300000, guid: 2c2e736ceb11f6c4d935e30cbfe14361, type: 3}
+  characterThumbnail: {fileID: 21300000, guid: 680d4230cfbbbb24baa650b18ce024d8, type: 3}
   hurtSound: {fileID: 8300000, guid: 25f79a66bb9f539408cace4320871c60, type: 3}
   deathSound: {fileID: 8300000, guid: 25c73fe4258d764479f12157ed45abff, type: 3}
   characterName: Trax's Child 1
@@ -42,7 +42,7 @@ MonoBehaviour:
     - rid: 7850491694547992580
       type: {class: DelayedOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
-        icon: {fileID: 0}
+        icon: {fileID: 21300000, guid: 0705045786d6a794b8f234864227f111, type: 3}
         overtimeName: Cybersecurity Reboot
         description: 
         infinite: 0

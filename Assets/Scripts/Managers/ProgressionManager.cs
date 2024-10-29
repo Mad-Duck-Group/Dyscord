@@ -57,6 +57,7 @@ namespace Dyscord.Managers
 			hqVNPlayed = false;
 			shopVNPlayed = false;
 			southStreetVNPlayed = false;
+			InventoryManager.Instance.ResetInventory();
 		}
 	}
 }

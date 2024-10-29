@@ -42,6 +42,7 @@ namespace Dyscord.Managers
 		[SerializeField] private CanvasGroup vnPanel;
 		[SerializeField] private Image characterLeft;
 		[SerializeField] private Image characterRight;
+		[SerializeField] private Image background;
 		[SerializeField] private ChatBubbleUI chatBubbleUIPrefab;
 		[SerializeField] private ScrollRect chatScrollRect;
 		[SerializeField] private LayoutGroup contentLayoutGroup;
@@ -56,6 +57,7 @@ namespace Dyscord.Managers
 		private List<Dialogue> dialogues = new List<Dialogue>();
 		private List<ChatBubbleUI> chatBubbles = new List<ChatBubbleUI>();
 		private int currentDialogueIndex;
+		private Color originalBackgroundColor;
 		private Image scrollRectImage;
 		private Tween panelFadeTween;
 		private Tween fadeTween;
@@ -74,6 +76,7 @@ namespace Dyscord.Managers
 		{
 			base.Awake();
 			SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded();
+			originalBackgroundColor = background.color;
 		}
 		private void Start()
 		{
@@ -193,6 +196,11 @@ namespace Dyscord.Managers
 			panelFadeTween = vnPanel.DOFade(1f, 0.2f);
 			characterLeft.sprite = currentVNPath.CharacterLeft;
 			characterRight.sprite = currentVNPath.CharacterRight;
+			if (currentVNPath.Background)
+			{
+				background.sprite = currentVNPath.Background;
+				background.color = Color.white;
+			}
 			playing = true;
 			if (sceneLoaded && !firstChatAdded)
 			{
@@ -261,6 +269,8 @@ namespace Dyscord.Managers
 				if (graphicRaycaster)
 					graphicRaycaster.enabled = true;
 			}
+			background.sprite = null;
+			background.color = originalBackgroundColor;
 			graphicRaycasters.Clear();
 			OnVNFinished?.Invoke(currentVNPath);
 		}

@@ -21,6 +21,9 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		[SerializeField] protected CyberwareSO[] cyberwares;
 		[SerializeField][ShowIf(nameof(playSound))] protected AudioClip hackCyberSecuritySound;
 		[SerializeField][ShowIf(nameof(playSound))] protected AudioClip hackCyberwareSound;
+		[SerializeField][ShowIf(nameof(playAnimation))] protected AnimatorOverrideController hackCyberwareAnimatorController;
+		
+		
 		protected override void UseAction()
 		{
 			Character target = _targets.Peek();
@@ -66,6 +69,16 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 			Character target = _targets.Peek();
 			target.ChangeShield(-Mathf.RoundToInt(hackDamage * Owner.HackAccessChip.HackDamageModifier));
 			if (playSound) GlobalSoundManager.Instance.PlayEffectClip(hackCyberSecuritySound);
+			if (playAnimation)
+			{
+				var anim = Instantiate(TurnManager.Instance.VfxPrefab, target.transform.position, Quaternion.identity,
+					target.transform);
+				if (target == TurnManager.Instance.PlayerInstance)
+					anim.transform.localScale *= playerAnimationSize;
+				anim.runtimeAnimatorController = animatorController;
+				float animationDuration = anim.runtimeAnimatorController.animationClips[0].length;
+				Destroy(anim.gameObject, animationDuration);
+			}
 			TooltipManager.Instance.DestroyTooltip();
 			EndHack();
 		}
@@ -74,6 +87,16 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 			Character target = _targets.Peek();
 			target.AddOvertime(cyberware.HackedOvertimeTemplates);
 			if (playSound) GlobalSoundManager.Instance.PlayEffectClip(hackCyberwareSound);
+			if (playAnimation)
+			{
+				var anim = Instantiate(TurnManager.Instance.VfxPrefab, target.transform.position, Quaternion.identity,
+					target.transform);
+				if (target == TurnManager.Instance.PlayerInstance)
+					anim.transform.localScale *= playerAnimationSize;
+				anim.runtimeAnimatorController = hackCyberwareAnimatorController;
+				float animationDuration = anim.runtimeAnimatorController.animationClips[0].length;
+				Destroy(anim.gameObject, animationDuration);
+			}
 			TooltipManager.Instance.DestroyTooltip();
 			EndHack();
 		}

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Burst Attack
   description: 
-  playAnimation: 0
-  animatorController: {fileID: 0}
+  playAnimation: 1
+  playerAnimationSize: 0.33
+  animatorController: {fileID: 22100000, guid: 348a420cb041e5d488c3d897ad27d42d, type: 2}
   playSound: 1
   targetSide: 1
   targetType: 2

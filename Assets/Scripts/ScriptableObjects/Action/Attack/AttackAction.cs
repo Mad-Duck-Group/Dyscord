@@ -39,9 +39,11 @@ namespace Dyscord.ScriptableObjects.Action.Attack
 			{
 				_targets.ForEach(x =>
 				{
-					var anim = Instantiate(TurnManager.Instance.VfxPrefab, x.transform.position, Quaternion.identity);
+					var anim = Instantiate(TurnManager.Instance.VfxPrefab, x.transform.position, Quaternion.identity, x.transform);
+					if (x == TurnManager.Instance.PlayerInstance)
+						anim.transform.localScale *= playerAnimationSize;
 					anim.runtimeAnimatorController = animatorController;
-					float animationDuration = anim.GetCurrentAnimatorClipInfo(0).First().clip.length;
+					float animationDuration = anim.runtimeAnimatorController.animationClips[0].length;
 					Destroy(anim.gameObject, animationDuration);
 				});
 			}
