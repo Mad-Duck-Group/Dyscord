@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ea0fa08c867b4f4f9dea29f4f2e3df4, type: 3}
-  m_Name: RightArm
+  m_Name: HectCorpWristBlade
   m_EditorClassIdentifier: 
   cyberwareType: 2
   icon: {fileID: 21300000, guid: d9de54c24ea3acf4f975a67a81ec3c10, type: 3}
-  cyberwareName: Right Arm
-  description: Right Arm
+  cyberwareName: Hect Corp Wrist Blade
+  description: '{Use 3 Power}
+
+    Produced by the most influential Cyberware company
+    in the US. Military-grade equipment that is too cheap to be true.'
   powerCost: 3
   hackAccessLevel: 2
   hackDamageModifier: 1
-  attacks:
-  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  attacks: []
   skills:
-  - {fileID: 11400000, guid: ae0cb267b9404144ea03f2b63b6a2bc3, type: 2}
+  - {fileID: 11400000, guid: eff202cb10b7ba043a225ca0c42da6b3, type: 2}
+  - {fileID: 11400000, guid: fe370dc52a47b754585d2554e0284c30, type: 2}
   overtimeTemplates: []
   hackedOvertimeTemplates:
   - rid: 7850491466383097883
@@ -33,7 +36,7 @@ MonoBehaviour:
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
         icon: {fileID: 21300000, guid: 1399726b6e0c02947b17c2d39b44e26f, type: 3}
-        overtimeName: Reduce Attack
+        overtimeName: Broken Arm
         description: 
         infinite: 0
         duration: 2
@@ -42,4 +45,4 @@ MonoBehaviour:
           temporalStatType: 0
           permanentStatType: 0
           operatorType: 2
-          value: -0.3
+          value: -0.15

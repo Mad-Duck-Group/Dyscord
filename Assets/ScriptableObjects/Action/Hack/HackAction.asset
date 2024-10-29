@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: HackAction
   m_EditorClassIdentifier: 
   actionName: Hack
-  description: Hack some shitttt
+  description: Deal 50 damage to the target's Shield. If the target has zero Shield,
+    their Cyberwares will be exposed to hacking.
   playAnimation: 1
   playerAnimationSize: 0.33
   animatorController: {fileID: 22100000, guid: 5a8727e6ab960c048b331ead80b703e3, type: 2}

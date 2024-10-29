@@ -53,7 +53,7 @@ namespace Dyscord.ScriptableObjects.Overtime
 		[SerializeField] protected string overtimeName;
 		[SerializeField] protected string description;
 		[SerializeField] protected bool infinite;
-		[SerializeField][AllowNesting][HideIf(nameof(infinite))][Min(1)] protected int duration;
+		[SerializeField] [AllowNesting] [HideIf(nameof(infinite))] [Min(0)] protected int duration = 0;
 		[SerializeField] protected List<OvertimeEffect> effects;
 		
 		protected int turnCount;
@@ -73,7 +73,7 @@ namespace Dyscord.ScriptableObjects.Overtime
 			character.AddOvertimeEffect(this, effects);
 			owner = character;
 			owner.CalculatePermanentEffect();
-			if (duration == 0)
+			if (Duration == 0 && !infinite)
 				RemoveOvertime();
 		}
 		
@@ -120,11 +120,13 @@ namespace Dyscord.ScriptableObjects.Overtime
 		{
 			character.AddOvertimeEffect(this, effects);
 			owner = character;
+			if (Duration == 0 && !infinite)
+				RemoveOvertime();
 		}
 		
 		public override void RemoveOvertime()
 		{
-			owner.CalculatePermanentEffect();
+			owner.CalculatePermanentEffect(true);
 			owner.RemoveOvertime(this);
 		}
 	}

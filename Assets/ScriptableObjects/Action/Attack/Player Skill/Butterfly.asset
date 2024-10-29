@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Butterfly
   m_EditorClassIdentifier: 
   actionName: Butterfly Dance
-  description: Select 3 enemies and deals damage equal to 200% of Valerie ATK to
-    target enemy.
-  playAnimation: 0
-  animatorController: {fileID: 0}
+  description: '{Cost 4 RAM}
+
+    Select 3 targets and deals damage equal to 200%
+    of Valerie''s ATK to targets.'
+  playAnimation: 1
+  playerAnimationSize: 0.33
+  animatorController: {fileID: 22100000, guid: 348a420cb041e5d488c3d897ad27d42d, type: 2}
   playSound: 1
   targetSide: 1
   targetType: 3

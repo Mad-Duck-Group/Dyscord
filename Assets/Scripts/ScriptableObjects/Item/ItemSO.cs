@@ -15,7 +15,7 @@ namespace Dyscord.ScriptableObjects.Item
 	{
 		[SerializeField][ShowAssetPreview(128, 128)] private Sprite icon;
 		[SerializeField] private string itemName;
-		[SerializeField] private string description;
+		[SerializeField][TextArea] private string description;
 		[SerializeReference, SR] List<OvertimeTemplate> overtimeTemplates;
 		
 		public Sprite Icon => icon;

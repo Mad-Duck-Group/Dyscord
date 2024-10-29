@@ -16,25 +16,24 @@ MonoBehaviour:
   characterThumbnail: {fileID: 21300000, guid: 680d4230cfbbbb24baa650b18ce024d8, type: 3}
   hurtSound: {fileID: 8300000, guid: 25f79a66bb9f539408cace4320871c60, type: 3}
   deathSound: {fileID: 8300000, guid: 25c73fe4258d764479f12157ed45abff, type: 3}
-  characterName: Trax's Child 1
+  characterName: Trax's Child
   health: 1800
   attack: 80
   hitRate: 1
-  criticalRate: 0
+  criticalRate: 0.55
   criticalMultiplier: 2
   defense: 50
   shield: 100
   maxShieldReduction: 0.3
-  speed: 122
+  speed: 85
   actionValueNumerator: 10000
   ram: 5
   ramRegen: 1
   shieldBreakOvertimes:
   - rid: 7850491694547992580
   defaultAttacks:
-  - {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
-  defaultSkills:
-  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
+  - {fileID: 11400000, guid: a73315685fad7524287281fa83b1f531, type: 2}
+  defaultSkills: []
   hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
   references:
     version: 2

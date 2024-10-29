@@ -22,14 +22,14 @@ MonoBehaviour:
   italic: 0
   underline: 0
   strikethrough: 0
-  lifetime: 2
+  lifetime: 1
   numberOfColourAlternations: 0
   numberOfSizeAlternations: 0
   colourAlternationDuration: 0
   sizeAlternationDuration: 0.2
   enterDuration: 0.1
-  exitDuration: 0.5
-  maxDrift: 1
+  exitDuration: 0.25
+  maxDrift: 2
   maxHeight: 1
   popModifier: 1
   colourAlternationMode: 0

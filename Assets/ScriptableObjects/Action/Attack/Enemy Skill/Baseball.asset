@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274329eed8b3f4b4fa31588362292e56, type: 3}
   m_Name: Baseball
   m_EditorClassIdentifier: 
-  actionName: Basic Attack
-  description: 
-  playAnimation: 0
-  animatorController: {fileID: 0}
+  actionName: Baseball
+  description: Deal damage equal to 100% of Trax Child's ATK to a single target.
+  playAnimation: 1
+  playerAnimationSize: 0.33
+  animatorController: {fileID: 22100000, guid: d9fd1127233a2d94089a0a940473ea36, type: 2}
   playSound: 1
   targetSide: 1
   targetType: 1

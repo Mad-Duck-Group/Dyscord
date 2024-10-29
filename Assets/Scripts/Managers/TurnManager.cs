@@ -112,7 +112,7 @@ namespace Dyscord.Managers
 				RemoveTurnOrder(character);
 				gameEnded = true;
 				PanelManager.Instance.GameOver();
-				DOVirtual.DelayedCall(2f, () => PanelManager.Instance.ShowLosePanel());
+				DOVirtual.DelayedCall(1.5f, () => PanelManager.Instance.ShowLosePanel());
 			}
 			else
 			{
@@ -122,7 +122,7 @@ namespace Dyscord.Managers
 				{
 					gameEnded = true;
 					PanelManager.Instance.GameOver();
-					DOVirtual.DelayedCall(2f, () => PanelManager.Instance.ShowWinPanel());
+					DOVirtual.DelayedCall(1.5f, () => PanelManager.Instance.ShowWinPanel());
 				}
 			}
 			

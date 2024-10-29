@@ -64,6 +64,7 @@ namespace Dyscord.Characters
 		protected bool _firstTurn = true;
 		protected bool _fromInventory;
 		protected bool _finishedInitialization;
+		protected bool shieldBroken;
 		
 		public virtual int SelectionCount { get; set; }
 
@@ -338,9 +339,12 @@ namespace Dyscord.Characters
 		{
 			currentShield += value;
 			currentShield = Mathf.Clamp(currentShield, 0, characterSO.Shield);
-			if (currentShield == 0)
+			if (currentShield >= characterSO.Shield) shieldBroken = false;
+			if (currentShield == 0 && !shieldBroken)
 			{
+				shieldBroken = true;
 				AddOvertime(CharacterSO.ShieldBreakOvertimes);
+				PanelManager.Instance.UpdateStatsText(this);
 			}
 			if (_finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.shieldData);
@@ -517,10 +521,14 @@ namespace Dyscord.Characters
 			TemporalStatHandler(temporal);
 		}
 		
-		public virtual void CalculatePermanentEffect()
+		public virtual void CalculatePermanentEffect(bool fromDelayed = false)
 		{
 			List<OvertimeEffect> permanent = overtimeEffects
-				.Where(x => x.Value.permanent)
+				.Where(x =>
+				{
+					if (x.Key is DelayedOvertime && !fromDelayed) return false;
+					return x.Value.permanent;
+				})
 				.OrderBy(pair => (int)pair.Value.operatorType)
 				.Select(pair => pair.Value)
 				.ToList();

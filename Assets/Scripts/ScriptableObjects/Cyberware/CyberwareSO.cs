@@ -23,7 +23,7 @@ namespace Dyscord.ScriptableObjects.Cyberware
 		[SerializeField] protected CyberwareTypes cyberwareType;
 		[SerializeField][ShowAssetPreview(128, 128)] protected Sprite icon;
 		[SerializeField] protected string cyberwareName;
-		[SerializeField] protected string description;
+		[SerializeField][TextArea] protected string description;
 		[SerializeField][HideIf(nameof(cyberwareType), CyberwareTypes.Chip)] protected int powerCost;
 		[SerializeField][Min(1)] protected int hackAccessLevel = 1;
 		[SerializeField][ShowIf(nameof(cyberwareType), CyberwareTypes.Chip)] 

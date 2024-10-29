@@ -355,7 +355,7 @@ namespace Dyscord.Managers
 				Destroy(overtimeTemplateUI.gameObject);
 			}
 			overtimeTemplateUIs.Clear();
-			List<OvertimeTemplate> availableOvertimes = character.CurrentOvertimes.Where(x => x.Infinite || x.TurnCount > 0).ToList();
+			List<OvertimeTemplate> availableOvertimes = character.CurrentOvertimes.Where(x => x.Infinite || x.RemainingTurns > 0).ToList();
 			foreach (var overtime in availableOvertimes)
 			{
 				OvertimeTemplateUI overtimeTemplateUI = Instantiate(overtimeTemplateUIPrefab, overtimeTemplateUIParent.transform);

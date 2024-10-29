@@ -27,6 +27,8 @@ namespace Dyscord.Characters.Player
 		{
 			if (_fromInventory) return;
 			AddOvertime(item.OvertimeTemplates);
+			// var allEffects = item.OvertimeTemplates.SelectMany(template => template.Effects).ToList();
+			// PermanentStatHandler(allEffects);
 			TooltipManager.Instance.DestroyTooltip();
 			InventoryManager.Instance.RemoveItem(item, 1);
 			PanelManager.Instance.UpdateRamSlotUI(this);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8290969587592704533}
   - component: {fileID: 7600976131892467366}
   m_Layer: 0
-  m_Name: EnemyTest
+  m_Name: TraxChild1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,13 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSO: {fileID: 11400000, guid: c65263ed54f604a42b271a3b92748a97, type: 2}
-  shieldBreakOvertimes:
-  - rid: 7850491466383097878
   hackAccessChip: {fileID: 11400000, guid: a499c9fe104a7f14ab478f7866ffdeae, type: 2}
   cyberwares:
   - {fileID: 11400000, guid: c99d8d24a0ff9be48a1e8240348cfd56, type: 2}
-  - {fileID: 11400000, guid: b884ac7ddf858984fab7b24669aca78e, type: 2}
-  - {fileID: 11400000, guid: d441d2f7a4098e740b69ce6b3a70e6b0, type: 2}
   infoText: {fileID: 7263046833013174963}
   currentHealth: 0
   currentAttack: 0
@@ -73,23 +69,6 @@ MonoBehaviour:
   currentAction: {fileID: 0}
   selectionIcon: {fileID: 5158225460673643775, guid: 39f1a84ba73daf5468b3d9aa4fe844bd, type: 3}
   selectionIconParent: {fileID: 8568724943809359566}
-  references:
-    version: 2
-    RefIds:
-    - rid: 7850491466383097878
-      type: {class: DelayedOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
-      data:
-        icon: {fileID: 0}
-        overtimeName: Shield Regen
-        description: 
-        infinite: 0
-        duration: 2
-        effects:
-        - permanent: 1
-          temporalStatType: 0
-          permanentStatType: 1
-          operatorType: 1
-          value: 10000
 --- !u!1 &3084275976394222577
 GameObject:
   m_ObjectHideFlags: 0

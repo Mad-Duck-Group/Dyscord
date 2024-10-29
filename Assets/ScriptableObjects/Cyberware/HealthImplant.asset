@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ea0fa08c867b4f4f9dea29f4f2e3df4, type: 3}
-  m_Name: LeftArm
+  m_Name: HealthImplant
   m_EditorClassIdentifier: 
   cyberwareType: 2
   icon: {fileID: 21300000, guid: 695f9821f46606a46845a39195d242d1, type: 3}
-  cyberwareName: Left Arm
-  description: Left Arm
+  cyberwareName: Health Implant
+  description: '{Use 2 Power}
+
+    Specialized implant for medical usage. Usually,
+    it''s very hard to get your hand on these. Micheal, however, seems to have no
+    problem acquiring it.'
   powerCost: 2
   hackAccessLevel: 1
   hackDamageModifier: 1
-  attacks:
-  - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
-  skills:
-  - {fileID: 11400000, guid: b700efcb7b351804e88817dd71616850, type: 2}
-  overtimeTemplates: []
+  attacks: []
+  skills: []
+  overtimeTemplates:
+  - rid: 7850491694547992582
   hackedOvertimeTemplates:
   - rid: 7850491466383097882
   references:
@@ -33,7 +36,7 @@ MonoBehaviour:
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
         icon: {fileID: 21300000, guid: 1399726b6e0c02947b17c2d39b44e26f, type: 3}
-        overtimeName: Reduce Speed
+        overtimeName: Heart Failure
         description: 
         infinite: 0
         duration: 2
@@ -42,4 +45,18 @@ MonoBehaviour:
           temporalStatType: 5
           permanentStatType: 0
           operatorType: 2
-          value: -0.1
+          value: -0.2
+    - rid: 7850491694547992582
+      type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
+      data:
+        icon: {fileID: 21300000, guid: 3329361d4240b2446a72ed12d62f0e57, type: 3}
+        overtimeName: Strong Heart
+        description: 
+        infinite: 1
+        duration: 0
+        effects:
+        - permanent: 0
+          temporalStatType: 4
+          permanentStatType: 0
+          operatorType: 1
+          value: 20

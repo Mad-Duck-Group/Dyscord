@@ -37,9 +37,9 @@ namespace Dyscord.ScriptableObjects.Action
 	{
 		[Header("General Configs")]
 		[SerializeField] protected string actionName;
-		[SerializeField] protected string description;
+		[SerializeField][TextArea] protected string description;
 		[SerializeField] protected bool playAnimation;
-		[SerializeField] [ShowIf(nameof(playAnimation))] protected float playerAnimationSize = 0.33f;
+		[SerializeField][ShowIf(nameof(playAnimation))] protected float playerAnimationSize = 0.33f;
 		[SerializeField][ShowIf(nameof(playAnimation))] protected AnimatorOverrideController animatorController;
 		[SerializeField] protected bool playSound;
 		[SerializeField] protected TargetSides targetSide = TargetSides.Other;

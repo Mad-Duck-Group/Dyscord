@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fa08e15a8a1aec489a5ff4f0f3ebd76, type: 3}
-  m_Name: Beef
+  m_Name: HealthBooster
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 76e5ff6a892e0844981638b7c4001b77, type: 3}
-  itemName: Beef
-  description: Beeeeeef
+  itemName: Health Booster
+  description: A single shot of this can make you feel whole again. Don't get addict
+    to it though.
   overtimeTemplates:
   - rid: 7850491581119594496
   references:
@@ -23,7 +24,7 @@ MonoBehaviour:
     - rid: 7850491581119594496
       type: {class: InstantOvertime, ns: Dyscord.ScriptableObjects.Overtime, asm: Assembly-CSharp}
       data:
-        icon: {fileID: 0}
+        icon: {fileID: 21300000, guid: 3329361d4240b2446a72ed12d62f0e57, type: 3}
         overtimeName: Increase Health
         description: 
         infinite: 0

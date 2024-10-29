@@ -15,7 +15,15 @@ PrefabInstance:
     - target: {fileID: 7600976131892467366, guid: 23d933d9908d1d048b9529d8c31a5043, type: 3}
       propertyPath: characterSO
       value: 
-      objectReference: {fileID: 11400000, guid: 096f8e7b5fee60d44bc8300900ff1017, type: 2}
+      objectReference: {fileID: 11400000, guid: 03617eae5f023ef4f83f618a3236fd9a, type: 2}
+    - target: {fileID: 7600976131892467366, guid: 23d933d9908d1d048b9529d8c31a5043, type: 3}
+      propertyPath: cyberwares.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600976131892467366, guid: 23d933d9908d1d048b9529d8c31a5043, type: 3}
+      propertyPath: cyberwares.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d441d2f7a4098e740b69ce6b3a70e6b0, type: 2}
     - target: {fileID: 8290969587592704533, guid: 23d933d9908d1d048b9529d8c31a5043, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
