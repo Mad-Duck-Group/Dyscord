@@ -136,6 +136,7 @@ namespace Dyscord.Managers
 			currentDialogueIndex++;
 			GlobalSoundManager.Instance.PlayBubbleSFX();
 			FadeBubble();
+			yield return null;
 		}
 
 		private void FadeBubble()
@@ -242,9 +243,11 @@ namespace Dyscord.Managers
 				CharacterPosition position = values[2] == "Left" ? CharacterPosition.Left : CharacterPosition.Right;
 				Dialogue dialogue = new Dialogue(values[0], values[1], position);
 				dialogues.Add(dialogue);
+				yield return null;
 			}
 			currentVNPath = vnPathSO;
 			OnSuccessToLoadDialogueFile?.Invoke();
+			yield return null;
 		}
 
 		public void CloseVN()

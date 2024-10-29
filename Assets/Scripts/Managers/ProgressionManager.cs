@@ -59,5 +59,10 @@ namespace Dyscord.Managers
 			southStreetVNPlayed = false;
 			InventoryManager.Instance.ResetInventory();
 		}
+		
+		public void ResetInventory()
+		{
+			InventoryManager.Instance.ResetInventory();
+		}
 	}
 }

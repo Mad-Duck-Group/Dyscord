@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SouthStreetVN
   m_EditorClassIdentifier: 
   textAsset: {fileID: 4900000, guid: 27e7852f85aaa8d4797542c086fe49ba, type: 3}
-  characterLeft: {fileID: 21300000, guid: 2c4c9ebc39b037a49b415c714b257b90, type: 3}
-  characterRight: {fileID: 21300000, guid: e9f7f748a713e8a42b9ab73ea02bfe4c, type: 3}
+  characterLeft: {fileID: 21300000, guid: bcf0f994512d71740aa3b3a8971d68b9, type: 3}
+  characterRight: {fileID: 21300000, guid: 5d45bf092116eff47b58ea64fe66ff4b, type: 3}
   background: {fileID: 21300000, guid: 88a48f2a51753994b8be67b62c18875c, type: 3}

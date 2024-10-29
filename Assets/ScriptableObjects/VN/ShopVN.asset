@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ShopVN
   m_EditorClassIdentifier: 
   textAsset: {fileID: 4900000, guid: 6a8e8a744dd72154fb68e7c6d2cdec64, type: 3}
-  characterLeft: {fileID: 21300000, guid: 2c4c9ebc39b037a49b415c714b257b90, type: 3}
-  characterRight: {fileID: 21300000, guid: e9f7f748a713e8a42b9ab73ea02bfe4c, type: 3}
+  characterLeft: {fileID: 21300000, guid: bcf0f994512d71740aa3b3a8971d68b9, type: 3}
+  characterRight: {fileID: 21300000, guid: a914c8ea1b02c1e4ba7ee650c7c187e6, type: 3}
+  background: {fileID: 0}

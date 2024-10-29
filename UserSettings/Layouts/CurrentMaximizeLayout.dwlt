@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -214,8 +214,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -166, y: -26}
-      snapOffsetDelta: {x: -5, y: 0}
+      snapOffset: {x: -171, y: -26}
+      snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: Tool Settings
       index: 0
@@ -597,9 +597,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.28682196, y: -0.74029666, z: 2.5792742}
+    m_Target: {x: 1478.7361, y: 375.8455, z: -7.5712194}
     speed: 2
-    m_Value: {x: -0.28682196, y: -0.74029666, z: 2.5792742}
+    m_Value: {x: 1478.7361, y: 375.8455, z: -7.5712194}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -649,9 +649,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.0469308
+    m_Target: 515.2829
     speed: 2
-    m_Value: 3.0469308
+    m_Value: 515.2829
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -796,7 +796,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 164167
+  controlID: 174352
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -816,8 +816,8 @@ MonoBehaviour:
     y: 0
     width: 611
     height: 482
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -860,9 +860,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 687a0000
+      m_SelectedIDs: ce7a0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 2a7ff4ff9e22f7ff2a25f7ff0e15f8ff6232faff2233faff2e33faff6c33faff724cfaff804efaffa65dfaff2625fdff2825fdff5825fdff8425fdff185cfdff3e5dfdffc663fdff8064fdff5065fdff4467fdffaed6ffffcafafffff4ffffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d0000a6790100407b0100f07b0100c0900100f49001005491010094910100149201001a92010044920100569201006692010096920100ac920100b69201002c930100e0b00200cab10200cec4020002c502005ac60200c0c60200
+      m_ExpandedIDs: 30f6f1ff3cf6f1ff56f6f1ff52f8f1fff8fbf1ff04fcf1ff68fcf1ff20fdf1ff8c03f2ffe47ef4fff07ef4ff2a7ff4ff9e22f7ff2a25f7ff0e15f8ff6232faff2233faff2e33faff6c33faff724cfaff804efaffa65dfaff2625fdff2825fdff5825fdff8425fdff185cfdff3e5dfdffc663fdff8064fdff5065fdff4467fdffaed6ffffcafafffff4ffffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d0000a6790100407b0100f07b0100c0900100f49001005491010094910100149201001a92010044920100569201006692010096920100ac920100b69201002c930100e0b00200cab10200cec4020002c502005ac60200c0c60200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -905,14 +905,14 @@ MonoBehaviour:
     y: 482
     width: 611
     height: 457
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
   - {fileID: 13}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -958,7 +958,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ScriptableObjects/Character/Player
+    - Assets/Sprites/UI_VN/VN_southStreet
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -966,15 +966,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/ScriptableObjects/Character/Player
+  - Assets/Sprites/UI_VN/VN_southStreet
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\thesi\OneDrive\Desktop\Dyscord
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 452}
-    m_SelectedIDs: 8e830000
-    m_LastClickedID: 33678
+    scrollPos: {x: 0, y: 800}
+    m_SelectedIDs: 5a910200
+    m_LastClickedID: 168282
     m_ExpandedIDs: 000000000483000006830000088300000a8300000c8300000e83000010830000128300001483000016830000188300001a8300001c8300001e83000020830000228300002483000026830000288300002a8300002e830000308300003483000036830000388300003a8300003c8300005c830000888300009e830000a2830000a8830000c683000000f100000cf100008421020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1028,10 +1028,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 687a0000
-    m_LastClickedInstanceID: 31336
+    m_SelectedInstanceIDs: ce7a0000
+    m_LastClickedInstanceID: 31438
     m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: 3e7f00006e780300c2210200ac780300cc7a0300
+    m_ExpandedInstanceIDs: 3e7f00006e780300c2210200ac780300cc7a030012df0300dcff0300
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

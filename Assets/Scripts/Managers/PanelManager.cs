@@ -178,6 +178,7 @@ namespace Dyscord.Managers
 				gameplayGraphicRaycaster.enabled = false;
 				overlayGraphicRaycaster.enabled = false;
 				Time.timeScale = 1;
+				ProgressionManager.Instance.ResetInventory();
 				SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.HQ, LoadSceneMode.Additive, false);
 			});
 		}
