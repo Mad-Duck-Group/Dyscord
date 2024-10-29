@@ -17,22 +17,22 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 25f79a66bb9f539408cace4320871c60, type: 3}
   deathSound: {fileID: 8300000, guid: 25c73fe4258d764479f12157ed45abff, type: 3}
   characterName: Valerie
-  health: 200
-  attack: 20
+  health: 1000
+  attack: 200
   hitRate: 1
   criticalRate: 0.05
   criticalMultiplier: 2
-  defense: 10
+  defense: 20
   shield: 100
   maxShieldReduction: 0.5
   speed: 120
   actionValueNumerator: 10000
-  ram: 5
+  ram: 4
   ramRegen: 1
   shieldBreakOvertimes:
   - rid: 7850491694547992576
   defaultAttacks:
-  - {fileID: 11400000, guid: b73e033950c7a93488cb4aff1d2d340b, type: 2}
+  - {fileID: 11400000, guid: 8aa284aab36dd2142ab8d0607c21fed5, type: 2}
   defaultSkills:
   - {fileID: 11400000, guid: 4f0a1bda67df05343aba32d2c4c5d8a4, type: 2}
   hackAction: {fileID: 11400000, guid: 205cbf5f901782d41997f66f4ec744a1, type: 2}
