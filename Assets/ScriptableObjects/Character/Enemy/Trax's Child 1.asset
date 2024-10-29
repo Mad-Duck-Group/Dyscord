@@ -17,12 +17,12 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 25f79a66bb9f539408cace4320871c60, type: 3}
   deathSound: {fileID: 8300000, guid: 25c73fe4258d764479f12157ed45abff, type: 3}
   characterName: Trax's Child 1
-  health: 100
-  attack: 40
+  health: 1800
+  attack: 80
   hitRate: 1
   criticalRate: 0
   criticalMultiplier: 2
-  defense: 5
+  defense: 50
   shield: 100
   maxShieldReduction: 0.3
   speed: 122

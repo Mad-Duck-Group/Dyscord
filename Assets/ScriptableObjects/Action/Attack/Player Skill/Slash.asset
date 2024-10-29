@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274329eed8b3f4b4fa31588362292e56, type: 3}
+  m_Name: Slash
+  m_EditorClassIdentifier: 
+  actionName: Slash
+  description: Deal damage equal to 150% of Valerie ATK to a single enemy, and deal
+    damage equal to 50% of ATK to adjacent enemies.
+  playAnimation: 0
+  animatorController: {fileID: 0}
+  playSound: 1
+  targetSide: 1
+  targetType: 2
+  maxTargets: 0
+  ramCost: 2
+  overtimeTargetSide: 1
+  overtimeTemplates: []
+  damageMultiplier: 1.5
+  adjacentPenalty: 0.5
+  spamPenalty: 0.1
+  attackSound: {fileID: 8300000, guid: 4becbb9fcb7cbb04d8532f148ef1551d, type: 3}
+  references:
+    version: 2
+    RefIds: []
