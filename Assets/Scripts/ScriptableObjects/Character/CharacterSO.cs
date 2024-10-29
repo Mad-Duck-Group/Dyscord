@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Dyscord.ScriptableObjects.Action;
 using Dyscord.ScriptableObjects.Cyberware;
+using Dyscord.ScriptableObjects.Overtime;
 using Gamelogic.Extensions;
 using NaughtyAttributes;
+using SerializeReferenceEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityRandom = UnityEngine.Random;
@@ -21,6 +23,7 @@ namespace Dyscord.ScriptableObjects
 	{
 		[Header("Base Stats")]
 		[SerializeField][ShowAssetPreview(128, 128)] private Sprite characterSprite;
+		[SerializeField][ShowAssetPreview(128, 128)] private Sprite characterThumbnail;
 		[SerializeField] private AudioClip hurtSound;
 		[SerializeField] private AudioClip deathSound;
 		[SerializeField] private string characterName;
@@ -36,6 +39,7 @@ namespace Dyscord.ScriptableObjects
 		[SerializeField][Min(1)] private int actionValueNumerator = 10000;
 		[SerializeField][Min(0)] private int ram;
 		[SerializeField][Min(0)] private int ramRegen;
+		[SerializeReference, SR] protected List<OvertimeTemplate> shieldBreakOvertimes;
 		
 		[Header("Default Actions")]
 		[FormerlySerializedAs("attacks")][SerializeField] protected List<CharacterActionSO> defaultAttacks = new List<CharacterActionSO>();
@@ -43,6 +47,7 @@ namespace Dyscord.ScriptableObjects
 		[SerializeField] protected CharacterActionSO hackAction;
 
 		public Sprite CharacterSprite => characterSprite;
+		public Sprite CharacterThumbnail => characterThumbnail;
 		public AudioClip HurtSound => hurtSound;
 		public AudioClip DeathSound => deathSound;
 		public string CharacterName => characterName;
@@ -58,6 +63,7 @@ namespace Dyscord.ScriptableObjects
 		public int ActionValueNumerator => actionValueNumerator;
 		public int Ram => ram;
 		public int RamRegen => ramRegen;
+		public List<OvertimeTemplate> ShieldBreakOvertimes => shieldBreakOvertimes;
 		public List<CharacterActionSO> DefaultAttacks => defaultAttacks;
 		public List<CharacterActionSO> DefaultSkills => defaultSkills;
 		public CharacterActionSO HackAction => hackAction;

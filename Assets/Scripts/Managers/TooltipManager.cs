@@ -10,6 +10,7 @@ using Dyscord.UI;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Object = System.Object;
 using UnityRandom = UnityEngine.Random;
 
@@ -112,7 +113,8 @@ namespace Dyscord.Managers
 		{
 			if (!currentTooltip) yield break;
 			yield return new WaitForEndOfFrame();
-			
+			LayoutRebuilder.ForceRebuildLayoutImmediate(currentTooltip);
+
 			Canvas canvas = GetComponent<Canvas>();
 			RectTransform canvasRect = canvas.GetComponent<RectTransform>();
 			currentTooltip.anchorMin = new Vector2(0.5f, 0.5f);

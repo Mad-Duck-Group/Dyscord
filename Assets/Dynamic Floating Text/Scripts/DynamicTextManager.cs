@@ -15,9 +15,11 @@ public class DynamicTextManager : MonoBehaviour
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private DynamicTextData _damageData;
     [SerializeField] private DynamicTextData _ramData;
+    [SerializeField] private DynamicTextData _shieldData;
 
     public static DynamicTextData damageData;
     public static DynamicTextData ramData;
+    public static DynamicTextData shieldData;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class DynamicTextManager : MonoBehaviour
         canvasPrefab = _canvasPrefab;
         damageData = _damageData;
         ramData = _ramData;
+        shieldData = _shieldData;
     }
 
     public static void CreateText2D(Vector2 position, string text, DynamicTextData data)

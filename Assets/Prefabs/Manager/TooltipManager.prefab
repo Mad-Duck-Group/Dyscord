@@ -100,4 +100,4 @@ MonoBehaviour:
   basicTooltipPanelUIPrefab: {fileID: 8356239669197172643, guid: e46fe829e29d5ce4b895275fcd148ed3, type: 3}
   overtimeTooltipPanelUIPrefab: {fileID: 2895299466575106410, guid: 77262c7cbbd40f9469eb900c48db6c79, type: 3}
   cyberwareSkillTooltipUIPrefab: {fileID: 7198482264508387043, guid: 5606cf3ea231e484684b05b8491cd873, type: 3}
-  defaultOffset: {x: 300, y: 0, z: 0}
+  defaultOffset: {x: 300, y: 50, z: 0}

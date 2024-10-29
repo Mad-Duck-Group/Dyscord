@@ -133,7 +133,7 @@ namespace Dyscord.Managers
 				}
 				var cyberwareUI = Instantiate(cyberwareUIPrefab, cyberwareSlot.transform);
 				cyberwareUI.Setup(cyberware, cyberwareSlot.transform, true, cyberwareSlot);
-				cyberwareSlot.AssignCyberware(cyberware);
+				cyberwareSlot.ReassignCyberware(cyberware);
 			}
 			InventoryManager.Instance.EquippedCyberwareDictionary.Clear();
 			UpdatePowerCapacityUI();
@@ -204,16 +204,21 @@ namespace Dyscord.Managers
 
 		private void UpdateStats()
 		{
+			string hitRatePercentage = $"{playerCharacter.CurrentHitRate * 100:0.00}";
+			string criticalRatePercentage = $"{playerCharacter.CurrentCriticalRate * 100:0.00}";
+			string criticalMultiplierPercentage = $"{playerCharacter.CurrentCriticalMultiplier * 100:0.00}";
+			string maxShieldReductionPercentage = $"{playerCharacter.CharacterSO.MaxShieldReduction * 100:0.00}";
 			statsText.text = $"Health: {playerCharacter.CurrentHealth}\n" +
 			                 $"Attack: {playerCharacter.CurrentAttack}\n" +
 			                 $"Defense: {playerCharacter.CurrentDefense}\n" +
 			                 $"Shield: {playerCharacter.CurrentShield}\n" +
+			                 $"Max Damage Reduction: {maxShieldReductionPercentage}%\n" +
 			                 $"Speed: {playerCharacter.CurrentSpeed}\n" +
-			                 $"Hit Rate: {playerCharacter.CurrentHitRate}\n" +
-			                 $"Critical Rate: {playerCharacter.CurrentCriticalRate}\n" +
-			                 $"Critical Multiplier: {playerCharacter.CurrentCriticalMultiplier}\n" +
-			                 $"Ram: {playerCharacter.CurrentRam}\n" +
-			                 $"Ram Regen: {playerCharacter.CurrentRamRegen}";
+			                 $"Hit Rate: {hitRatePercentage}%\n" +
+			                 $"Critical Rate: {criticalRatePercentage}%\n" +
+			                 $"Critical Damage: {criticalMultiplierPercentage}%\n" +
+			                 $"RAM: {playerCharacter.CurrentRam}\n" +
+			                 $"RAM Regen: {playerCharacter.CurrentRamRegen} per turn\n";
 		}
 
 		private void UpdateSkills()

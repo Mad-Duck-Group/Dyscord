@@ -6,11 +6,12 @@ using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Item;
 using Dyscord.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.Characters.Player
 {
-	public class Player : Character
+	public class Player : Character, IPointerClickHandler
 	{
 		private void OnEnable()
 		{
@@ -26,9 +27,16 @@ namespace Dyscord.Characters.Player
 		{
 			if (_fromInventory) return;
 			AddOvertime(item.OvertimeTemplates);
+			TooltipManager.Instance.DestroyTooltip();
 			InventoryManager.Instance.RemoveItem(item, 1);
 			PanelManager.Instance.UpdateRamSlotUI(this);
 			PanelManager.Instance.UpdateStatsText(this);
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			if (eventData.button != PointerEventData.InputButton.Left) return;
+			PanelManager.Instance.SetStatsText(this);
 		}
 	}
 }

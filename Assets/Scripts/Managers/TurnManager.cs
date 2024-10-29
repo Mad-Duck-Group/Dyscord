@@ -73,7 +73,7 @@ namespace Dyscord.Managers
 		{
 			InitializeCharacters();
 			Subscribe();
-			PanelManager.Instance.InitializePanel();
+			PanelManager.Instance.InitializeStatsPanel();
 			PanelManager.Instance.InitializeActionUI();
 			InitializeTurnOrder();
 			GlobalSoundManager.Instance.PlayBGM(BGMTypes.Gameplay);
@@ -111,7 +111,8 @@ namespace Dyscord.Managers
 			{
 				RemoveTurnOrder(character);
 				gameEnded = true;
-				PanelManager.Instance.ShowLosePanel();
+				PanelManager.Instance.GameOver();
+				DOVirtual.DelayedCall(2f, () => PanelManager.Instance.ShowLosePanel());
 			}
 			else
 			{
@@ -120,7 +121,8 @@ namespace Dyscord.Managers
 				if (enemyInstances.Count == 0)
 				{
 					gameEnded = true;
-					PanelManager.Instance.ShowWinPanel();
+					PanelManager.Instance.GameOver();
+					DOVirtual.DelayedCall(2f, () => PanelManager.Instance.ShowWinPanel());
 				}
 			}
 			
@@ -221,7 +223,8 @@ namespace Dyscord.Managers
 			if (gameEnded) return;
 			//UpdateButtonUI(); 
 			CurrentTurnOrder.character.UpdateOvertime();
-			DOVirtual.DelayedCall(1f, () => CurrentTurnOrder.character.RegenRam(), false);
+			DOVirtual.DelayedCall(0.5f, () => CurrentTurnOrder.character.RegenRam(), false);
+			PanelManager.Instance.UpdateStatsText(CurrentTurnOrder.character, false);
 			if (CurrentTurnOrder.character is not Player)
 			{
 				PanelManager.Instance.UpdateButtonUI();

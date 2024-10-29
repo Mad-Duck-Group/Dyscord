@@ -36,8 +36,8 @@ namespace Dyscord.UI
 		public void SetOvertimeBlock(OvertimeTemplate template)
 		{
 			string delay = template is DelayedOvertime ? "Activate in " : "";
-			string s = template.Duration > 1 ? "s" : "";
-			string duration = template.Infinite ? "Passive" : template.Duration < 1 ? "Instant" : $"{delay}{template.Duration} turn{s}";
+			string s = template.RemainingTurns > 1 ? "s" : "";
+			string duration = template.Infinite ? "Passive" : template.RemainingTurns < 1 ? "Instant" : $"{delay}{template.RemainingTurns} turn{s}";
 			overtimeName.text = $"{template.OvertimeName}: {duration}";
 			foreach (var effect in template.Effects)
 			{

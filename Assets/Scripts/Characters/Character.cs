@@ -29,8 +29,7 @@ namespace Dyscord.Characters
 	{
 		[Header("Character Configs")]	
 		[SerializeField][Expandable] protected CharacterSO characterSO;
-		[SerializeReference, SR] protected List<OvertimeTemplate> shieldBreakOvertimes;
-		
+
 		[Header("Cyberware")]	
 		[SerializeField] protected CyberwareSO hackAccessChip;
 		[SerializeField] protected List<CyberwareSO> cyberwares = new List<CyberwareSO>();
@@ -176,14 +175,18 @@ namespace Dyscord.Characters
 	        hackAccessChip = Instantiate(hackAccessChip);
 	        hackAction = Instantiate(characterSO.HackAction);
 	        hackAction.Initialize(this);
+	        currentOvertimes.Clear();
 	        cyberwares.ForEach(x => AddOvertime(x.OvertimeTemplates));
 		}
 
 		public virtual void ReequipCyberware(List<CyberwareSO> equip)
 		{
-			cyberwares.ForEach(x => RemoveOvertime(x.OvertimeTemplates));
+			//cyberwares.ForEach(x => RemoveOvertime(x.OvertimeTemplates));
 			cyberwares = equip;
+			overtimeEffects.Clear();
 			InitializeCyberware();
+			CalculateTemporalEffect();
+			CalculatePermanentEffect();
 		}
 
 		/// <summary>
@@ -337,10 +340,10 @@ namespace Dyscord.Characters
 			currentShield = Mathf.Clamp(currentShield, 0, characterSO.Shield);
 			if (currentShield == 0)
 			{
-				AddOvertime(shieldBreakOvertimes);
+				AddOvertime(CharacterSO.ShieldBreakOvertimes);
 			}
 			if (_finishedInitialization && !_fromInventory && showNumber)
-				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
+				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.shieldData);
 			if (!_fromInventory && PanelManager.Instance) PanelManager.Instance.UpdateStatsText(this);
 			//UpdateInfoText();
 		}
@@ -457,7 +460,7 @@ namespace Dyscord.Characters
 		{
 			foreach (var overtimeTemplate in overtimeTemplates)
 			{
-				var overtimeInstance = overtimeTemplate;
+				var overtimeInstance = overtimeTemplate.Clone();
 				currentOvertimes.Add(overtimeInstance);
 				overtimeInstance.ApplyOvertime(this);
 			}

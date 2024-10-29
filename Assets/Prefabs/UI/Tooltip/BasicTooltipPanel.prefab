@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 482.31, y: 0}
+  m_SizeDelta: {x: 482.31, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3479807166886361303
 CanvasRenderer:
@@ -246,11 +246,11 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 12
+  m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 7509261559447209584}
   - component: {fileID: 7050535729590454882}
   - component: {fileID: 6670079157029689091}
+  - component: {fileID: 5899533245772874340}
   m_Layer: 5
   m_Name: DescriptionText
   m_TagString: Untagged
@@ -302,7 +303,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 241.155, y: 0}
   m_SizeDelta: {x: 482.31, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7050535729590454882
@@ -333,7 +334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: asdasdasdasdasddd
+  m_text: daasdasdasd
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1fad33b0454a92448ffd53bd6419383, type: 2}
   m_sharedMaterial: {fileID: -6802178866101318128, guid: f1fad33b0454a92448ffd53bd6419383, type: 2}
@@ -396,9 +397,23 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 10, y: 0, z: 10, w: 28.875916}
+  m_margin: {x: 10, y: 0, z: 10, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5899533245772874340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113841076902748604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2

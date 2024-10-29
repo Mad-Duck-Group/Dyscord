@@ -9554,7 +9554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7252738066251420884, guid: c2422404f2c5b2643a40b3be83d7a3d8, type: 3}
       propertyPath: disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7252738066251420884, guid: c2422404f2c5b2643a40b3be83d7a3d8, type: 3}
       propertyPath: cyberwareType
@@ -10171,6 +10171,10 @@ PrefabInstance:
     - target: {fileID: 7252738066251420884, guid: c2422404f2c5b2643a40b3be83d7a3d8, type: 3}
       propertyPath: id
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252738066251420884, guid: c2422404f2c5b2643a40b3be83d7a3d8, type: 3}
+      propertyPath: disabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7252738066251420884, guid: c2422404f2c5b2643a40b3be83d7a3d8, type: 3}
       propertyPath: cyberwareType

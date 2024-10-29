@@ -16,8 +16,8 @@ namespace Dyscord.UI
 	public class OvertimeTemplateUI : MonoBehaviour
 	{
 		[SerializeField] private TMP_Text countdownText;
+		[SerializeField] private Image icon;
 		
-		private Image icon;
 		private OvertimeTemplate overtime;
 		private Tooltip tooltip;
 
@@ -29,9 +29,8 @@ namespace Dyscord.UI
 		public void Setup(OvertimeTemplate overtime)
 		{
 			if (!tooltip) tooltip = GetComponent<Tooltip>();
-			icon = GetComponent<Image>();
 			this.overtime = overtime;
-			countdownText.text = overtime.Infinite ? "∞" : this.overtime.TurnCount.ToString();
+			countdownText.text = overtime.Infinite ? "∞" : this.overtime.RemainingTurns.ToString();
 			icon.sprite = this.overtime.Icon;
 			tooltip.TooltipObject = this.overtime;
 		}

@@ -60,6 +60,7 @@ namespace Dyscord.ScriptableObjects.Overtime
 		protected Character owner;
 		
 		public int TurnCount => turnCount;
+		public int RemainingTurns => duration - turnCount;
 		public Sprite Icon => icon;
 		public string OvertimeName => overtimeName;
 		public string Description => description;

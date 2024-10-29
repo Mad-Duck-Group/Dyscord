@@ -28,6 +28,8 @@ namespace Dyscord.UI
 		{
 			image = GetComponent<Image>();
 			image.sprite = disabled ? disabledSprite : emptySprite;
+			if (isOccupied)
+				image.sprite = occupiedSprite;
 		}
 		
 		public bool AssignCyberware(CyberwareSO cyberware)
@@ -44,6 +46,14 @@ namespace Dyscord.UI
 			isOccupied = true;
 			image.sprite = occupiedSprite;
 			return true;
+		}
+		
+		public void ReassignCyberware(CyberwareSO cyberware)
+		{
+			InventoryManager.Instance.RemoveCyberware(cyberware);
+			InventoryManager.Instance.EquipCyberware(cyberware, id);
+			isOccupied = true;
+			image.sprite = occupiedSprite;
 		}
 		
 		public void RemoveCyberware()
