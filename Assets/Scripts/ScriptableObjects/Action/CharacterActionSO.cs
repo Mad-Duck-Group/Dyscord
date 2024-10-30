@@ -5,6 +5,7 @@ using System.Linq;
 using Dyscord.Characters;
 using Dyscord.Managers;
 using Dyscord.ScriptableObjects.Action.Hack;
+using Dyscord.ScriptableObjects.Cyberware;
 using Dyscord.ScriptableObjects.Overtime;
 using NaughtyAttributes;
 using Redcode.Extensions;
@@ -58,10 +59,12 @@ namespace Dyscord.ScriptableObjects.Action
 		public TargetTypes TargetType => targetType;
 		public int MaxTargets => maxTargets;
 		public int RamCost => ramCost;
+		public CyberwareSO Cyberware { get; private set; }
 		public Character Owner { get; private set; }
 		public bool PlayerSelecting { get; protected set; }
+		public bool PlayerHacking { get; protected set; }
 		public List<Character> Targets => _targets.ToList();
-		
+
 		protected virtual bool ValidateTargetType()
 		{
 			if (GetType() == typeof(HackAction) && targetType is not TargetTypes.Single)
@@ -73,9 +76,10 @@ namespace Dyscord.ScriptableObjects.Action
 		/// Initialize the action with the owner.
 		/// </summary>
 		/// <param name="owner">Owner of the action</param>
-		public virtual void Initialize(Character owner)
+		public virtual void Initialize(Character owner, CyberwareSO cyberware = null)
 		{
 			Owner = owner;
+			Cyberware = cyberware;
 		}
 
 		/// <summary>

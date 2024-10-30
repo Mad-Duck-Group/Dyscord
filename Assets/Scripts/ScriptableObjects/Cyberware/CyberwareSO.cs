@@ -36,7 +36,6 @@ namespace Dyscord.ScriptableObjects.Cyberware
 		protected List<OvertimeTemplate> overtimeTemplates;
 		[SerializeReference, SR][HideIf(nameof(cyberwareType), CyberwareTypes.Chip)]  
 		protected List<OvertimeTemplate> hackedOvertimeTemplates;
-
 		public Sprite Icon => icon;
 		public string CyberwareName => cyberwareName;
 		public string Description => description;
@@ -49,5 +48,6 @@ namespace Dyscord.ScriptableObjects.Cyberware
 		public List<CharacterActionSO> AllActions => attacks.Concat(skills).ToList();
 		public List<OvertimeTemplate> OvertimeTemplates => overtimeTemplates;
 		public List<OvertimeTemplate> HackedOvertimeTemplates => hackedOvertimeTemplates;
+		public bool Hacked { get; set; }
 	}
 }

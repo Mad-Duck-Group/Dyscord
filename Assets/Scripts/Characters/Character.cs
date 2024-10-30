@@ -18,6 +18,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 using UnityRandom = UnityEngine.Random;
 
 namespace Dyscord.Characters
@@ -65,6 +66,7 @@ namespace Dyscord.Characters
 		protected bool _fromInventory;
 		protected bool _finishedInitialization;
 		protected bool shieldBroken;
+		protected Tween characterColorTween;
 		
 		public virtual int SelectionCount { get; set; }
 
@@ -168,11 +170,15 @@ namespace Dyscord.Characters
 			cyberwareSkills.Clear();
 			cyberwares.ForEach(cyberware =>
 	        {
-	            cyberwareAttacks.AddRange(cyberware.Attacks.Select(attack => Instantiate(attack)));
-	            cyberwareSkills.AddRange(cyberware.Skills.Select(skill => Instantiate(skill)));
+		        List<CharacterActionSO> attacks = cyberware.Attacks.Select(attack => Instantiate(attack)).ToList();
+		        attacks.ForEach(attack => attack.Initialize(this, cyberware));
+	            cyberwareAttacks.AddRange(attacks);
+	            List<CharacterActionSO> skills = cyberware.Skills.Select(skill => Instantiate(skill)).ToList();
+	            skills.ForEach(skill => skill.Initialize(this, cyberware));
+	            cyberwareSkills.AddRange(skills);
 	        });
-	        cyberwareAttacks.ForEach(attack => attack.Initialize(this));
-	        cyberwareSkills.ForEach(skill => skill.Initialize(this));
+	        // cyberwareAttacks.ForEach(attack => attack.Initialize(this));
+	        // cyberwareSkills.ForEach(skill => skill.Initialize(this));
 	        hackAccessChip = Instantiate(hackAccessChip);
 	        hackAction = Instantiate(characterSO.HackAction);
 	        hackAction.Initialize(this);
@@ -198,6 +204,7 @@ namespace Dyscord.Characters
 			List<CharacterActionSO> availableActions = AllActions
 				.Where(action =>
 				{
+					if (IsCyberwareHacked(action)) return false;
 					bool hasEnoughRam = HasEnoughRam(action.RamCost);
 					if (action is HackAction)
 						return hasEnoughRam && TurnManager.Instance.PlayerInstance.CanHack(hackAccessChip.HackAccessLevel);
@@ -218,8 +225,8 @@ namespace Dyscord.Characters
 		/// <param name="attackAction">The attack action to be used</param>
 		public virtual void Attack(AttackAction attackAction)
 		{
-			//infoText.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
-			characterImage.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo);
+			if (characterColorTween.IsActive()) characterColorTween.Kill(true);
+			characterColorTween = characterImage.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo);
 
 			// Call the combined damage calculation method
 			List<int> rawDamage = CalculateRawDamage(attackAction);
@@ -366,8 +373,8 @@ namespace Dyscord.Characters
 			}
 			if (value < 0)
 			{
-				//infoText.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
-				characterImage.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
+				if (characterColorTween.IsActive()) characterColorTween.Kill(true);
+				characterColorTween = characterImage.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
 			}
 			if (_finishedInitialization && !_fromInventory && showNumber)
 				DynamicTextManager.CreateText2D(transform.position, value.ToString(), DynamicTextManager.damageData);
@@ -419,6 +426,11 @@ namespace Dyscord.Characters
 			return currentRam >= amount;
 		}
 		
+		public virtual bool IsCyberwareHacked(CharacterActionSO action)
+		{
+			return action.Cyberware && action.Cyberware.Hacked;
+		}
+		
 		public virtual bool CanHack(int hackAccess)
 		{
 			return CanHackCyberSecurity() || CanHackAnyCyberware(hackAccess, out _);
@@ -434,7 +446,7 @@ namespace Dyscord.Characters
 			hackable = new List<CyberwareSO>();
 			if (cyberwares.Count == 0 || currentShield > 0)
 				return false;
-			hackable = cyberwares.Where(cyberware => cyberware.HackAccessLevel <= hackAccess).ToList();
+			hackable = cyberwares.Where(cyberware => cyberware.HackAccessLevel <= hackAccess && !cyberware.Hacked).ToList();
 			return hackable.Count > 0;
 		}
 
@@ -460,11 +472,15 @@ namespace Dyscord.Characters
 			CalculateTemporalEffect();
 		}
 		
-		public void AddOvertime(List<OvertimeTemplate> overtimeTemplates)
+		public void AddOvertime(List<OvertimeTemplate> overtimeTemplates, CyberwareSO subscriber = null)
 		{
 			foreach (var overtimeTemplate in overtimeTemplates)
 			{
 				var overtimeInstance = overtimeTemplate.Clone();
+				if (subscriber)
+				{
+					overtimeInstance.onOvertimeEnd += () => subscriber.Hacked = false;
+				}
 				currentOvertimes.Add(overtimeInstance);
 				overtimeInstance.ApplyOvertime(this);
 			}

@@ -28,6 +28,7 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		{
 			Character target = _targets.Peek();
 			PlayerSelecting = false;
+			PlayerHacking = true;
 			Owner.ChangeRam(-RamCost);
 			if (Owner is not Characters.Player.Player)
 			{
@@ -85,7 +86,8 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		protected virtual void HackCyberware(CyberwareSO cyberware)
 		{
 			Character target = _targets.Peek();
-			target.AddOvertime(cyberware.HackedOvertimeTemplates);
+			target.AddOvertime(cyberware.HackedOvertimeTemplates, cyberware);
+			cyberware.Hacked = true;
 			if (playSound) GlobalSoundManager.Instance.PlayEffectClip(hackCyberwareSound);
 			if (playAnimation)
 			{
@@ -104,6 +106,7 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		protected virtual void EndHack()
 		{
 			Owner.CurrentAction = null;
+			PlayerHacking = false;
 			if (Owner is Characters.Player.Player)
 			{
 				PanelManager.OnHackActionButtonPressed -= HandlePlayerHack;
@@ -121,6 +124,7 @@ namespace Dyscord.ScriptableObjects.Action.Hack
 		public override void Cancel()
 		{
 			base.Cancel();
+			PlayerHacking = false;
 			PanelManager.OnHackActionButtonPressed -= HandlePlayerHack;
 			PanelManager.OnCyberwareButtonPressed -= HackCyberware;
 		}

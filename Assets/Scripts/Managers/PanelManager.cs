@@ -109,6 +109,8 @@ namespace Dyscord.Managers
 
 		private bool PlayerSelecting => CurrentTurnOrder.character.CurrentAction &&
 		                                CurrentTurnOrder.character.CurrentAction.PlayerSelecting;
+		private bool PlayerHacking => CurrentTurnOrder.character.CurrentAction &&
+		                              CurrentTurnOrder.character.CurrentAction.PlayerHacking;
 
 		private PanelTypes currentPanel = PanelTypes.Stats;
 		private Character currentCharacterStats;
@@ -322,7 +324,8 @@ namespace Dyscord.Managers
 				List<CharacterActionSO> allActions = CurrentTurnOrder.character.AllActions;
 				for (int i = 0; i < allActions.Count; i++)
 				{
-					actionButtons[i].interactable = CurrentTurnOrder.character.HasEnoughRam(allActions[i].RamCost);
+					actionButtons[i].interactable = CurrentTurnOrder.character.HasEnoughRam(allActions[i].RamCost) &&
+					                                !CurrentTurnOrder.character.IsCyberwareHacked(allActions[i]);
 				}
 			}
 		}
@@ -386,8 +389,14 @@ namespace Dyscord.Managers
 			//if (!active && currentPanel != panelType) return;
 			if (active && currentPanel != panelType)
 			{
-				Debug.Log("Fade out Previous Panel");
-				FadePanel(currentPanel, false);
+				if (currentPanel == PanelTypes.Stats && PlayerHacking)
+				{
+					FadePanel(currentPanel, false, 0f);
+				}
+				else
+				{
+					FadePanel(currentPanel, false);
+				}
 			}
 			if (active)
 			{
@@ -443,7 +452,7 @@ namespace Dyscord.Managers
 			}
 		}
 		
-		private void FadePanel(PanelTypes panelType, bool active)
+		private void FadePanel(PanelTypes panelType, bool active, float duration = 0.1f)
 		{
 			//if (panelTween.IsActive()) panelTween.Kill();
 			Dictionary<PanelTypes, CanvasGroup> panelDictionary = new Dictionary<PanelTypes, CanvasGroup>()
@@ -459,8 +468,16 @@ namespace Dyscord.Managers
 			panelDictionary[panelType].blocksRaycasts = active;
 			panelDictionary[panelType].alpha = active ? 0 : 1;
 			float targetAlpha = active ? 1 : 0;
-			panelTween = panelDictionary[panelType].DOFade(targetAlpha, 0.1f)
-				.OnComplete(() => panelDictionary[panelType].gameObject.SetActive(active));
+			if (duration > 0)
+			{
+				panelTween = panelDictionary[panelType].DOFade(targetAlpha, duration)
+					.OnComplete(() => panelDictionary[panelType].gameObject.SetActive(active));
+			}
+			else
+			{
+				panelDictionary[panelType].alpha = targetAlpha;
+				panelDictionary[panelType].gameObject.SetActive(active);
+			}
 		}
 
 		private void SetButtonInteractable(Button button, bool interactable)

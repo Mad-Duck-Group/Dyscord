@@ -53,6 +53,7 @@ namespace Dyscord.UI
 			InventoryManager.Instance.RemoveCyberware(cyberware);
 			InventoryManager.Instance.EquipCyberware(cyberware, id);
 			isOccupied = true;
+			if (!image) image = GetComponent<Image>();
 			image.sprite = occupiedSprite;
 		}
 		

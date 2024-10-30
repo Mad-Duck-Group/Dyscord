@@ -20,7 +20,7 @@ MonoBehaviour:
     Produced by the most influential Cyberware company
     in the US. Military-grade equipment that is too cheap to be true.'
   powerCost: 3
-  hackAccessLevel: 2
+  hackAccessLevel: 1
   hackDamageModifier: 1
   attacks: []
   skills:

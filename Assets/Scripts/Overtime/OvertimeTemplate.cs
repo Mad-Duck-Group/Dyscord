@@ -59,6 +59,9 @@ namespace Dyscord.ScriptableObjects.Overtime
 		protected int turnCount;
 		protected Character owner;
 		
+		public delegate void OnOvertimeEnd();
+		public OnOvertimeEnd onOvertimeEnd;
+		
 		public int TurnCount => turnCount;
 		public int RemainingTurns => duration - turnCount;
 		public Sprite Icon => icon;
@@ -96,6 +99,7 @@ namespace Dyscord.ScriptableObjects.Overtime
 		
 		public virtual void RemoveOvertime()
 		{
+			onOvertimeEnd?.Invoke();
 			owner.RemoveOvertime(this);
 		}
 		
@@ -126,6 +130,7 @@ namespace Dyscord.ScriptableObjects.Overtime
 		
 		public override void RemoveOvertime()
 		{
+			onOvertimeEnd?.Invoke();
 			owner.CalculatePermanentEffect(true);
 			owner.RemoveOvertime(this);
 		}
